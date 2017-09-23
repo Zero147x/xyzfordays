@@ -9,7 +9,7 @@
         
         <v-container fluid>
           
-          <chat></chat>
+          <!--<chat></chat>-->
           <router-view></router-view>
           
         </v-container>
@@ -19,13 +19,9 @@
 </template>
 
 <script>
-import chat from './components/Chat'
 
 export default {
-  name: 'app',
-  components: {
-    chat
-  }
+  name: 'app'
 }
 </script>
 

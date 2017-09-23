@@ -1,8 +1,13 @@
 const express = require('express')
 const router = express.Router()
 
-router.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html')
-})
+const returnRouter = (io) => {
+  router.post('/chat', (req, res) => {
+    res.send(req.body)
+    io.emit('message', (req.body))
+  })
+  
+  return router
+}
 
-module.exports = router
+module.exports = returnRouter

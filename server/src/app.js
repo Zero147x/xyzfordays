@@ -3,7 +3,7 @@ const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const config = require('./config/config')
-const routes = require('./routes')
+const {sequelize} = require('./models')
 
 const app = express()
 const http = require('http').Server(app)
@@ -13,8 +13,12 @@ app.use(morgan('combined'))
 app.use(bodyParser.json())
 app.use(cors())
 
+const routes = require('./routes')(io)
+
 app.use(routes)
 
-http.listen(config.port, () => {
-  console.log(`Server listening on port: ${config.port}`)
+sequelize.sync().then(() => {
+  http.listen(config.port, () => {
+    console.log(`Server listening on port: ${config.port}`)
+  })
 })
