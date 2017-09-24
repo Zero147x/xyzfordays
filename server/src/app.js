@@ -22,5 +22,3 @@ sequelize.sync().then(() => {
     console.log(`Server listening on port: ${config.port}`)
   })
 })
-
-module.exports = io

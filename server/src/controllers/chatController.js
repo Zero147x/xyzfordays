@@ -5,7 +5,7 @@ module.exports = (io) => {
     it by mistake*/
   const _io = io
   
-  that.chat = (req, res) => {
+  that.post = (req, res) => {
     res.send(req.body)
     _io.emit('message', (req.body))
   }
