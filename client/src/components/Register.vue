@@ -2,14 +2,6 @@
   <v-layout>
     <v-flex xs6 md3 offset-xs4>
       <v-text-field
-      v-model="email"
-      label="email"
-      single-line
-      required
-      full-width
-      hide-details>
-      </v-text-field>
-      <v-text-field
       v-model="username"
       label="username"
       single-line
@@ -43,7 +35,6 @@ import AuthenticationService from '../services/AuthenticationService'
 export default {
   data () {
     return {
-      email: '',
       username: '',
       password: ''
     }
@@ -51,7 +42,6 @@ export default {
   methods: {
     async register () {
       await AuthenticationService.register({
-        email: this.email,
         username: this.username,
         password: this.password
       })

@@ -7,9 +7,13 @@ const returnRouter = (io) => {
   const authenticationController = require('./controllers/authenticationController')
   
   router.post('/chat', chatController.post)
+  router.post('/users', chatController.index)
   
   router.post('/register', authenticationPolicy.register,
   authenticationController.register)
+  
+  router.post('/login', authenticationController.login)
+  
   
   return router
 }

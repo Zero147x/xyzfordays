@@ -1,6 +1,15 @@
 <template>
   <v-layout>
-    <v-flex xs6 offset-xs3>
+    <v-flex xs1>
+      <div id="usersList" class = "text-xs-left white elevation-2">
+        <ul>
+          <li v-for="user in users">
+            {{ user }}
+          </li>
+        </ul>
+      </div>
+    </v-flex>
+    <v-flex xs6>
       <div id="chat" class = "text-xs-left white elevation-2">
         <ul>
           <li v-for="message in sentMessage">
@@ -42,12 +51,16 @@ export default {
   data () {
     return {
       message: '',
-      sentMessage: []
+      sentMessage: [],
+      users: []
     }
   },
   sockets: {
     connect: function () {
       console.log('Connected to socket!')
+    },
+    user: function (user) {
+      this.users.push(user)
     }
   },
   methods: {
@@ -56,6 +69,7 @@ export default {
       chat.scrollTop = chat.scrollHeight
     }, 50),
     async click () {
+      console.log(this.$users)
       await chatService.sendMessage({message: this.message})
     }
   },
@@ -72,6 +86,10 @@ export default {
 <style>
 #chat {
   height: 400px;
+  overflow-y: auto;
+}
+#usersList {
+  height:400px;
   overflow-y: auto;
 }
 .message_field {
