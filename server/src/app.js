@@ -17,6 +17,8 @@ const routes = require('./routes')(io)
 
 app.use(routes)
 
+require('./sockets')(io)
+
 sequelize.sync().then(() => {
   http.listen(config.port, () => {
     console.log(`Server listening on port: ${config.port}`)

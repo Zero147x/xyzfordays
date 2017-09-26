@@ -32,7 +32,7 @@
         </v-flex>
         
         <v-flex xs12 sm4 class="send_btn">
-          <v-btn @click="click"
+          <v-btn @click="send"
           small
           primary
           dark>
@@ -41,10 +41,26 @@
         </v-flex>
       </v-layout>
     </v-flex>
+    <v-flex xs1>
+      <v-btn
+      primary
+      medium
+      dark
+      @click="connect">
+        Connect
+      </v-btn>
+      <v-btn
+      primary
+      medium
+      dark
+      @click="disconnect">
+        Disconnect
+      </v-btn>
+    </v-flex>
   </v-layout>
 </template>
 <script>
-import chatService from '../services/ChatService'
+// import chatService from '../services/ChatService'
 import _ from 'lodash'
 
 export default {
@@ -52,15 +68,27 @@ export default {
     return {
       message: '',
       sentMessage: [],
-      users: []
+      users: null
     }
   },
   sockets: {
     connect: function () {
       console.log('Connected to socket!')
     },
-    user: function (user) {
-      this.users.push(user)
+    userList: function (users) {
+      this.users = users
+    },
+    newMessage: function (data) {
+      this.sentMessage.push(data.message)
+      this.scrollToEnd()
+    },
+    update: function (data) {
+      this.sentMessage.push(data)
+      this.scrollToEnd()
+    },
+    updateUsers: function (data) {
+      console.log(data[this.$socket.id])
+      this.users = data
     }
   },
   methods: {
@@ -68,17 +96,28 @@ export default {
       const chat = this.$el.querySelector('#chat')
       chat.scrollTop = chat.scrollHeight
     }, 50),
-    async click () {
-      console.log(this.$users)
-      await chatService.sendMessage({message: this.message})
+    send () {
+      this.$socket.emit('message', {
+        message: this.message
+      })
+      console.log(this.$socket.id)
+    },
+    connect () {
+      var room = 'chat'
+      this.$socket.emit('join', {
+        user: this.$store.state.user.username,
+        room: room
+      })
+    },
+    disconnect () {
+      var room = 'chat'
+      this.$socket.emit('leave', {
+        room: room
+      })
     }
   },
   mounted () {
-    this.$options.sockets.message = (val) => {
-      console.log(val)
-      this.sentMessage.push(val.message)
-      this.scrollToEnd()
-    }
+    this.$socket.emit('user', this.$store.state.user.username)
   }
 }
 </script>

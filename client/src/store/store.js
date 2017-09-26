@@ -8,8 +8,7 @@ export default new Vuex.Store({
   state: {
     token: null,
     user: null,
-    isUserLoggedIn: false,
-    users: []
+    isUserLoggedIn: false
   },
   mutations: {
     setToken (state, token) {
@@ -22,9 +21,6 @@ export default new Vuex.Store({
     },
     setUser (state, user) {
       state.user = user
-    },
-    SOCKET_user (state, user) {
-      state.users.push(user)
     }
   },
   actions: {
