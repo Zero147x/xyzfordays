@@ -1,15 +1,6 @@
 <template>
   <v-layout>
-    <v-flex xs1>
-      <div id="usersList" class = "text-xs-left white elevation-2">
-        <ul>
-          <li v-for="user in users">
-            {{ user }}
-          </li>
-        </ul>
-      </div>
-    </v-flex>
-    <v-flex xs6>
+    <v-flex xs12 md12>
       <div id="chat" class = "text-xs-left white elevation-2">
         <ul>
           <li v-for="message in sentMessage">
@@ -20,7 +11,7 @@
 
       
       <v-layout row wrap>
-        <v-flex xs12 sm8>
+        <v-flex d-flex xs11>
           <v-text-field
             v-model="message"
             label="Type something"
@@ -31,39 +22,57 @@
           </v-text-field>
         </v-flex>
         
-        <v-flex xs12 sm4 class="send_btn">
+        <v-flex d-flex xs1 class="send_btn">
           <v-btn @click="send"
           small
           primary
-          dark>
-            Send
+          dark class="red white--text">
+            SEND
           </v-btn>
         </v-flex>
       </v-layout>
     </v-flex>
-    <v-flex xs1>
-      <v-btn
-      primary
-      medium
-      dark
-      @click="connect">
-        Connect
-      </v-btn>
-      <v-btn
-      primary
-      medium
-      dark
-      @click="disconnect">
-        Disconnect
-      </v-btn>
+    <v-flex d-flex>
+      <layout row wrap>
+        <v-flex d-flex>
+          <v-btn
+          primary
+          medium
+          dark
+          @click="connect">
+            Connect
+          </v-btn>
+        </v-flex>
+        <v-flex d-flex>
+          <v-btn
+          primary
+          medium
+          dark
+          @click="disconnect">
+            Disconnect
+          </v-btn>
+        </v-flex>
+        <v-flex d-flex xs12>
+          <div id="usersList" class = "text-xs-left">
+            <ul>
+              <li v-for="user in users">
+                {{ user }}
+              </li>
+            </ul>
+          </div>
+        </v-flex>
+      </layout>
     </v-flex>
   </v-layout>
 </template>
 <script>
-// import chatService from '../services/ChatService'
+import SideMenu from './SideMenu'
 import _ from 'lodash'
 
 export default {
+  components: {
+    SideMenu
+  },
   data () {
     return {
       message: '',
@@ -75,11 +84,8 @@ export default {
     connect: function () {
       console.log('Connected to socket!')
     },
-    userList: function (users) {
-      this.users = users
-    },
     newMessage: function (data) {
-      this.sentMessage.push(data.message)
+      this.sentMessage.push(data.user + ': ' + data.message)
       this.scrollToEnd()
     },
     update: function (data) {
@@ -124,11 +130,11 @@ export default {
 
 <style>
 #chat {
-  height: 400px;
+  height: 780px;
   overflow-y: auto;
 }
 #usersList {
-  height:400px;
+  /*height:px;*/
   overflow-y: auto;
 }
 .message_field {

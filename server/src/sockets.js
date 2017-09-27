@@ -12,7 +12,6 @@ const returnSocket = (io) => {
         socket.join(data.room)
         clients[socket.id] = data.user
       
-      
       socket.emit('update', 'You have connected to the chatroom')
       _io.sockets.emit('update', data.user + " has joined the chatroom")
       console.log(clients)
@@ -37,6 +36,10 @@ const returnSocket = (io) => {
           message: msg.message
         })
       }
+    })
+    
+    _io.on('disconnect', function() {
+      delete clients[socket.id]
     })
   })
   
