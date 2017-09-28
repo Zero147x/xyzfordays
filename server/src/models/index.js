@@ -21,4 +21,10 @@ fs
 db.sequelize = sequelize
 db.Sequelize = Sequelize
 
+Object.keys(sequelize.models).forEach(function (modelName){
+  if ('associate' in sequelize.models[modelName]) {
+    sequelize.models[modelName].associate(sequelize.models)
+  }
+})
+
 module.exports = db

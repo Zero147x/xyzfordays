@@ -3,6 +3,8 @@ import Router from 'vue-router'
 import Chat from '@/components/Chat'
 import Login from '@/components/Login'
 import Register from '@/components/Register'
+import Community from '@/components/Community'
+import Index from '@/components/Index'
 
 Vue.use(Router)
 
@@ -27,6 +29,16 @@ export default new Router({
       path: '/register',
       name: 'Register',
       component: Register
+    },
+    {
+      path: '/community',
+      name: 'Community',
+      component: Community
+    },
+    {
+      path: '/c/:community',
+      name: 'Index',
+      component: Index
     }
   ]
 })

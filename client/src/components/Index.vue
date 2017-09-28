@@ -95,6 +95,11 @@ export default {
     updateUsers: function (data) {
       console.log(data[this.$socket.id])
       this.users = data
+    },
+    joinNamespace: function (ns) {
+      console.log(ns)
+      this.$socket.io.connect(ns.name)
+      console.log(this.$socket.io)
     }
   },
   methods: {
@@ -109,10 +114,9 @@ export default {
       console.log(this.$socket.id)
     },
     connect () {
-      var room = 'chat'
       this.$socket.emit('join', {
         user: this.$store.state.user.username,
-        room: room
+        comunity: this.$route.path
       })
     },
     disconnect () {
@@ -123,7 +127,6 @@ export default {
     }
   },
   mounted () {
-    this.$socket.emit('user', this.$store.state.user.username)
   }
 }
 </script>

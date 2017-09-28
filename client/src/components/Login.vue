@@ -31,7 +31,6 @@
 </template>
 <script>
 import AuthenticationService from '../services/AuthenticationService'
-import ChatService from '../services/ChatService'
 
 export default {
   data () {
@@ -50,9 +49,6 @@ export default {
       this.$store.dispatch('setUser', response.data.user)
       this.$router.push({
         name: 'Chat'
-      })
-      await ChatService.user({
-        user: response.data.user
       })
     }
   }

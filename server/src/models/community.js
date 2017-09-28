@@ -5,4 +5,10 @@ module.exports = (sequelize, DataTypes) => {
       unique: true
     }
   })
+  
+  Community.associate = function (models) {
+    Community.belongsTo(models.User)
+  }
+  
+  return Community
 }
