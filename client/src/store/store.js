@@ -8,7 +8,9 @@ export default new Vuex.Store({
   state: {
     token: null,
     user: null,
-    isUserLoggedIn: false
+    isUserLoggedIn: false,
+    users: null,
+    room: null
   },
   mutations: {
     setToken (state, token) {
@@ -21,6 +23,12 @@ export default new Vuex.Store({
     },
     setUser (state, user) {
       state.user = user
+    },
+    SOCKET_USERS (state, users) {
+      state.users = users
+    },
+    SOCKET_ROOM (state, room) {
+      state.room = room
     }
   },
   actions: {
@@ -29,6 +37,12 @@ export default new Vuex.Store({
     },
     setUser ({commit}, user) {
       commit('setUser', user)
+    },
+    socket_users ({commit}, users) {
+      commit('SOCKET_USERS', users)
+    },
+    socket_room ({commit}, room) {
+      commit('SOCKET_ROOM', room)
     }
   }
 })

@@ -9,7 +9,7 @@ import VueSocketIO from 'vue-socket.io'
 import store from '@/store/store'
 sync(store, router)
 
-Vue.use(VueSocketIO, 'https://project-zero147x.c9users.io:8081', {
+Vue.use(VueSocketIO, 'https://project-zero147x.c9users.io:8081', store, {
   reconnection: true,
   reconnectionDelay: 1000,
   reconnectionDelayMax: 5000,

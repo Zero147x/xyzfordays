@@ -36,14 +36,15 @@ export default {
           name: this.name,
           user: this.$store.state.user
         })
-        this.$socket.emit('create', {
-          path: '/c/' + response.data.name
-        })
         this.$router.push({
           name: 'Index',
           params: {
             community: response.data.name
           }
+        })
+        this.$socket.emit('join', {
+          user: this.$store.state.user.username,
+          community: response.data.name
         })
       } catch (err) {
         console.log(err)

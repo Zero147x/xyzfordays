@@ -53,9 +53,9 @@
           </v-btn>
         </v-flex>
         <v-flex d-flex xs12>
-          <div id="usersList" class = "text-xs-left">
+          <div v-if="this.$store.state.users" id="usersList" class = "text-xs-left">
             <ul>
-              <li v-for="user in users">
+              <li v-for="user in this.$store.state.users">
                 {{ user }}
               </li>
             </ul>
@@ -66,23 +66,22 @@
   </v-layout>
 </template>
 <script>
-import SideMenu from './SideMenu'
 import _ from 'lodash'
 
 export default {
-  components: {
-    SideMenu
-  },
   data () {
     return {
       message: '',
-      sentMessage: [],
-      users: null
+      sentMessage: []
     }
   },
   sockets: {
     connect: function () {
       console.log('Connected to socket!')
+    },
+    disconnect: function () {
+      this.$store.dispatch('socket_users', null)
+      this.$store.dispatch('socket_room', null)
     },
     newMessage: function (data) {
       this.sentMessage.push(data.user + ': ' + data.message)
@@ -93,13 +92,13 @@ export default {
       this.scrollToEnd()
     },
     updateUsers: function (data) {
-      console.log(data[this.$socket.id])
-      this.users = data
+      this.$store.dispatch('socket_users', data.users)
     },
-    joinNamespace: function (ns) {
-      console.log(ns)
-      this.$socket.io.connect(ns.name)
-      console.log(this.$socket.io)
+    updateRoom: function (data) {
+      this.$store.dispatch('socket_room', data.room)
+    },
+    updateLocal: function (data) {
+      this.$store.dispatch('socket_users', data.users)
     }
   },
   methods: {
@@ -109,21 +108,25 @@ export default {
     }, 50),
     send () {
       this.$socket.emit('message', {
-        message: this.message
+        message: this.message,
+        name: this.$route.path
       })
       console.log(this.$socket.id)
     },
     connect () {
-      this.$socket.emit('join', {
-        user: this.$store.state.user.username,
-        comunity: this.$route.path
-      })
+      if (!this.$store.state.room) {
+        this.$socket.emit('join', {
+          user: this.$store.state.user.username,
+          name: this.$route.path
+        })
+      }
     },
     disconnect () {
-      var room = 'chat'
-      this.$socket.emit('leave', {
-        room: room
-      })
+      if (this.$store.state.room === this.$route.path) {
+        this.$socket.emit('leave', {
+          name: this.$store.state.room
+        })
+      }
     }
   },
   mounted () {
