@@ -12,6 +12,7 @@ const returnRouter = (io) => {
   router.post('/login', authenticationController.login)
   
   router.post('/community', communityController.create)
+  router.get('/c/:community', communityController.index)
   
   
   return router

@@ -2,6 +2,31 @@ const db = require('../models')
 const models = db.sequelize.models
 
 module.exports = {
+  
+  async index (req, res) {
+    try {
+      const exists = await models.Community.findOne({
+        where: {
+          name: req.params.community
+        }
+      })
+
+      if (exists) {
+        res.send(exists.toJSON())
+      } else {
+        res.send({
+          error: 'Community does not exist!'
+        })
+      }
+      
+    } catch (err) {
+      res.status(400).send({
+        error: 'That community does not exists!'
+      })
+    }
+  },
+  
+  
   async create (req, res) {
     try {
       const exists = await models.Community.findOne({

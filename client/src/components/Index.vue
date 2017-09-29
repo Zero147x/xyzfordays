@@ -66,6 +66,7 @@
   </v-layout>
 </template>
 <script>
+import CommunityService from '../services/CommunityService'
 import _ from 'lodash'
 
 export default {
@@ -129,7 +130,31 @@ export default {
       }
     }
   },
-  mounted () {
+  watch: {
+    '$route.path': async function (value) {
+      try {
+        const exists = await CommunityService.index(this.$route.path)
+        if (exists.data.error) {
+          this.$router.push({
+            name: 'Community'
+          })
+        }
+      } catch (err) {
+        console.log('error with request')
+      }
+    }
+  },
+  async beforeMount () {
+    try {
+      const exists = await CommunityService.index(this.$route.path)
+      if (exists.data.error) {
+        this.$router.push({
+          name: 'Community'
+        })
+      }
+    } catch (err) {
+      console.log('error with request')
+    }
   }
 }
 </script>
@@ -140,7 +165,6 @@ export default {
   overflow-y: auto;
 }
 #usersList {
-  /*height:px;*/
   overflow-y: auto;
 }
 .message_field {
