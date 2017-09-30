@@ -6,5 +6,12 @@ export default {
   },
   index (community) {
     return api().get(`${community}`, community)
+  },
+  search (search) {
+    return api().get('/', {
+      params: {
+        search: search
+      }
+    })
   }
 }

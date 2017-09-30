@@ -12,7 +12,7 @@
       
       <v-layout row wrap>
         <v-flex d-flex xs11>
-          <v-text-field
+          <v-text-field @keyup.enter="send"
             v-model="message"
             label="Type something"
             single-line
@@ -112,7 +112,7 @@ export default {
         message: this.message,
         name: this.$route.path
       })
-      console.log(this.$socket.id)
+      console.log(this.message)
     },
     connect () {
       if (!this.$store.state.room) {

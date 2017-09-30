@@ -5,6 +5,7 @@ const returnRouter = (io) => {
   const authenticationPolicy = require('./policies/authenticationPolicy')
   const authenticationController = require('./controllers/authenticationController')
   const communityController = require ('./controllers/communityController')
+  const searchController = require ('./controllers/searchController')
   
   router.post('/register', authenticationPolicy.register,
   authenticationController.register)
@@ -13,7 +14,7 @@ const returnRouter = (io) => {
   
   router.post('/community', communityController.create)
   router.get('/c/:community', communityController.index)
-  
+  router.get('/', searchController.index)
   
   return router
 }

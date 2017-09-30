@@ -4,6 +4,7 @@ import Login from '@/components/Login'
 import Register from '@/components/Register'
 import Community from '@/components/Community'
 import Index from '@/components/Index'
+import Search from '@/components/Search'
 
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ export default new Router({
       path: '/c/:community',
       name: 'Index',
       component: Index
+    },
+    {
+      path: '/',
+      name: 'Search',
+      component: Search
     }
   ]
 })

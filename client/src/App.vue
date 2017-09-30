@@ -40,17 +40,17 @@
     <v-toolbar fixed dark>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>Menu</v-toolbar-title>
-      
-      <v-flex xs4>
-        <v-text-field class="mt-4 search"
+      <v-spacer></v-spacer>
+      <v-flex xs3>
+        <v-text-field class="mt-4"
+        @keyup.enter="Search"
+        v-model="search"
+        append-icon="search"
         label="Search"
         single-line
         full-width>
-          
         </v-text-field>
       </v-flex>
-      
-      <v-spacer></v-spacer>
       <v-btn
       :to="{name: 'Login'}"
       primary>
@@ -61,6 +61,7 @@
       primary>
         Register
       </v-btn>
+      
     </v-toolbar>
     
   <!--  <side-menu :drawer="drawer" />-->
@@ -82,15 +83,30 @@
 </template>
 
 <script>
+// import CommunitySearch from './components/CommunitySearch'
 import SideMenu from './components/SideMenu'
 export default {
   data () {
     return {
-      drawer: true
+      drawer: true,
+      search: ''
     }
   },
   components: {
     SideMenu
+  },
+  methods: {
+    Search: function () {
+      const route = {
+        name: 'Search'
+      }
+      if (this.search !== '') {
+        route.query = {
+          search: this.search
+        }
+      }
+      this.$router.push(route)
+    }
   },
   name: 'app'
 }
@@ -103,7 +119,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  /*margin-top: 60px;*/
 }
 .list__tile--active {
   color:hsla(0,0%,100%,.3)
