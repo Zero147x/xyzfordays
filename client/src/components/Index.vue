@@ -131,8 +131,11 @@ export default {
     }
   },
   watch: {
-    '$route.path': async function (value) {
+    '$route': async function (value) {
       try {
+        this.$socket.emit('leave', {
+          name: this.$store.state.room
+        })
         const exists = await CommunityService.index(this.$route.path)
         if (exists.data.error) {
           this.$router.push({

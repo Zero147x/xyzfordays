@@ -44,7 +44,7 @@ export default {
         })
         this.$socket.emit('join', {
           user: this.$store.state.user.username,
-          community: response.data.name
+          name: '/c/' + response.data.name
         })
       } catch (err) {
         console.log(err)

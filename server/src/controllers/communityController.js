@@ -47,7 +47,7 @@ module.exports = {
       res.send(newCommunity)
     } catch (err) {
       res.status(400).send({
-        error: 'Something went wrong attempting to create Community'
+        error: 'You must be logged in to do that'
       })
     }
   }

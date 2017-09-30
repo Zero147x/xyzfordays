@@ -36,9 +36,31 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
+    
     <v-toolbar fixed dark>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title>Toolbar</v-toolbar-title>
+      <v-toolbar-title>Menu</v-toolbar-title>
+      
+      <v-flex xs4>
+        <v-text-field class="mt-4 search"
+        label="Search"
+        single-line
+        full-width>
+          
+        </v-text-field>
+      </v-flex>
+      
+      <v-spacer></v-spacer>
+      <v-btn
+      :to="{name: 'Login'}"
+      primary>
+        Login
+      </v-btn>
+      <v-btn
+      :to="{name: 'Register'}"
+      primary>
+        Register
+      </v-btn>
     </v-toolbar>
     
   <!--  <side-menu :drawer="drawer" />-->
@@ -51,7 +73,6 @@
         
         <v-container fluid>
           
-          <!--<chat></chat>-->
           <router-view></router-view>
           
         </v-container>
@@ -86,5 +107,8 @@ export default {
 }
 .list__tile--active {
   color:hsla(0,0%,100%,.3)
+}
+.search {
+  margin-left: 200px;
 }
 </style>
