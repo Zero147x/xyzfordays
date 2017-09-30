@@ -45,6 +45,7 @@ const returnSocket = (io) => {
     })
     
     socket.on('leave', function(data) {
+      if (data.name !== null) {
         _io.sockets.in(data.name).emit('update', clients[socket.id] + " has left the chatroom")
         delete currentUsers[clients[socket.id]]
         delete clients[socket.id]
@@ -58,7 +59,9 @@ const returnSocket = (io) => {
         socket.emit('updateLocal', {
           users: null
         })
-      })
+      }
+    })
+    
     
     socket.on('message', function(data) {
       console.log(data)

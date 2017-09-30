@@ -73,7 +73,8 @@ export default {
   data () {
     return {
       message: '',
-      sentMessage: []
+      sentMessage: [],
+      community: null
     }
   },
   sockets: {
@@ -132,6 +133,7 @@ export default {
   },
   watch: {
     '$route': async function (value) {
+      console.log(value)
       try {
         this.$socket.emit('leave', {
           name: this.$store.state.room

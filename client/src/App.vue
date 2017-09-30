@@ -92,6 +92,14 @@ export default {
       search: ''
     }
   },
+  sockets: {
+    updateRoom: function (data) {
+      this.$store.dispatch('socket_room', data.room)
+    },
+    updateLocal: function (data) {
+      this.$store.dispatch('socket_users', data.users)
+    }
+  },
   components: {
     SideMenu
   },
@@ -106,6 +114,21 @@ export default {
         }
       }
       this.$router.push(route)
+    }
+  },
+  watch: {
+    '$route': function () {
+      if (this.$store.state.room !== null) {
+        if (this.$route.name !== 'Index') {
+          try {
+            this.$socket.emit('leave', {
+              name: this.$store.state.room
+            })
+          } catch (err) {
+            console.log('error with request')
+          }
+        }
+      }
     }
   },
   name: 'app'
