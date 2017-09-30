@@ -1,13 +1,13 @@
 <template>
   <v-layout>
     <v-flex xs12 md7 offset-md2>
-      <div id="chat" class = "text-xs-left elevation-2">
-        <ul>
-          <li v-for="message in sentMessage">
-            {{ message }}
-          </li>
-        </ul>
-      </div>
+      <v-card id="chat" height="780px" class = "text-xs-left elevation-2">
+          <ul>
+            <li v-for="message in sentMessage">
+              {{message.username}} -- {{ message.message }}
+            </li>
+          </ul>
+      </v-card>
 
       
       <v-layout row wrap>
@@ -86,11 +86,18 @@ export default {
       this.$store.dispatch('socket_room', null)
     },
     newMessage: function (data) {
-      this.sentMessage.push(data.user + ': ' + data.message)
+      this.sentMessage.push({
+        username: data.username,
+        message: data.message
+      })
       this.scrollToEnd()
     },
     update: function (data) {
-      this.sentMessage.push(data)
+      this.sentMessage.push({
+        username: data.username,
+        message: data.message
+      })
+      console.log(data)
       this.scrollToEnd()
     },
     updateUsers: function (data) {
@@ -109,10 +116,12 @@ export default {
       chat.scrollTop = chat.scrollHeight
     }, 50),
     send () {
-      this.$socket.emit('message', {
-        message: this.message,
-        name: this.$route.path
-      })
+      if (this.message !== '') {
+        this.$socket.emit('message', {
+          message: this.message,
+          name: this.$route.path
+        })
+      }
       console.log(this.message)
     },
     connect () {
@@ -126,6 +135,7 @@ export default {
     disconnect () {
       if (this.$store.state.room === this.$route.path) {
         this.$socket.emit('leave', {
+          username: this.$store.state.user.username,
           name: this.$store.state.room
         })
       }
@@ -133,12 +143,12 @@ export default {
   },
   watch: {
     '$route': async function (value) {
-      console.log(value)
       try {
         this.$socket.emit('leave', {
           name: this.$store.state.room
         })
         const exists = await CommunityService.index(this.$route.path)
+        console.log(exists.data.name)
         if (exists.data.error) {
           this.$router.push({
             name: 'Community'
@@ -152,6 +162,7 @@ export default {
   async beforeMount () {
     try {
       const exists = await CommunityService.index(this.$route.path)
+      console.log(this.$route.params)
       if (exists.data.error) {
         this.$router.push({
           name: 'Community'
@@ -166,7 +177,6 @@ export default {
 
 <style>
 #chat {
-  height: 780px;
   overflow-y: auto;
 }
 #usersList {

@@ -122,6 +122,7 @@ export default {
         if (this.$route.name !== 'Index') {
           try {
             this.$socket.emit('leave', {
+              username: this.$store.state.user.username,
               name: this.$store.state.room
             })
           } catch (err) {

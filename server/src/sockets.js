@@ -34,8 +34,14 @@ const returnSocket = (io) => {
           }
         })
         
-      socket.emit('update', 'You have connected to the chatroom')
-      _io.sockets.in(data.name).emit('update', clients[socket.id] + " has joined the chatroom")
+      socket.emit('update', {
+        username: '',
+        message: 'You have connected to ' + data.name
+      })
+      _io.sockets.in(data.name).emit('update', {
+        username: clients[socket.id],
+        message: ' has connected'
+      })
       _io.sockets.in(data.name).emit('updateUsers', {
         users: users(data.name),
       })
@@ -46,7 +52,10 @@ const returnSocket = (io) => {
     
     socket.on('leave', function(data) {
       if (data.name !== null) {
-        _io.sockets.in(data.name).emit('update', clients[socket.id] + " has left the chatroom")
+        _io.sockets.in(data.name).emit('update', {
+          username: data.username,
+          message: ' has left'
+        })
         delete currentUsers[clients[socket.id]]
         delete clients[socket.id]
         socket.leave(data.name)
@@ -67,7 +76,7 @@ const returnSocket = (io) => {
       console.log(data)
       if (clients[socket.id]) {
         _io.sockets.in(data.name).emit('newMessage', {
-          user: clients[socket.id],
+          username: clients[socket.id],
           message: data.message
         })
       }

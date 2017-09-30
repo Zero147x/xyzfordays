@@ -32,9 +32,7 @@ export default {
     '$route.query.search': {
       immediate: true,
       async handler (value) {
-        console.log(value)
         const response = await CommunityService.search(value)
-        console.log(response.data)
         this.result = response.data
       }
     }
