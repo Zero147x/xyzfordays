@@ -4,7 +4,7 @@
       <v-card id="chat" height="780px" class = "text-xs-left elevation-2">
           <ul>
             <li v-for="message in sentMessage">
-              {{message.username}} -- {{ message.message }}
+              <span :class="{active: message.isAdmin}">{{message.username}}</span> -- {{ message.message }}
             </li>
           </ul>
       </v-card>
@@ -53,28 +53,35 @@
           </v-btn>
         </v-flex>
         <v-flex d-flex xs12>
-          <div v-if="this.$store.state.users" id="usersList" class = "text-xs-left">
+          <div id="usersList" class = "text-xs-left">
             <ul>
               <li v-for="user in this.$store.state.users">
-                {{ user }}
+                <span class="admin" v-if="user.isAdmin == true">{{user.username}}</span>
+                <span v-if="user.isAdmin == false">{{user.username}}</span>
               </li>
             </ul>
-          </div>
+          </div v-else>
         </v-flex>
       </layout>
     </v-flex>
   </v-layout>
 </template>
 <script>
+import NotFound from './NotFound'
 import CommunityService from '../services/CommunityService'
 import _ from 'lodash'
 
 export default {
+  components: {
+    NotFound
+  },
   data () {
     return {
+      user: [],
       message: '',
       sentMessage: [],
-      community: null
+      community: null,
+      isAdmin: this.$store.state.isAdmin
     }
   },
   sockets: {
@@ -87,21 +94,23 @@ export default {
     },
     newMessage: function (data) {
       this.sentMessage.push({
-        username: data.username,
-        message: data.message
+        username: data.user.username,
+        message: data.message,
+        isAdmin: data.user.isAdmin
       })
       this.scrollToEnd()
     },
     update: function (data) {
       this.sentMessage.push({
-        username: data.username,
-        message: data.message
+        username: data.user.username,
+        message: data.message,
+        isAdmin: data.user.isAdmin
       })
-      console.log(data)
       this.scrollToEnd()
     },
     updateUsers: function (data) {
       this.$store.dispatch('socket_users', data.users)
+      this.users = data.users
     },
     updateRoom: function (data) {
       this.$store.dispatch('socket_room', data.room)
@@ -122,20 +131,19 @@ export default {
           name: this.$route.path
         })
       }
-      console.log(this.message)
     },
-    connect () {
+    async connect () {
       if (!this.$store.state.room) {
         this.$socket.emit('join', {
-          user: this.$store.state.user.username,
+          user: this.$store.state.user,
           name: this.$route.path
-        })
+        }, this.$route.params)
       }
     },
     disconnect () {
       if (this.$store.state.room === this.$route.path) {
         this.$socket.emit('leave', {
-          username: this.$store.state.user.username,
+          username: this.$store.state.user,
           name: this.$store.state.room
         })
       }
@@ -148,7 +156,6 @@ export default {
           name: this.$store.state.room
         })
         const exists = await CommunityService.index(this.$route.path)
-        console.log(exists.data.name)
         if (exists.data.error) {
           this.$router.push({
             name: 'Community'
@@ -162,7 +169,6 @@ export default {
   async beforeMount () {
     try {
       const exists = await CommunityService.index(this.$route.path)
-      console.log(this.$route.params)
       if (exists.data.error) {
         this.$router.push({
           name: 'Community'
@@ -176,8 +182,24 @@ export default {
 </script>
 
 <style>
+.active {
+  color:red;
+}
 #chat {
   overflow-y: auto;
+}
+#chat::-webkit-scrollbar {
+  width: 5px;
+  background-color: #F5F5F5;
+}
+#chat::-webkit-scrollbar-thumb {
+    background: #DCDCDC
+}
+#chat::-webkit-scrollbar-track {
+    background: #424242
+}
+.admin {
+  color:red;
 }
 #usersList {
   overflow-y: auto;

@@ -5,6 +5,7 @@ const cors = require('cors')
 const config = require('./config/config')
 const {sequelize} = require('./models')
 
+
 const app = express()
 const http = require('http').Server(app)
 
@@ -14,6 +15,7 @@ app.use(bodyParser.json())
 app.use(cors())
 
 const routes = require('./routes')(io)
+require('./passport')
 
 app.use(routes)
 

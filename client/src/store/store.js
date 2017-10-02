@@ -9,8 +9,11 @@ export default new Vuex.Store({
     token: null,
     user: null,
     isUserLoggedIn: false,
-    users: null,
-    room: null
+    users: [],
+    admin: [],
+    room: null,
+    //  list of all communities that user is an admin of
+    isAdmin: false
   },
   mutations: {
     setToken (state, token) {
@@ -23,6 +26,9 @@ export default new Vuex.Store({
     },
     setUser (state, user) {
       state.user = user
+    },
+    SOCKET_ADMIN (state, admin) {
+      state.admin = admin
     },
     SOCKET_USERS (state, users) {
       state.users = users
@@ -37,6 +43,9 @@ export default new Vuex.Store({
     },
     setUser ({commit}, user) {
       commit('setUser', user)
+    },
+    socket_admin ({commit}, community) {
+      commit('SOCKET_ADMIN', community)
     },
     socket_users ({commit}, users) {
       commit('SOCKET_USERS', users)

@@ -31,13 +31,16 @@ module.exports = {
       const user = await models.User.findOne({
         where: {
           username: username,
-          password: password
         }
       })
-      res.send({
+      
+      const isPasswordValid = user.comparePassword(password)
+      if (isPasswordValid) {
+        res.send({
         token: jwtSignUser(user.toJSON()),
         user: user.toJSON()
       })
+      }
     } catch (err) {
       res.status(400).send({
         error: 'Invalid login information'

@@ -43,7 +43,7 @@ export default {
           }
         })
         this.$socket.emit('join', {
-          user: this.$store.state.user.username,
+          user: this.$store.state.user,
           name: '/c/' + response.data.name
         })
       } catch (err) {
