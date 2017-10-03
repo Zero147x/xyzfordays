@@ -1,39 +1,17 @@
 <template>
-  <v-layout>
-    <v-flex xs12 md7 offset-md2>
-      <v-card id="chat" height="780px" class = "text-xs-left elevation-2">
-          <ul>
-            <li v-for="message in sentMessage">
-              <span :class="{active: message.isAdmin}">{{message.username}}</span> -- {{ message.message }}
-            </li>
-          </ul>
-      </v-card>
-
+  <div class="row ml-3 mt-3">
+    <div class="row">
+      <div class="col-xs-10 col-sm-8">
+        <v-card id="chat" height="780px" class = "text-xs-left elevation-2">
+            <ul>
+              <li v-for="message in sentMessage">
+                <span :class="{admin: message.isAdmin}" v-html="message.username" /> -- <span v-html="message.message" />
+              </li>
+            </ul>
+        </v-card>
+      </div>
       
-      <v-layout row wrap>
-        <v-flex d-flex xs11>
-          <v-text-field @keyup.enter="send"
-            v-model="message"
-            label="Type something"
-            single-line
-            full-width
-            hide-details>
-            
-          </v-text-field>
-        </v-flex>
-        
-        <v-flex d-flex xs1 class="send_btn">
-          <v-btn @click="send"
-          small
-          primary
-          dark class="red white--text">
-            SEND
-          </v-btn>
-        </v-flex>
-      </v-layout>
-    </v-flex>
-    <v-flex xs12 md2>
-      <layout row wrap>
+      <div class="col-xs-2">
         <v-flex d-flex>
           <v-btn
           primary
@@ -43,6 +21,7 @@
             Connect
           </v-btn>
         </v-flex>
+          
         <v-flex d-flex>
           <v-btn
           primary
@@ -52,19 +31,40 @@
             Disconnect
           </v-btn>
         </v-flex>
-        <v-flex d-flex xs12>
+        
           <div id="usersList" class = "text-xs-left">
             <ul>
               <li v-for="user in this.$store.state.users">
-                <span class="admin" v-if="user.isAdmin == true">{{user.username}}</span>
-                <span v-if="user.isAdmin == false">{{user.username}}</span>
+                <span :class="{admin: user.isAdmin}" v-if="user.isAdmin" v-html="user.username" />
+                <span v-if="!user.isAdmin" v-html="user.username" />
               </li>
             </ul>
-          </div v-else>
-        </v-flex>
-      </layout>
-    </v-flex>
-  </v-layout>
+          </div>
+      </div>
+    </div>
+
+      
+      <div class="row">
+        <div class=" col-xs-7">
+          <v-text-field @keyup.enter="send"
+            v-model="message"
+            label="Type something"
+            single-line
+            full-width
+            hide-details>
+            
+          </v-text-field>
+        </div>
+        <div class="col-xs-1">
+          <v-btn @click="send"
+          small
+          primary
+          dark class="red white--text send_btn">
+            SEND
+          </v-btn>
+        </div>
+      </div>
+    </div>
 </template>
 <script>
 import NotFound from './NotFound'
@@ -79,9 +79,7 @@ export default {
     return {
       user: [],
       message: '',
-      sentMessage: [],
-      community: null,
-      isAdmin: this.$store.state.isAdmin
+      sentMessage: []
     }
   },
   sockets: {
@@ -89,8 +87,10 @@ export default {
       console.log('Connected to socket!')
     },
     disconnect: function () {
-      this.$store.dispatch('socket_users', null)
-      this.$store.dispatch('socket_room', null)
+      this.$socket.emit('leave', {
+        username: this.$store.state.user,
+        name: this.$store.state.room
+      })
     },
     newMessage: function (data) {
       this.sentMessage.push({
@@ -204,9 +204,9 @@ export default {
 #usersList {
   overflow-y: auto;
 }
-.message_field {
-  margin-top:5px;
-}
+/*.message_field {*/
+/*  margin-top:5px;*/
+/*}*/
 .send_btn {
   margin-top:18px;
 }

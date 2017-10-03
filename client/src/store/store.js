@@ -10,10 +10,7 @@ export default new Vuex.Store({
     user: null,
     isUserLoggedIn: false,
     users: [],
-    admin: [],
-    room: null,
-    //  list of all communities that user is an admin of
-    isAdmin: false
+    room: null
   },
   mutations: {
     setToken (state, token) {

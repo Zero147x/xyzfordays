@@ -5,8 +5,6 @@ const _ = require('lodash')
 const returnSocket = (io) => {
   const _io = io
   
-    var admin = {}
-    var currentAdmins = {}
     var clients = {}
     var currentUsers = {}
 
@@ -20,7 +18,6 @@ const returnSocket = (io) => {
           })
         }
       })
-      console.log(users)
       return users
     }
 
@@ -67,7 +64,7 @@ const returnSocket = (io) => {
           }
         })
         
-      
+      console.log(users(clients[socket.id].room))
       
       socket.emit('update', {
         user: '',
@@ -88,14 +85,12 @@ const returnSocket = (io) => {
     socket.on('leave', function(data) {
       if (data.name !== null) {
         _io.sockets.in(data.name).emit('update', {
-          username: clients[socket.id].username,
+          user: clients[socket.id],
           message: ' has left'
         })
         _io.sockets.in(socket.id).emit('updateAdmin', null)
         delete currentUsers[clients[socket.id].username]
         delete clients[socket.id]
-        console.log(clients)
-        console.log(currentUsers)
         socket.leave(data.name)
         socket.in(data.name).emit('updateUsers', {
           users: users(data.name)

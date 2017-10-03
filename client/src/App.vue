@@ -12,7 +12,7 @@
             sacrificing speed ( There is a delay when passing data between components)
       -->
       
-      <v-navigation-drawer dark temporary absolute light v-model="drawer" overflow>
+      <v-navigation-drawer dark persistent absolute clipped light overflow v-model="drawer">
       <v-toolbar flat class="transparent">
         <v-list class="pa-0">
           <v-list-tile avatar>
@@ -72,11 +72,12 @@
       
       <main>
         
-        <v-container fluid>
-          
+        <!--<v-container>-->
+          <div class="container-fluid">
           <router-view></router-view>
+          </div>
           
-        </v-container>
+        <!--</v-container>-->
       </main>
     </v-app>
   </div>
@@ -137,6 +138,11 @@ export default {
 </script>
 
 <style>
+html,body
+{
+  overflow-x: hidden;
+  overflow-y: auto
+}
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
