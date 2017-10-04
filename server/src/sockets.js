@@ -22,6 +22,7 @@ const returnSocket = (io) => {
     }
 
 
+
   _io.on('connection', function(socket) {
     console.log('connected')
     socket.on('join', async function(data, c) {
@@ -38,7 +39,6 @@ const returnSocket = (io) => {
         
         socket.join(data.name)
         var rooms = _io.sockets.adapter.rooms
-        
         // give admin/creator % sign to signify admin
         if (response[0]) {
           if (response[0].User.token === data.user.token) {
@@ -64,7 +64,8 @@ const returnSocket = (io) => {
             }
           }
         })
-        console.log(users(currentUsers[socket.id].room))
+        
+        console.log(socket.request.user.dataValues)
       
       socket.emit('update', {
         user: '',
@@ -90,7 +91,6 @@ const returnSocket = (io) => {
           })
           _io.sockets.in(socket.id).emit('updateAdmin', null)
           delete currentUsers[socket.id]
-          console.log(currentUsers)
           delete clients[socket.id]
           socket.leave(data.name)
           socket.in(data.name).emit('updateUsers', {

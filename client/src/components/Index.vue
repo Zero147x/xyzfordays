@@ -158,6 +158,8 @@ export default {
     }
   },
   async beforeMount () {
+    this.$socket.io.engine.query = `auth_token=${this.$store.state.token}`
+    console.log(this.$socket.io)
     try {
       const exists = await CommunityService.index(this.$route.path)
       if (exists.data.error) {

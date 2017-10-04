@@ -31,6 +31,9 @@
 </template>
 <script>
 import AuthenticationService from '../services/AuthenticationService'
+import Vue from 'vue'
+import VueSocketIO from 'vue-socket.io'
+import store from '@/store/store'
 
 export default {
   data () {
@@ -47,6 +50,12 @@ export default {
       })
       this.$store.dispatch('setToken', response.data.token)
       this.$store.dispatch('setUser', response.data.user)
+      Vue.use(VueSocketIO, `https://project-zero147x.c9users.io:8081?auth_token=${this.$store.state.token}`, store, {
+        reconnection: true,
+        reconnectionDelay: 1000,
+        reconnectionDelayMax: 5000,
+        reconnectionAttempts: 99999
+      })
       this.$router.push({
         name: 'Chat'
       })

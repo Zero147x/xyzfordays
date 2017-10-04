@@ -3,7 +3,8 @@ module.exports = (sequelize, DataTypes) => {
     name: {
       type: DataTypes.STRING,
       unique: true
-    }
+    },
+    greeting: DataTypes.STRING
   })
   
   Community.associate = function (models) {
