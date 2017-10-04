@@ -1,70 +1,61 @@
 <template>
-  <div class="row ml-3 mt-3">
-    <div class="row">
-      <div class="col-xs-10 col-sm-8">
-        <v-card id="chat" height="780px" class = "text-xs-left elevation-2">
-            <ul>
+  <b-row>
+      <b-col sm="10">
+        <b-card class="text-left" id="chat">
+            <ul class="pl-2 pb-0">
               <li v-for="message in sentMessage">
                 <span :class="{admin: message.isAdmin}" v-html="message.username" /> -- <span v-html="message.message" />
               </li>
             </ul>
-        </v-card>
-      </div>
+        </b-card>
       
-      <div class="col-xs-2">
-        <v-flex d-flex>
-          <v-btn
-          primary
-          medium
-          dark
-          @click="connect">
-            Connect
-          </v-btn>
-        </v-flex>
-          
-        <v-flex d-flex>
-          <v-btn
-          primary
-          medium
-          dark
-          @click="disconnect">
-            Disconnect
-          </v-btn>
-        </v-flex>
+      <b-row>
+        <b-col sm="11 pr-0">
+          <b-form-input @keyup.enter.native="send"
+            v-model="message"
+            type="text"
+            placeholder="type something"
+            >
+            
+          </b-form-input>
+        </b-col>
         
+        <b-col sm="1 pl-0">
+          <b-btn variant="success" @click="send"
+           class="send_btn">
+            SEND
+          </b-btn>
+        </b-col>
+      </b-row>
+      </b-col>
+      
+        <b-col sm="4" md="3" lg="2">
+          <b-row>
+            <b-button block variant="primary"
+            @click="connect">
+              Connect
+            </b-button>
+          </b-row>
+          <b-row>
+            <b-button block variant="primary"
+            @click="disconnect">
+              Disconnect
+            </b-button>
+          </b-row>
+          
+          <b-row>
           <div id="usersList" class = "text-xs-left">
             <ul>
               <li v-for="user in this.$store.state.users">
                 <span :class="{admin: user.isAdmin}" v-if="user.isAdmin" v-html="user.username" />
-                <span v-if="!user.isAdmin" v-html="user.username" />
+                <span v-if="!user.isAdmin" v-html="user.username" /><b-badge>1</b-badge>
               </li>
             </ul>
           </div>
-      </div>
-    </div>
-
-      
-      <div class="row">
-        <div class=" col-xs-7">
-          <v-text-field @keyup.enter="send"
-            v-model="message"
-            label="Type something"
-            single-line
-            full-width
-            hide-details>
-            
-          </v-text-field>
-        </div>
-        <div class="col-xs-1">
-          <v-btn @click="send"
-          small
-          primary
-          dark class="red white--text send_btn">
-            SEND
-          </v-btn>
-        </div>
-      </div>
-    </div>
+          </b-row>
+          
+        </b-col>
+  </b-row>
 </template>
 <script>
 import NotFound from './NotFound'
@@ -187,10 +178,11 @@ export default {
 }
 #chat {
   overflow-y: auto;
+  height: 780px
 }
 #chat::-webkit-scrollbar {
   width: 5px;
-  background-color: #F5F5F5;
+  background-color: #F5F5F5
 }
 #chat::-webkit-scrollbar-thumb {
     background: #DCDCDC
@@ -207,9 +199,9 @@ export default {
 /*.message_field {*/
 /*  margin-top:5px;*/
 /*}*/
-.send_btn {
-  margin-top:18px;
-}
+/*.send_btn {*/
+/*  margin-top:18px;*/
+/*}*/
 ul {
   list-style:none;
 }

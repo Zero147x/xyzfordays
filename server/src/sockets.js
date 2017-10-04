@@ -13,7 +13,7 @@ const returnSocket = (io) => {
       Object.keys(currentUsers).forEach(function(key) {
         if (currentUsers[key].room == room) {
           users.push({
-            username: key,
+            username: currentUsers[key].username,
             isAdmin: currentUsers[key].isAdmin
           })
         }
@@ -57,14 +57,14 @@ const returnSocket = (io) => {
         }
         Object.keys(rooms).forEach(function(key) {
           if (key == data.name) {
-            currentUsers[clients[socket.id].username] = {
+            currentUsers[socket.id] = {
+              username: data.user.username,
               room: key,
               isAdmin: clients[socket.id].isAdmin
             }
           }
         })
-        
-      console.log(users(clients[socket.id].room))
+        console.log(users(currentUsers[socket.id].room))
       
       socket.emit('update', {
         user: '',
@@ -83,24 +83,25 @@ const returnSocket = (io) => {
     })
     
     socket.on('leave', function(data) {
-      if (data.name !== null) {
-        _io.sockets.in(data.name).emit('update', {
-          user: clients[socket.id],
-          message: ' has left'
-        })
-        _io.sockets.in(socket.id).emit('updateAdmin', null)
-        delete currentUsers[clients[socket.id].username]
-        delete clients[socket.id]
-        socket.leave(data.name)
-        socket.in(data.name).emit('updateUsers', {
-          users: users(data.name)
+      if (clients[socket.id] !== null) {
+          _io.sockets.in(data.name).emit('update', {
+            user: clients[socket.id],
+            message: ' has left'
           })
-        socket.emit('updateRoom', {
-          room: null,
-        })
-        socket.emit('updateLocal', {
-          users: null
-        })
+          _io.sockets.in(socket.id).emit('updateAdmin', null)
+          delete currentUsers[socket.id]
+          console.log(currentUsers)
+          delete clients[socket.id]
+          socket.leave(data.name)
+          socket.in(data.name).emit('updateUsers', {
+            users: users(data.name)
+            })
+          socket.emit('updateRoom', {
+            room: null,
+          })
+          socket.emit('updateLocal', {
+            users: null
+          })
       }
     })
     
