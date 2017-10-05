@@ -32,7 +32,7 @@ const returnSocket = (io) => {
       const response = await models.Community.findAll({
           include: [{model: models.User}],
           where: {
-            UserId: socket.request.user.dataValues.id,
+            // UserId: socket.request.user.dataValues.id,
             name: c.community
           }
         }).map(key => key.toJSON())
@@ -68,9 +68,10 @@ const returnSocket = (io) => {
       console.log(currentUsers)
       console.log(socket.request.user.dataValues)
         
+        console.log(response)
       socket.emit('update', {
         user: '',
-        message: 'You have connected to ' + data.name
+        message: response[0].greeting
       })
       _io.sockets.in(data.name).emit('update', {
         user: clients[socket.id],

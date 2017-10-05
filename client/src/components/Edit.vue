@@ -1,6 +1,6 @@
 <template>
   <b-row>
-    <b-col sm="10">
+    <b-col sm="6">
       
       <b-row>
           <b-nav class="ml-auto mr-3" tabs>
@@ -13,34 +13,57 @@
           </b-nav>
       </b-row>
       
-        <b-card id="chat">
-            <b-row>
-              <b-col sm="6">
-                <b-form-textarea 
-                placeholder="Greeting Message"
-                rows="3"
-                >
-                </b-form-textarea>
-              </b-col>
-              <b-col sm="6">ssss</b-col>
-            </b-row>
-        </b-card>
-    
+      <b-card id="chat">
+        <b-row>
+          <b-col sm="6">
+            <b-form-textarea
+            v-model="greeting"
+            placeholder="Greeting Message"
+            rows="3"
+            >
+            </b-form-textarea>
+            
+            <b-btn class="save"
+            @click.stop="save"
+            @click="test"
+            variant="success">
+              Save
+            </b-btn>
+          </b-col>
+        </b-row>
+      </b-card>
     </b-col>
   </b-row>
 </template>
 <script>
+import CommunityService from '../services/CommunityService'
 
 export default {
 
   data () {
     return {
+      greeting: '',
+      description: ''
+    }
+  },
+  methods: {
+    async save () {
+      await CommunityService.edit({
+        greeting: this.greeting,
+        path: this.$route.path
+      })
+    },
+    test () {
+      console.log(this.$route.params)
     }
   }
 }
 </script>
 
 <style>
+.save {
+  margin-left: 360px;
+}
 .notActive > a:hover {
   border-color: #e9ecef #e9ecef #ddd !important
 }

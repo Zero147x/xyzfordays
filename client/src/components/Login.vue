@@ -52,7 +52,6 @@ export default {
       this.$store.dispatch('setToken', response.data.token)
       this.$store.dispatch('setUser', response.data.user)
 
-      // CONFIG.URL UNTESTED; TODO: make sure it works
       Vue.use(VueSocketIO, `${config.url}?auth_token=${this.$store.state.token}`, store, {
         reconnection: true,
         reconnectionDelay: 1000,

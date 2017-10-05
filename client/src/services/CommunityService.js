@@ -7,6 +7,11 @@ export default {
   index (community) {
     return api().get(`${community}`, community)
   },
+  edit (val) {
+    return api().post(val.path, {
+      greeting: val.greeting
+    })
+  },
   search (search) {
     return api().get('/', {
       params: {

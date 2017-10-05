@@ -104,7 +104,7 @@
       <main>
         
         <!--<v-container>-->
-          <b-container>
+          <b-container fluid>
             
             <router-view></router-view>
             

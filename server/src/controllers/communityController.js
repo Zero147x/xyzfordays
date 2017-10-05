@@ -50,5 +50,25 @@ module.exports = {
         error: 'You must be logged in to do that'
       })
     }
+  },
+  
+  async edit (req, res) {
+    try {
+    const response = await models.Community.findOne({
+      where: {
+        name: req.params.community
+      }
+    })
+    if (response) {
+      await response.update({
+        greeting: req.body.greeting
+      })
+    }
+    res.send(response)
+    } catch (err) {
+      res.status(500).send({
+        error: 'Error processing your request'
+      })
+    }
   }
 }

@@ -1,7 +1,7 @@
 <template>
 <b-row>
 
-      <b-col sm="10">
+      <b-col sm="6">
         
         <b-row>
             <b-nav class="ml-auto mr-3" tabs fill>
@@ -187,6 +187,9 @@ export default {
 </script>
 
 <style>
+.woo {
+  margin-left: 400px;
+}
 #chat {
   overflow-y: auto;
   height: 780px
