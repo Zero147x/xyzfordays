@@ -30,6 +30,7 @@
   </v-layout>
 </template>
 <script>
+import config from '@/config/config'
 import AuthenticationService from '../services/AuthenticationService'
 import Vue from 'vue'
 import VueSocketIO from 'vue-socket.io'
@@ -50,7 +51,9 @@ export default {
       })
       this.$store.dispatch('setToken', response.data.token)
       this.$store.dispatch('setUser', response.data.user)
-      Vue.use(VueSocketIO, `https://project-zero147x.c9users.io:8081?auth_token=${this.$store.state.token}`, store, {
+
+      // CONFIG.URL UNTESTED; TODO: make sure it works
+      Vue.use(VueSocketIO, `${config.url}?auth_token=${this.$store.state.token}`, store, {
         reconnection: true,
         reconnectionDelay: 1000,
         reconnectionDelayMax: 5000,
