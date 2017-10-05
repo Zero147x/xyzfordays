@@ -191,4 +191,7 @@ html,body
 .search {
   margin-left: 200px;
 }
+.admin {
+  color:green;
+}
 </style>

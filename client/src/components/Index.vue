@@ -81,7 +81,6 @@ export default {
   },
   data () {
     return {
-      active: false,
       user: [],
       message: '',
       sentMessage: []
@@ -187,9 +186,6 @@ export default {
 </script>
 
 <style>
-.woo {
-  margin-left: 400px;
-}
 #chat {
   overflow-y: auto;
   height: 780px
@@ -203,9 +199,6 @@ export default {
 }
 #chat::-webkit-scrollbar-track {
     background: #424242
-}
-.admin {
-  color:red;
 }
 #usersList {
   overflow-y: auto;

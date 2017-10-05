@@ -32,29 +32,28 @@ const returnSocket = (io) => {
       const response = await models.Community.findAll({
           include: [{model: models.User}],
           where: {
-            // UserId: socket.request.user.dataValues.id,
             name: c.community
           }
         }).map(key => key.toJSON())
-        
+        console.log(socket.request.user.dataValues)
         socket.join(data.name)
         var rooms = _io.sockets.adapter.rooms
         // give admin/creator % sign to signify admin
         if (response[0]) {
-          if (response[0].User.token === data.user.token) {
+          if (response[0].User.username === socket.request.user.dataValues.username) {
             clients[socket.id] = {
               isAdmin: true,
               username: '%' + response[0].User.username,
               room: data.name
             }
-          }
-        } else {
+          } else {
           clients[socket.id] = {
             isAdmin: false,
             username: data.user.username,
             room: data.name
           }
-        }
+        } 
+      }
         Object.keys(rooms).forEach(function(key) {
           if (key == data.name) {
             currentUsers[socket.id] = {
@@ -65,10 +64,7 @@ const returnSocket = (io) => {
           }
         })
         
-      console.log(currentUsers)
-      console.log(socket.request.user.dataValues)
         
-        console.log(response)
       socket.emit('update', {
         user: '',
         message: response[0].greeting

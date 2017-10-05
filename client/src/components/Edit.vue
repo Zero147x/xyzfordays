@@ -3,18 +3,23 @@
     <b-col sm="6">
       
       <b-row>
-          <b-nav class="ml-auto mr-3" tabs>
-            <b-nav-item class="notActive" :to="{name: 'Index', params: {community: 'omg'}}">
-              omg
-            </b-nav-item>
-            <b-nav-item :to="{name: 'Edit'}">
-              edit
-            </b-nav-item>
-          </b-nav>
+        <b-col v-if="success" sm="5">
+          <b-alert show class="success" variant="success">
+            Changes saved!
+          </b-alert>
+        </b-col>
+        
+        <b-nav class="ml-auto mr-3" tabs>
+          <b-nav-item class="notActive" :to="{name: 'Index', params: {community: 'omg'}}">
+            omg
+          </b-nav-item>
+          <b-nav-item :to="{name: 'Edit'}">
+            edit
+          </b-nav-item>
+        </b-nav>
       </b-row>
       
       <b-card id="chat">
-        <b-row>
           <b-col sm="6">
             <b-form-textarea
             v-model="greeting"
@@ -22,15 +27,14 @@
             rows="3"
             >
             </b-form-textarea>
-            
-            <b-btn class="save"
-            @click.stop="save"
-            @click="test"
-            variant="success">
-              Save
-            </b-btn>
+            <b-col class="save" sm="4">
+              <b-btn
+              @click.stop="save"
+              variant="success">
+                Save
+              </b-btn>
+            </b-col>
           </b-col>
-        </b-row>
       </b-card>
     </b-col>
   </b-row>
@@ -42,64 +46,43 @@ export default {
 
   data () {
     return {
+      success: false,
       greeting: '',
       description: ''
     }
   },
   methods: {
     async save () {
-      await CommunityService.edit({
+      const response = await CommunityService.edit({
         greeting: this.greeting,
         path: this.$route.path
       })
-    },
-    test () {
-      console.log(this.$route.params)
+      if (response) {
+        this.success = true
+      }
     }
   }
 }
 </script>
 
 <style>
+.success {
+  height:42px;
+  margin-bottom: 0;
+}
 .save {
-  margin-left: 360px;
+  width: 78px;
+  padding-left: 0;
 }
 .notActive > a:hover {
+  color: black !important;
   border-color: #e9ecef #e9ecef #ddd !important
 }
 
 .notActive > a {
+  color: blue !important;
   border: 1px solid transparent !important;
   border-top-left-radius: 0.25rem !important;
   border-top-right-radius: 0.25rem !important;
-}
-#chat {
-  overflow-y: auto;
-  height: 780px
-}
-#chat::-webkit-scrollbar {
-  width: 5px;
-  background-color: #F5F5F5
-}
-#chat::-webkit-scrollbar-thumb {
-    background: #DCDCDC
-}
-#chat::-webkit-scrollbar-track {
-    background: #424242
-}
-.admin {
-  color:red;
-}
-#usersList {
-  overflow-y: auto;
-}
-/*.message_field {*/
-/*  margin-top:5px;*/
-/*}*/
-/*.send_btn {*/
-/*  margin-top:18px;*/
-/*}*/
-ul {
-  list-style:none;
 }
 </style>
