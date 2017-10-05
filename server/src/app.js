@@ -27,9 +27,8 @@ io.use(jwtAuth.authenticate({
   secret: config.authentication.jwtSecret,    // required, used to verify the token's signature 
   algorithm: 'HS256',       // optional, default to be HS256
 }, async function(payload, done) {
-  // console.log(payload)
   // done is a callback, you can use it as follow 
-  await models.User.findOne({where: {id: payload.id}}).then( function(user, err) {
+  await models.User.findOne({where: {id: payload.id}}).then( (user, err) => {
     if (err) {
       // return error 
       return done(err);
@@ -43,17 +42,6 @@ io.use(jwtAuth.authenticate({
     return done(null, user);
   });
 }));
-
-  io.on('error', function(err) {
-    throw new Error(err);
-  });
-  
-  
- io.on('success', function(data) {
-    console.log(data.message);
-    console.log('user info: ' + data.user);
-    console.log('logged in: ' + data.user.logged_in)
-  })
 
 require('./sockets')(io)
 

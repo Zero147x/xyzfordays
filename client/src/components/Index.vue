@@ -1,6 +1,19 @@
 <template>
-  <b-row>
+<b-row>
+
       <b-col sm="10">
+        
+        <b-row>
+            <b-nav class="ml-auto mr-3" tabs fill>
+              <b-nav-item :to="{name: 'Index', params: {community: $route.params.community}}">
+                omg
+              </b-nav-item>
+              <b-nav-item :to="{name: 'Edit'}">
+                edit
+              </b-nav-item>
+            </b-nav>
+        </b-row>
+        
         <b-card class="text-left" id="chat">
             <ul class="pl-2 pb-0">
               <li v-for="message in sentMessage">
@@ -68,6 +81,7 @@ export default {
   },
   data () {
     return {
+      active: false,
       user: [],
       message: '',
       sentMessage: []
@@ -158,8 +172,6 @@ export default {
     }
   },
   async beforeMount () {
-    this.$socket.io.engine.query = `auth_token=${this.$store.state.token}`
-    console.log(this.$socket.io)
     try {
       const exists = await CommunityService.index(this.$route.path)
       if (exists.data.error) {
@@ -175,9 +187,6 @@ export default {
 </script>
 
 <style>
-.active {
-  color:red;
-}
 #chat {
   overflow-y: auto;
   height: 780px

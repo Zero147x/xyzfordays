@@ -9,17 +9,10 @@ import App from './App'
 import router from './router'
 import { sync } from 'vuex-router-sync'
 import vuetify from 'vuetify'
-// import VueSocketIO from 'vue-socket.io'
 import store from '@/store/store'
 sync(store, router)
 
 Vue.use(BootstrapVue)
-// Vue.use(VueSocketIO, `https://project-zero147x.c9users.io:8081?autho_token=${store.state.token}`, store, {
-//   reconnection: true,
-//   reconnectionDelay: 1000,
-//   reconnectionDelayMax: 5000,
-//   reconnectionAttempts: 99999
-// })
 
 Vue.config.productionTip = false
 
