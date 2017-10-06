@@ -14,7 +14,8 @@ const returnSocket = (io) => {
         if (currentUsers[key].room == room) {
           users.push({
             username: currentUsers[key].username,
-            isAdmin: currentUsers[key].isAdmin
+            isAdmin: currentUsers[key].isAdmin,
+            superAdmin: currentUsers[key].superAdmin
           })
         }
       })
@@ -35,7 +36,6 @@ const returnSocket = (io) => {
             name: c.community
           }
         }).map(key => key.toJSON())
-        console.log(socket.request.user.dataValues)
         socket.join(data.name)
         var rooms = _io.sockets.adapter.rooms
         // give admin/creator % sign to signify admin
@@ -43,26 +43,35 @@ const returnSocket = (io) => {
           if (response[0].User.username === socket.request.user.dataValues.username) {
             clients[socket.id] = {
               isAdmin: true,
-              username: '%' + response[0].User.username,
+              username: socket.request.user.dataValues.username,
               room: data.name
             }
           } else {
           clients[socket.id] = {
             isAdmin: false,
-            username: data.user.username,
+            username: socket.request.user.dataValues.username,
             room: data.name
           }
         } 
       }
+      
+      if (clients[socket.id].username === 'Zero147x') {
+        clients[socket.id].isAdmin = false
+        clients[socket.id].superAdmin = true
+        clients[socket.id].username = '%' + socket.request.user.dataValues.username
+      }
+      
         Object.keys(rooms).forEach(function(key) {
           if (key == data.name) {
             currentUsers[socket.id] = {
               username: data.user.username,
               room: key,
-              isAdmin: clients[socket.id].isAdmin
+              isAdmin: clients[socket.id].isAdmin,
+              superAdmin: clients[socket.id].superAdmin
             }
           }
         })
+        console.log(users(clients[socket.id].room))
         
         
       socket.emit('update', {

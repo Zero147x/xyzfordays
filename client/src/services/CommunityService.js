@@ -12,6 +12,9 @@ export default {
       greeting: val.greeting
     })
   },
+  home () {
+    return api().get('/home')
+  },
   search (search) {
     return api().get('/', {
       params: {

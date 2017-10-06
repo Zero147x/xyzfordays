@@ -17,7 +17,7 @@
         <b-card class="text-left" id="chat">
             <ul class="pl-2 pb-0">
               <li v-for="message in sentMessage">
-                <span :class="{admin: message.isAdmin}" v-html="message.username" /> -- <span v-html="message.message" />
+                <span :class="{admin: message.isAdmin, superAdmin: message.superAdmin}" v-html="message.username" /> -- <span v-html="message.message" />
               </li>
             </ul>
         </b-card>
@@ -61,7 +61,8 @@
             <ul>
               <li v-for="user in this.$store.state.users">
                 <span :class="{admin: user.isAdmin}" v-if="user.isAdmin" v-html="user.username" />
-                <span v-if="!user.isAdmin" v-html="user.username" /><b-badge>1</b-badge>
+                <span :class="{superAdmin: user.superAdmin}" v-if="user.superAdmin" v-html="user.username"></span>
+                <span v-if="!user.isAdmin && !user.superAdmin" v-html="user.username" /><b-badge>1</b-badge>
               </li>
             </ul>
           </div>
@@ -100,7 +101,8 @@ export default {
       this.sentMessage.push({
         username: data.user.username,
         message: data.message,
-        isAdmin: data.user.isAdmin
+        isAdmin: data.user.isAdmin,
+        superAdmin: data.user.superAdmin
       })
       this.scrollToEnd()
     },
@@ -108,13 +110,15 @@ export default {
       this.sentMessage.push({
         username: data.user.username,
         message: data.message,
-        isAdmin: data.user.isAdmin
+        isAdmin: data.user.isAdmin,
+        superAdmin: data.user.superAdmin
       })
       this.scrollToEnd()
     },
     updateUsers: function (data) {
       this.$store.dispatch('socket_users', data.users)
       this.users = data.users
+      console.log(data)
     },
     updateRoom: function (data) {
       this.$store.dispatch('socket_room', data.room)

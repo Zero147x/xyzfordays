@@ -194,4 +194,7 @@ html,body
 .admin {
   color:green;
 }
+.superAdmin {
+  color:red;
+}
 </style>

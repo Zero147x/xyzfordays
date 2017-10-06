@@ -2,7 +2,7 @@ const db  = require('../models')
 const models = db.sequelize.models
 
 module.exports = {
-  async index (req, res) {
+  async index (req, res, next) {
     try {
       const search = req.query.search
       console.log(search)
@@ -26,5 +26,12 @@ module.exports = {
         error: 'Search failed'
       })
     }
+    next()
+  },
+  async home (req, res) {
+    const response = await models.Community.findAll({
+      limit: 10
+    })
+    res.send(response)
   }
 }
