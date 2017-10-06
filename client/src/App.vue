@@ -20,7 +20,7 @@
                 </b-nav-item>
             </b-nav>
             <b-nav is-nav-bar>
-              <b-btn>
+              <b-btn to:="{name: Community}">
                 Start Your Own Community
               </b-btn>
             </b-nav>
