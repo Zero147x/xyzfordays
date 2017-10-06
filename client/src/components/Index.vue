@@ -118,9 +118,9 @@ export default {
     updateUsers: function (data) {
       this.$store.dispatch('socket_users', data.users)
       this.users = data.users
-      console.log(data)
     },
     updateRoom: function (data) {
+      console.log(data)
       this.$store.dispatch('socket_room', data.room)
     },
     updateLocal: function (data) {
@@ -157,23 +157,6 @@ export default {
       }
     }
   },
-  watch: {
-    '$route': async function (value) {
-      try {
-        this.$socket.emit('leave', {
-          name: this.$store.state.room
-        })
-        const exists = await CommunityService.index(this.$route.path)
-        if (exists.data.error) {
-          this.$router.push({
-            name: 'Community'
-          })
-        }
-      } catch (err) {
-        console.log('error with request')
-      }
-    }
-  },
   async beforeMount () {
     try {
       const exists = await CommunityService.index(this.$route.path)
@@ -185,6 +168,12 @@ export default {
     } catch (err) {
       console.log('error with request')
     }
+  },
+  beforeDestroy: function () {
+    this.$socket.emit('leave', {
+      username: this.$store.state.user,
+      name: this.$store.state.room
+    })
   }
 }
 </script>

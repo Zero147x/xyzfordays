@@ -58,7 +58,7 @@ export default {
         reconnectionAttempts: 99999
       })
       this.$router.push({
-        name: 'Chat'
+        name: 'Search'
       })
     }
   }

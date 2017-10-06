@@ -71,7 +71,6 @@ const returnSocket = (io) => {
             }
           }
         })
-        console.log(users(clients[socket.id].room))
         
         
       socket.emit('update', {
@@ -92,6 +91,13 @@ const returnSocket = (io) => {
     
     socket.on('leave', function(data) {
       if (clients[socket.id] !== null) {
+          _io.sockets.in(socket.id).emit('updateRoom', {
+            room: null,
+          })
+          _io.sockets.in(socket.id).emit('updateLocal', {
+            users: null
+          })
+          console.log(socket.id)
           _io.sockets.in(data.name).emit('update', {
             user: clients[socket.id],
             message: ' has left'
@@ -99,16 +105,10 @@ const returnSocket = (io) => {
           _io.sockets.in(socket.id).emit('updateAdmin', null)
           delete currentUsers[socket.id]
           delete clients[socket.id]
-          socket.leave(data.name)
           socket.in(data.name).emit('updateUsers', {
             users: users(data.name)
             })
-          socket.emit('updateRoom', {
-            room: null,
-          })
-          socket.emit('updateLocal', {
-            users: null
-          })
+          socket.leave(data.name)
       }
     })
     

@@ -51,6 +51,15 @@ export default {
       description: ''
     }
   },
+  sockets: {
+    updateRoom: function (data) {
+      console.log(data)
+      this.$store.dispatch('socket_room', data.room)
+    },
+    updateLocal: function (data) {
+      this.$store.dispatch('socket_users', data.users)
+    }
+  },
   methods: {
     async save () {
       const response = await CommunityService.edit({

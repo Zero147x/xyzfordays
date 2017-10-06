@@ -33,7 +33,6 @@ export default {
   },
   async mounted () {
     const response = await CommunityService.home()
-    console.log(response.data)
     this.result = response.data
   }
 }

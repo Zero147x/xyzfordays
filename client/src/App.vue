@@ -61,7 +61,6 @@
 </template>
 
 <script>
-import SideMenu from './components/SideMenu'
 export default {
   data () {
     return {
@@ -70,14 +69,12 @@ export default {
   },
   sockets: {
     updateRoom: function (data) {
+      console.log(data)
       this.$store.dispatch('socket_room', data.room)
     },
     updateLocal: function (data) {
       this.$store.dispatch('socket_users', data.users)
     }
-  },
-  components: {
-    SideMenu
   },
   methods: {
     Search: function () {
@@ -90,22 +87,6 @@ export default {
         }
       }
       this.$router.push(route)
-    }
-  },
-  watch: {
-    '$route': function () {
-      if (this.$store.state.room !== null) {
-        if (this.$route.name !== 'Index') {
-          try {
-            this.$socket.emit('leave', {
-              username: this.$store.state.user.username,
-              name: this.$store.state.room
-            })
-          } catch (err) {
-            console.log('error with request')
-          }
-        }
-      }
     }
   },
   name: 'app'
