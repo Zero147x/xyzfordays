@@ -10,8 +10,8 @@
         </b-col>
         
         <b-nav class="ml-auto mr-3" tabs>
-          <b-nav-item class="notActive" :to="{name: 'Index', params: {community: 'omg'}}">
-            omg
+          <b-nav-item class="notActive" :to="{name: 'Index', params: {community: $route.params.community}}">
+            {{this.$route.params.community}}
           </b-nav-item>
           <b-nav-item :to="{name: 'Edit'}">
             edit

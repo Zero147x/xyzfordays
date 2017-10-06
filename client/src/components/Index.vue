@@ -6,7 +6,7 @@
         <b-row>
             <b-nav class="ml-auto mr-3" tabs fill>
               <b-nav-item :to="{name: 'Index', params: {community: $route.params.community}}">
-                omg
+                {{this.$route.params.community}}
               </b-nav-item>
               <b-nav-item :to="{name: 'Edit'}">
                 edit
