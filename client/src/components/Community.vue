@@ -1,20 +1,18 @@
 <template>
   <b-row>
-    <b-row>
-      <b-col sm="6">
+      <b-col sm="5" class="m-auto">
         <b-form-group>
           <b-form-input
           v-model="name"
           placeholder="Enter Community Name">
           </b-form-input>
         </b-form-group>
+        <b-btn
+        @click="create"
+        variant="primary">
+          Create
+        </b-btn>
       </b-col>
-      <b-btn
-      @click="create"
-      variant="primary">
-        Create
-      </b-btn>
-    </b-row>
   </b-row>
 </template>
 <script>

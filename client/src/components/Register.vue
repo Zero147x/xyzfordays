@@ -1,8 +1,7 @@
 <template>
   <b-row>
     
-    <b-row>
-      <b-col sm="6">
+      <b-col sm="3" class="m-auto">
         <b-form>
           <b-form-group>
             <b-form-input
@@ -17,16 +16,16 @@
             </b-form-input>
           </b-form-group>
         </b-form>
+        <b-row>
+          <b-col sm="12">
+            <b-btn variant="primary"
+            @click="register">
+              Register
+            </b-btn>
+          </b-col>
+        </b-row>
       </b-col>
-    </b-row>
-    <b-row>
-      <b-col sm="6">
-        <b-btn variant="primary"
-        @click="register">
-          Login
-        </b-btn>
-      </b-col>
-    </b-row>
+      
     
   </b-row>
 </template>

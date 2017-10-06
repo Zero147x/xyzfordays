@@ -8,15 +8,12 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import { sync } from 'vuex-router-sync'
-import vuetify from 'vuetify'
 import store from '@/store/store'
 sync(store, router)
 
 Vue.use(BootstrapVue)
 
 Vue.config.productionTip = false
-
-Vue.use(vuetify)
 
 /* eslint-disable no-new */
 new Vue({
