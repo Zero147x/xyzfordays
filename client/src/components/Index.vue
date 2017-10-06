@@ -61,7 +61,7 @@
             <ul>
               <li v-for="user in this.$store.state.users">
                 <span :class="{admin: user.isAdmin}" v-if="user.isAdmin" v-html="user.username" />
-                <span :class="{superAdmin: user.superAdmin}" v-if="user.superAdmin" v-html="user.username"></span>
+                <span :class="{superAdmin: user.superAdmin}" v-if="user.superAdmin" v-html="user.username" />
                 <span v-if="!user.isAdmin && !user.superAdmin" v-html="user.username" /><b-badge>1</b-badge>
               </li>
             </ul>

@@ -65,7 +65,6 @@ import SideMenu from './components/SideMenu'
 export default {
   data () {
     return {
-      drawer: true,
       search: ''
     }
   },

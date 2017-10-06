@@ -1,24 +1,21 @@
 <template>
-  <v-layout>
-    <v-flex xs12 sm10 md8 offset-sm1 offset-md2 >
-      <v-card height="200px">
-        <v-text-field
-        v-model="name"
-        label="Enter Community Name"
-        single-line
-        full-width
-        hide-details>
-          
-        </v-text-field>
-        
-        <v-btn 
-        primary
-        @click="create">
-          Create
-        </v-btn>
-      </v-card>
-    </v-flex>
-  </v-layout>
+  <b-row>
+    <b-row>
+      <b-col sm="6">
+        <b-form-group>
+          <b-form-input
+          v-model="name"
+          placeholder="Enter Community Name">
+          </b-form-input>
+        </b-form-group>
+      </b-col>
+      <b-btn
+      @click="create"
+      variant="primary">
+        Create
+      </b-btn>
+    </b-row>
+  </b-row>
 </template>
 <script>
 import CommunityService from '../services/CommunityService'

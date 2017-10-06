@@ -1,33 +1,34 @@
 <template>
-  <v-layout>
-    <v-flex xs6 md3 offset-xs4>
-      <v-text-field
-      v-model="username"
-      label="username"
-      single-line
-      required
-      full-width
-      hide-details>
-        
-      </v-text-field>
-      <v-text-field
-      v-model="password"
-      label="password"
-      type="password"
-      single-line
-      required
-      full-width
-      hide-details>
-        
-      </v-text-field>
-      <v-btn 
-      primary 
-      medium
-      @click="register">
-        Register
-      </v-btn>
-    </v-flex>
-  </v-layout>
+  <b-row>
+    
+    <b-row>
+      <b-col sm="6">
+        <b-form>
+          <b-form-group>
+            <b-form-input
+            type="text"
+            placeholder="username"
+            v-model="username">
+            </b-form-input>
+            <b-form-input
+            type="password"
+            placeholder="password"
+            v-model="password">
+            </b-form-input>
+          </b-form-group>
+        </b-form>
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col sm="6">
+        <b-btn variant="primary"
+        @click="register">
+          Login
+        </b-btn>
+      </b-col>
+    </b-row>
+    
+  </b-row>
 </template>
 <script>
 import AuthenticationService from '../services/AuthenticationService'
