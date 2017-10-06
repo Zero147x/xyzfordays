@@ -5,5 +5,5 @@ const app = express();
 
 app.use(serveStatic(__dirname));
 
-app.listen(8080);
+app.listen(process.env.PORT || 8080)
 console.log('server started on 8080');
