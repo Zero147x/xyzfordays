@@ -93,8 +93,7 @@ export default {
     },
     disconnect: function () {
       this.$socket.emit('leave', {
-        username: this.$store.state.user,
-        name: this.$store.state.room
+        c: this.$store.state.room
       })
     },
     newMessage: function (val) {
@@ -129,6 +128,9 @@ export default {
     },
     updateLocal: function (val) {
       this.$store.dispatch('socket_users', val.users)
+    },
+    updateRoom: function (val) {
+      this.$store.dispatch('socket_room', val)
     }
   },
   methods: {
@@ -185,7 +187,7 @@ export default {
   },
   beforeDestroy: function () {
     this.$socket.emit('leave', {
-      c: this.$route.params.community
+      c: this.$store.state.room
     })
   }
 }

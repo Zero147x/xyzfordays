@@ -9,7 +9,7 @@ export default new Vuex.Store({
     token: null,
     user: null,
     isUserLoggedIn: false,
-    users: [],
+    users: null,
     room: null
   },
   mutations: {

@@ -52,11 +52,11 @@ export default {
     }
   },
   sockets: {
-    updateRoom: function (data) {
-      this.$store.dispatch('socket_room', data.room)
+    updateLocal: function (val) {
+      this.$store.dispatch('socket_users', val.users)
     },
-    updateLocal: function (data) {
-      this.$store.dispatch('socket_users', data.users)
+    updateRoom: function (val) {
+      this.$store.dispatch('socket_room', val)
     }
   },
   methods: {

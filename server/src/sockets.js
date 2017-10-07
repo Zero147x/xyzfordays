@@ -20,7 +20,6 @@ const returnSocket = (io) => {
       return users
     }
 
-
   _io.on('connection', function(socket) {
     console.log('connected')
     socket.on('join', async function(c) {
@@ -47,8 +46,10 @@ const returnSocket = (io) => {
             }
           }
         }
+        console.log(clients[socket.request.user.dataValues.username])
         
-        
+      socket.emit('updateRoom', c)
+      
       socket.emit('update', {
         user: '',
         message: response[0].greeting
@@ -61,30 +62,27 @@ const returnSocket = (io) => {
       
       _io.sockets.in(c).emit('updateUsers', users(c))
 
-      socket.emit('updateRoom', {
-        room: clients[socket.request.user.dataValues.username].room,
-      })
       
     })
     
-    
     socket.on('leave', function(val) {
-          _io.sockets.in(socket.id).emit('updateLocal', {
-            users: null
-          })
-          _io.sockets.in(val.c).emit('update', {
-            username: socket.request.user.dataValues.username,
-            status: clients[socket.request.user.dataValues.username],
-            message: ' has left'
-          })
-          delete clients[socket.request.user.dataValues.username]
-          socket.in(val.c).emit('updateUsers', users(val.c))
-          socket.leave(val.c)
+      _io.sockets.in(socket.id).emit('updateLocal', {
+        users: null
+      })
+      _io.sockets.in(socket.id).emit('updateRoom', null)
+      _io.sockets.in(val.c).emit('update', {
+        username: socket.request.user.dataValues.username,
+        status: clients[socket.request.user.dataValues.username],
+        message: ' has left'
+      })
+      
+      delete clients[socket.request.user.dataValues.username]
+      socket.in(val.c).emit('updateUsers', users(val.c))
+      socket.leave(val.c)
     })
     
     
     socket.on('message', function(val) {
-      console.log(val)
       _io.sockets.in(clients[socket.request.user.dataValues.username].c).emit('newMessage', {
         username: socket.request.user.dataValues.username,
         status: clients[socket.request.user.dataValues.username],
@@ -92,19 +90,29 @@ const returnSocket = (io) => {
       })
     })
     
+    
+    
+    
     socket.on('disconnect', function() {
+      // Need this for now until I can find a better solution.
+      // After disconnect event is fired, the transport closes, preventing
+      // me from passing data from the client.
+      let room = clients[socket.request.user.dataValues.username].c
+      
       _io.sockets.in(clients[socket.request.user.dataValues.username].c).emit('update', {
         username: socket.request.user.dataValues.username,
-        status: clients[socket.user.dataValues.username],
+        status: clients[socket.request.user.dataValues.username],
         message: ' has left'
       })
+      _io.sockets.in(socket.id).emit('updateRoom', null)
       
-      _io.sockets.in(clients[socket.request.user.dataValues.username].c).emit('updateUsers', {
-        users: users(clients[socket.request.user.dataValues.username])
-        })
-      socket.leave(clients[socket.request.user.dataValues.username].c)
-      console.log('User disconncted')
       delete clients[socket.request.user.dataValues.username]
+      
+      _io.sockets.in(room).emit('updateUsers',
+      users(room))
+      
+      socket.leave(room)
+      console.log('User disconncted')
     })
   })
 

@@ -26,6 +26,14 @@ export default {
       result: null
     }
   },
+  sockets: {
+    updateLocal: function (val) {
+      this.$store.dispatch('socket_users', val.users)
+    },
+    updateRoom: function (val) {
+      this.$store.dispatch('socket_room', val)
+    }
+  },
   watch: {
     '$route.query.search': {
       immediate: true,
