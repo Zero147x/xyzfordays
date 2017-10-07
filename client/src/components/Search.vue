@@ -3,12 +3,15 @@
     <b-col sm="6" class="m-auto">
       <b-list-group>
         <b-list-group-item
-        v-for="item in result"
-        v-bind:data="item"
-        v-bind:key="item.name"
-        :to="{name: 'Index', params: {community: item.name}}"
+        v-for="(key, value, index) in result"
+        :key="key"
+        :to="{name: 'Index', params: {community: key.name}}"
         >
-          {{item.name}}
+          <b-row>
+            <b-col>
+              {{key.name}}
+            </b-col>
+          </b-row>
         </b-list-group-item>
       </b-list-group>
     </b-col>
@@ -19,7 +22,8 @@ import CommunityService from '../services/CommunityService'
 export default {
   data () {
     return {
-      result: ''
+      userCount: null,
+      result: null
     }
   },
   watch: {
@@ -34,6 +38,7 @@ export default {
   async mounted () {
     const response = await CommunityService.home()
     this.result = response.data
+    console.log(this.result)
   }
 }
 </script>

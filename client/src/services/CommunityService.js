@@ -12,6 +12,9 @@ export default {
       greeting: val.greeting
     })
   },
+  editIndex (val) {
+    return api().get(`/c/${val.community}/edit`, val)
+  },
   home () {
     return api().get('/home')
   },

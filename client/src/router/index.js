@@ -6,6 +6,7 @@ import Community from '@/components/Community'
 import Index from '@/components/Index'
 import Search from '@/components/Search'
 import Edit from '@/components/Edit'
+import NotFound from '@/components/NotFound'
 
 Vue.use(Router)
 
@@ -40,6 +41,11 @@ export default new Router({
       path: '/',
       name: 'Search',
       component: Search
+    },
+    {
+      path: '/notfound',
+      name: 'NotFound',
+      component: NotFound
     }
   ]
 })

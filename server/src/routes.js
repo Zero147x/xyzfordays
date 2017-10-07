@@ -18,6 +18,7 @@ const returnRouter = (io) => {
   router.post('/c/:community/edit', isAuthenticated, communityController.edit)
   router.get('/', searchController.index, searchController.home)
   router.get('/home', searchController.home)
+  router.get('/c/:community/edit', isAuthenticated, communityController.editIndex)
   
   return router
 }

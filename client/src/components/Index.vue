@@ -8,7 +8,7 @@
               <b-nav-item :to="{name: 'Index', params: {community: $route.params.community}}">
                 {{this.$route.params.community}}
               </b-nav-item>
-              <b-nav-item :to="{name: 'Edit'}">
+              <b-nav-item v-if="this.owner" :to="{name: 'Edit'}">
                 edit
               </b-nav-item>
             </b-nav>
@@ -60,9 +60,9 @@
           <div id="usersList" class = "text-xs-left">
             <ul>
               <li v-for="user in this.$store.state.users">
-                <span :class="{admin: user.isAdmin}" v-if="user.isAdmin" v-html="user.username" />
-                <span :class="{superAdmin: user.superAdmin}" v-if="user.superAdmin" v-html="user.username" />
-                <span v-if="!user.isAdmin && !user.superAdmin" v-html="user.username" /><b-badge>1</b-badge>
+                <span :class="{admin: user.status.isAdmin}" v-if="user.status.isAdmin" v-html="user.username" />
+                <span :class="{superAdmin: user.status.superAdmin}" v-if="user.status.superAdmin" v-html="user.username" />
+                <span v-if="!user.status.isAdmin && !user.status.superAdmin" v-html="user.username" /><b-badge>1</b-badge>
               </li>
             </ul>
           </div>
@@ -82,7 +82,7 @@ export default {
   },
   data () {
     return {
-      user: [],
+      owner: false,
       message: '',
       sentMessage: []
     }
@@ -97,34 +97,38 @@ export default {
         name: this.$store.state.room
       })
     },
-    newMessage: function (data) {
+    newMessage: function (val) {
       this.sentMessage.push({
-        username: data.user.username,
-        message: data.message,
-        isAdmin: data.user.isAdmin,
-        superAdmin: data.user.superAdmin
+        username: val.username,
+        message: val.message,
+        isAdmin: val.status.isAdmin,
+        superAdmin: val.status.superAdmin
       })
-      this.scrollToEnd()
+      const chat = this.$el.querySelector('#chat')
+      var shouldScroll = chat.scrollTop + chat.clientHeight === chat.scrollHeight
+      if (!shouldScroll) {
+        this.scrollToEnd()
+      }
     },
-    update: function (data) {
+    update: function (val) {
       this.sentMessage.push({
-        username: data.user.username,
-        message: data.message,
-        isAdmin: data.user.isAdmin,
-        superAdmin: data.user.superAdmin
+        username: val.username,
+        message: val.message,
+        isAdmin: val.status.isAdmin,
+        superAdmin: val.status.superAdmin
       })
-      this.scrollToEnd()
+      const chat = this.$el.querySelector('#chat')
+      var shouldScroll = chat.scrollTop + chat.clientHeight === chat.scrollHeight
+      if (!shouldScroll) {
+        this.scrollToEnd()
+      }
     },
-    updateUsers: function (data) {
-      this.$store.dispatch('socket_users', data.users)
-      this.users = data.users
+    updateUsers: function (val) {
+      console.log(val)
+      this.$store.dispatch('socket_users', val)
     },
-    updateRoom: function (data) {
-      console.log(data)
-      this.$store.dispatch('socket_room', data.room)
-    },
-    updateLocal: function (data) {
-      this.$store.dispatch('socket_users', data.users)
+    updateLocal: function (val) {
+      this.$store.dispatch('socket_users', val.users)
     }
   },
   methods: {
@@ -142,18 +146,26 @@ export default {
     },
     async connect () {
       if (!this.$store.state.room) {
-        this.$socket.emit('join', {
-          user: this.$store.state.user,
-          name: this.$route.path
-        }, this.$route.params)
+        this.$socket.emit('join', this.$route.params.community )
       }
     },
     disconnect () {
-      if (this.$store.state.room === this.$route.path) {
-        this.$socket.emit('leave', {
-          username: this.$store.state.user,
-          name: this.$store.state.room
-        })
+      this.$socket.emit('leave', {
+        c: this.$route.params.community
+      })
+    }
+  },
+  watch: {
+    '$route': async function () {
+      try {
+        const exists = await CommunityService.index(this.$route.path)
+        if (exists.data.error) {
+          this.$router.push({
+            name: 'Search'
+          })
+        }
+      } catch (err) {
+        console.log('error with request')
       }
     }
   },
@@ -162,8 +174,10 @@ export default {
       const exists = await CommunityService.index(this.$route.path)
       if (exists.data.error) {
         this.$router.push({
-          name: 'Community'
+          name: 'Search'
         })
+      } else if (exists.data.UserId === this.$store.state.user.id) {
+        this.owner = true
       }
     } catch (err) {
       console.log('error with request')
@@ -171,8 +185,7 @@ export default {
   },
   beforeDestroy: function () {
     this.$socket.emit('leave', {
-      username: this.$store.state.user,
-      name: this.$store.state.room
+      c: this.$route.params.community
     })
   }
 }

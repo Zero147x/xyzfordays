@@ -53,7 +53,6 @@ export default {
   },
   sockets: {
     updateRoom: function (data) {
-      console.log(data)
       this.$store.dispatch('socket_room', data.room)
     },
     updateLocal: function (data) {
@@ -69,6 +68,15 @@ export default {
       if (response) {
         this.success = true
       }
+    }
+  },
+  async beforeMount () {
+    const response = await CommunityService.editIndex(this.$route.params)
+    console.log(response)
+    if (response.data.error) {
+      this.$router.push({
+        name: 'NotFound'
+      })
     }
   }
 }

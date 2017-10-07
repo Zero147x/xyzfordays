@@ -69,7 +69,6 @@ export default {
   },
   sockets: {
     updateRoom: function (data) {
-      console.log(data)
       this.$store.dispatch('socket_room', data.room)
     },
     updateLocal: function (data) {

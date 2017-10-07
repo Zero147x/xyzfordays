@@ -1,11 +1,10 @@
-
-  <v-layout>
-    <v-flex xs6>
-      <v-card height="200px">
-        No community seems to exists here!
-      </v-card>
-    </v-flex>
-  </v-layout>
+<template>
+  <b-row>
+    <b-col sm="6" class='m-auto'>
+      forbidden!
+    </b-col>
+  </b-row>
+</template>
 
 <script>
 
