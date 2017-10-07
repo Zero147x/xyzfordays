@@ -39,6 +39,14 @@ export default {
       password: ''
     }
   },
+  sockets: {
+    updateLocal: function (val) {
+      this.$store.dispatch('socket_users', val.users)
+    },
+    updateRoom: function (val) {
+      this.$store.dispatch('socket_room', val)
+    }
+  },
   methods: {
     async register () {
       await AuthenticationService.register({
