@@ -46,14 +46,16 @@ const returnSocket = (io) => {
             }
           }
         }
-        console.log(clients[socket.request.user.dataValues.username])
         
       socket.emit('updateRoom', c)
       
-      socket.emit('update', {
-        user: '',
+      // socket.emit('update', {
+      //   message: response[0].greeting
+      // })
+      socket.emit('greeting', {
         message: response[0].greeting
       })
+      
       _io.sockets.in(c).emit('update', {
         username: socket.request.user.dataValues.username,
         status: clients[socket.request.user.dataValues.username],

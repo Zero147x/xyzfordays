@@ -123,7 +123,6 @@ export default {
       }
     },
     updateUsers: function (val) {
-      console.log(val)
       this.$store.dispatch('socket_users', val)
     },
     updateLocal: function (val) {
@@ -131,6 +130,11 @@ export default {
     },
     updateRoom: function (val) {
       this.$store.dispatch('socket_room', val)
+    },
+    greeting: function (val) {
+      this.sentMessage.push({
+        message: val.message
+      })
     }
   },
   methods: {
