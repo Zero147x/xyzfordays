@@ -151,7 +151,7 @@ export default {
       }
     },
     async connect () {
-      if (!this.$store.state.room) {
+      if (!this.$store.state.room && this.$store.state.user) {
         this.$socket.emit('join', this.$route.params.community )
       }
     },

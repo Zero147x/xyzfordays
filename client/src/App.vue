@@ -96,9 +96,6 @@ export default {
     Logout: function () {
       this.$store.dispatch('setUser', null)
       this.$store.dispatch('setToken', null)
-      this.$store.dispatch('socket_room', null)
-      this.$store.dispatch('socket_users', null)
-      // this.$socket.disconnect()
       this.$router.push({
         name: 'Search'
       })
