@@ -85,11 +85,13 @@ const returnSocket = (io) => {
     
     
     socket.on('message', function(val) {
-      _io.sockets.in(clients[socket.request.user.dataValues.username].c).emit('newMessage', {
-        username: socket.request.user.dataValues.username,
-        status: clients[socket.request.user.dataValues.username],
-        message: val.message
-      })
+      if (clients[socket.request.user.dataValues.username]) {
+        _io.sockets.in(clients[socket.request.user.dataValues.username].c).emit('newMessage', {
+          username: socket.request.user.dataValues.username,
+          status: clients[socket.request.user.dataValues.username],
+          message: val.message
+        })
+      }
     })
     
     
@@ -99,22 +101,24 @@ const returnSocket = (io) => {
       // Need this for now until I can find a better solution.
       // After disconnect event is fired, the transport closes, preventing
       // me from passing data from the client.
-      let room = clients[socket.request.user.dataValues.username].c
-      
-      _io.sockets.in(clients[socket.request.user.dataValues.username].c).emit('update', {
-        username: socket.request.user.dataValues.username,
-        status: clients[socket.request.user.dataValues.username],
-        message: ' has left'
-      })
-      _io.sockets.in(socket.id).emit('updateRoom', null)
-      
-      delete clients[socket.request.user.dataValues.username]
-      
-      _io.sockets.in(room).emit('updateUsers',
-      users(room))
-      
-      socket.leave(room)
-      console.log('User disconncted')
+      if (clients[socket.request.user.dataValues.username]) {
+        let room = clients[socket.request.user.dataValues.username].c
+        
+        _io.sockets.in(clients[socket.request.user.dataValues.username].c).emit('update', {
+          username: socket.request.user.dataValues.username,
+          status: clients[socket.request.user.dataValues.username],
+          message: ' has left'
+        })
+        _io.sockets.in(socket.id).emit('updateRoom', null)
+        
+        delete clients[socket.request.user.dataValues.username]
+        
+        _io.sockets.in(room).emit('updateUsers',
+        users(room))
+        
+        socket.leave(room)
+        console.log('User disconncted')
+      }
     })
   })
 

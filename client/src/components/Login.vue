@@ -59,12 +59,8 @@ export default {
       this.$store.dispatch('setToken', response.data.token)
       this.$store.dispatch('setUser', response.data.user)
 
-      Vue.use(VueSocketIO, `${config.url}?auth_token=${this.$store.state.token}`, store), //{
-        // reconnection: true,
-        // reconnectionDelay: 1000,
-        // reconnectionDelayMax: 5000,
-        // reconnectionAttempts: 99999
-      // })
+      Vue.use(VueSocketIO, `${config.url}?auth_token=${this.$store.state.token}`, store)
+
       this.$router.push({
         name: 'Search'
       })

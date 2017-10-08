@@ -52,15 +52,12 @@ module.exports = {
   },
   async editIndex (req, res) {
     try {
-      console.log(req.user.id)
-      console.log(req.params.community)
       const response = await models.Community.findOne({
         where: {
           UserId: req.user.id,
           name: req.params.community
         }
       })
-      console.log(response)
       if (response) {
         res.send(response.toJSON())
       } else {

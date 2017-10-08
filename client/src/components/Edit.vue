@@ -71,13 +71,19 @@ export default {
     }
   },
   async beforeMount () {
+    if (!this.$store.state.user) {
+      this.$router.push({
+        name: 'NotFound'
+      })
+    }
     const response = await CommunityService.editIndex(this.$route.params)
     console.log(response)
     if (response.data.error) {
       this.$router.push({
         name: 'NotFound'
       })
-    }
+    } 
+    
   }
 }
 </script>

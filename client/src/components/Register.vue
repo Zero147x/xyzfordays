@@ -30,8 +30,11 @@
   </b-row>
 </template>
 <script>
+import config from '@/config/config'
 import AuthenticationService from '../services/AuthenticationService'
-
+import Vue from 'vue'
+import VueSocketIO from 'vue-socket.io'
+import store from '@/store/store'
 export default {
   data () {
     return {
@@ -49,10 +52,19 @@ export default {
   },
   methods: {
     async register () {
-      await AuthenticationService.register({
+      const response = await AuthenticationService.register({
         username: this.username,
         password: this.password
       })
+      if (response.data) {
+        this.$store.dispatch('setToken', response.data.token)
+        this.$store.dispatch('setUser', response.data.user)
+        Vue.use(VueSocketIO, `${config.url}?auth_token=${this.$store.state.token}`, store)
+        this.$router.push({
+          name: 'Search'
+        })
+      }
+      console.log(response.data)
     }
   }
 }

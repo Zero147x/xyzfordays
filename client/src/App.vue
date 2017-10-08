@@ -6,18 +6,24 @@
         <b-nav-toggle target="nav_text_collapse"></b-nav-toggle>
         <b-collapse is-nav id="nav_text_collapse">
             <b-nav is-nav-bar>
-                <b-nav-item>
-                  <b-btn
-                  :to="{name: 'Register'}"
-                  variant="primary">
-                    Register
-                  </b-btn>
-                  <b-btn
-                  :to="{name: 'Login'}"
-                  variant="primary">
-                    Login
-                  </b-btn>
-                </b-nav-item>
+              <b-nav-item>
+                <b-btn v-if="this.$store.state.isUserLoggedIn"
+                :to="{name: 'Search'}"
+                @click="Logout"
+                variant="primary">
+                  Logout
+                </b-btn>
+                <b-btn v-if="!this.$store.state.isUserLoggedIn"
+                :to="{name: 'Register'}"
+                variant="primary">
+                  Register
+                </b-btn>
+                <b-btn v-if="!this.$store.state.isUserLoggedIn"
+                :to="{name: 'Login'}"
+                variant="primary">
+                  Login
+                </b-btn>
+              </b-nav-item>
             </b-nav>
             <b-nav is-nav-bar>
               <b-btn :to="{name: 'Community'}">
@@ -86,6 +92,16 @@ export default {
         }
       }
       this.$router.push(route)
+    },
+    Logout: function () {
+      this.$store.dispatch('setUser', null)
+      this.$store.dispatch('setToken', null)
+      this.$store.dispatch('socket_room', null)
+      this.$store.dispatch('socket_users', null)
+      // this.$socket.disconnect()
+      this.$router.push({
+        name: 'Search'
+      })
     }
   },
   name: 'app'
