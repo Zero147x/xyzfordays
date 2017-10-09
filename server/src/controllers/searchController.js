@@ -26,9 +26,8 @@ module.exports = {
         error: 'Search failed'
       })
     }
-    next()
   },
-  async home (req, res) {
+  async home (req, res, next) {
     const response = await models.Community.findAll({
       limit: 10
     })

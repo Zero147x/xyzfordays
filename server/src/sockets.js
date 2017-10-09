@@ -5,6 +5,8 @@ const _ = require('lodash')
 const returnSocket = (io) => {
   const _io = io
   
+    var socketList = {}
+  
     var clients = {}
     
     var users = function (room) {
@@ -21,9 +23,14 @@ const returnSocket = (io) => {
     }
 
   _io.on('connection', function(socket) {
-    console.log('connected')
+    console.log('A user connected')
+    
+    socketList[socket.id] = socket
+    
+    
     socket.on('join', async function(c) {
-      
+    if (socket.request.user) {
+      console.log(socket.request.user)
       const response = await models.Community.findAll({
           include: [{model: models.User}],
           where: {
@@ -34,19 +41,20 @@ const returnSocket = (io) => {
         var rooms = _io.sockets.adapter.rooms
 
         if (response[0]) {
-          if (response[0].User.username === socket.request.user.dataValues.username) {
-            clients[socket.request.user.dataValues.username] = {
+          if (response[0].User.username === socket.request.user.username) {
+            clients[socket.request.user.username] = {
               isAdmin: true,
               c: c
             }
           } else {
-            clients[socket.request.user.dataValues.username] = {
+            clients[socket.request.user.username] = {
               isAdmin: false,
               c: c
             }
           }
         }
         
+        console.log(clients)
       socket.emit('updateRoom', c)
       
       // socket.emit('update', {
@@ -57,38 +65,40 @@ const returnSocket = (io) => {
       })
       
       _io.sockets.in(c).emit('update', {
-        username: socket.request.user.dataValues.username,
-        status: clients[socket.request.user.dataValues.username],
+        username: socket.request.user.username,
+        status: clients[socket.request.user.username],
         message: ' has connected'
       })
       
       _io.sockets.in(c).emit('updateUsers', users(c))
 
-      
-    })
+    }
+  })
     
     socket.on('leave', function(val) {
+    if (socket.request.user) {
       _io.sockets.in(socket.id).emit('updateLocal', {
         users: null
       })
       _io.sockets.in(socket.id).emit('updateRoom', null)
       _io.sockets.in(val.c).emit('update', {
-        username: socket.request.user.dataValues.username,
-        status: clients[socket.request.user.dataValues.username],
+        username: socket.request.user.username,
+        status: clients[socket.request.user.username],
         message: ' has left'
       })
       
-      delete clients[socket.request.user.dataValues.username]
+      delete clients[socket.request.user.username]
       socket.in(val.c).emit('updateUsers', users(val.c))
       socket.leave(val.c)
-    })
+    }
+  })
     
     
     socket.on('message', function(val) {
-      if (clients[socket.request.user.dataValues.username]) {
-        _io.sockets.in(clients[socket.request.user.dataValues.username].c).emit('newMessage', {
-          username: socket.request.user.dataValues.username,
-          status: clients[socket.request.user.dataValues.username],
+      if (clients[socket.request.user.username]) {
+        _io.sockets.in(clients[socket.request.user.username].c).emit('newMessage', {
+          username: socket.request.user.username,
+          status: clients[socket.request.user.username],
           message: val.message
         })
       }
@@ -98,29 +108,43 @@ const returnSocket = (io) => {
     
     
     socket.on('disconnect', function() {
+      console.log('hello world!!!')
+      delete socketList[socket.id]
+      console.log(socketList)
       // Need this for now until I can find a better solution.
       // After disconnect event is fired, the transport closes, preventing
       // me from passing data from the client.
-      if (clients[socket.request.user.dataValues.username]) {
-        let room = clients[socket.request.user.dataValues.username].c
-        
-        _io.sockets.in(clients[socket.request.user.dataValues.username].c).emit('update', {
-          username: socket.request.user.dataValues.username,
-          status: clients[socket.request.user.dataValues.username],
-          message: ' has left'
-        })
-        _io.sockets.in(socket.id).emit('updateRoom', null)
-        
-        delete clients[socket.request.user.dataValues.username]
-        
-        _io.sockets.in(room).emit('updateUsers',
-        users(room))
-        
-        socket.leave(room)
-        console.log('User disconncted')
+      delete socket.request.user
+      console.log(socket.request.user)
+      if (socket.request.user) {
+        if (clients[socket.request.user.username]) {
+          console.log(clients)
+          let room = clients[socket.request.user.username].c
+          
+          _io.sockets.in(clients[socket.request.user.username].c).emit('update', {
+            username: socket.request.user.username,
+            status: clients[socket.request.user.username],
+            message: ' has left'
+          })
+          _io.sockets.in(socket.id).emit('updateRoom', null)
+          
+          delete clients[socket.request.user.username]
+          
+          _io.sockets.in(room).emit('updateUsers',
+          users(room))
+          
+          socket.leave(room)
+          delete socket.request.user
+          console.log('User disconncted')
+        }
       }
     })
-  })
+    
+    socket.on('logout', function () {
+      socket.disconnect()
+    })
+})
+
 
   
   

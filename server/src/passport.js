@@ -22,10 +22,11 @@ passport.use(
         return done(new Error(), false)
       }
       return done(null, user)
+      
     } catch (err) {
       return done(new Error(), false)
     }
   })
 )
-
+  
 module.exports = null

@@ -25,7 +25,7 @@ module.exports = {
     }
   },
   
-  async login (req, res) {
+  async login (req, res, next) {
     try {
       const {username, password} = req.body
       const user = await models.User.findOne({
