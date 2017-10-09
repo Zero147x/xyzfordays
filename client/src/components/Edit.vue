@@ -20,11 +20,11 @@
       </b-row>
       
       <b-card id="chat">
-          <b-col sm="6">
+          <b-col sm="12">
             <b-form-textarea
             v-model="greeting"
             placeholder="Greeting Message"
-            rows="3"
+            rows="6"
             >
             </b-form-textarea>
             <b-col class="save" sm="4">

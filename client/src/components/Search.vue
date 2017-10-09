@@ -4,7 +4,7 @@
       <b-list-group>
         <b-list-group-item
         v-for="(key, value, index) in result"
-        :key="key"
+        :key="index"
         :to="{name: 'Index', params: {community: key.name}}"
         >
           <b-row>
@@ -47,6 +47,8 @@ export default {
     const response = await CommunityService.home()
     this.result = response.data
     console.log(this.result)
+    console.log(this.$socket)
+    this.$socket.emit('test')
   }
 }
 </script>

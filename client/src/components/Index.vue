@@ -75,6 +75,7 @@
 import NotFound from './NotFound'
 import CommunityService from '../services/CommunityService'
 import _ from 'lodash'
+import config from '@/config/config'
 
 export default {
   components: {
@@ -195,6 +196,7 @@ export default {
     })
   }
 }
+
 </script>
 
 <style>

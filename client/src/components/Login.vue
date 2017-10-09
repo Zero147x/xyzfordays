@@ -32,14 +32,16 @@
 import config from '@/config/config'
 import AuthenticationService from '../services/AuthenticationService'
 import Vue from 'vue'
-import VueSocketIO from 'vue-socket.io'
 import store from '@/store/store'
+import { mapGetters } from 'vuex'
+import Vuesocket from 'vue-socket.io'
+import socketio from 'socket.io-client'
 
 export default {
   data () {
     return {
       username: '',
-      password: ''
+      password: '',
     }
   },
   sockets: {
@@ -48,6 +50,12 @@ export default {
     },
     updateRoom: function (val) {
       this.$store.dispatch('socket_room', val)
+    },
+    disconnect: function () {
+      this.$socket.reconnect()
+    },
+    connect: function () {
+      console.log('connected!!!!')
     }
   },
   methods: {
@@ -58,15 +66,23 @@ export default {
       })
       this.$store.dispatch('setToken', response.data.token)
       this.$store.dispatch('setUser', response.data.user)
+      if (response) {
+        this.$socket.connect()
+        this.$socket.emit('auth', this.$store.state.user )
 
-      Vue.use(VueSocketIO, `${config.url}?auth_token=${this.$store.state.token}`, store)
-
-      this.$router.push({
-        name: 'Search'
-      })
+        this.$router.push({
+          name: 'Search'
+        })
+      }
+    }
+  },
+  computed: {
+    token () {
+      return this.$store.getters.myToken
     }
   }
 }
+
 </script>
 
 <style>

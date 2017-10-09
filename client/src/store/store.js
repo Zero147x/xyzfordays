@@ -10,7 +10,7 @@ export default new Vuex.Store({
     user: null,
     isUserLoggedIn: false,
     users: null,
-    room: null
+    room: null,
   },
   mutations: {
     setToken (state, token) {
@@ -29,7 +29,7 @@ export default new Vuex.Store({
     },
     SOCKET_ROOM (state, room) {
       state.room = room
-    }
+    },
   },
   actions: {
     setToken ({commit}, token) {
@@ -43,6 +43,11 @@ export default new Vuex.Store({
     },
     socket_room ({commit}, room) {
       commit('SOCKET_ROOM', room)
+    },
+  },
+  getters: {
+    myToken: state => {
+      return state.token
     }
   }
 })

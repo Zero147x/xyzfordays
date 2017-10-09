@@ -74,8 +74,8 @@ export default {
     }
   },
   sockets: {
-    updateRoom: function (data) {
-      this.$store.dispatch('socket_room', data.room)
+    updateRoom: function (val) {
+      this.$store.dispatch('socket_room', val)
     },
     updateLocal: function (data) {
       this.$store.dispatch('socket_users', data.users)
@@ -94,8 +94,11 @@ export default {
       this.$router.push(route)
     },
     Logout: function () {
+      this.$socket.emit('logout') // temporaray comment out
       this.$store.dispatch('setUser', null)
       this.$store.dispatch('setToken', null)
+      this.$store.dispatch('socket_room', null)
+      this.$store.dispatch('socket_users', null)
       this.$router.push({
         name: 'Search'
       })
