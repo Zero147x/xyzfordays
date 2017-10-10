@@ -1,4 +1,4 @@
-const db  = require('../models')
+const db = require('../models')
 const models = db.sequelize.models
 
 module.exports = {

@@ -24,22 +24,22 @@ module.exports = {
       })
     }
   },
-  
+
   async login (req, res, next) {
     try {
       const {username, password} = req.body
       const user = await models.User.findOne({
         where: {
-          username: username,
+          username: username
         }
       })
-      
+
       const isPasswordValid = user.comparePassword(password)
       if (isPasswordValid) {
         res.send({
-        token: jwtSignUser(user.toJSON()),
-        user: user.toJSON()
-      })
+          token: jwtSignUser(user.toJSON()),
+          user: user.toJSON()
+        })
       }
     } catch (err) {
       res.status(400).send({

@@ -6,10 +6,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     greeting: DataTypes.STRING
   })
-  
   Community.associate = function (models) {
     Community.belongsTo(models.User)
   }
-  
   return Community
 }
