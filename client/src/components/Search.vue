@@ -1,6 +1,7 @@
 <template>
-  <b-row>
-    <b-col sm="6" class="m-auto">
+  <b-row class="mt-5">
+    <b-col sm="4">
+      Most popular
       <b-list-group>
         <b-list-group-item
         v-for="(key, value, index) in result"
@@ -15,6 +16,41 @@
         </b-list-group-item>
       </b-list-group>
     </b-col>
+    
+    <b-col sm="4">
+      Rising
+      <b-list-group>
+        <b-list-group-item
+        v-for="(key, value, index) in result"
+        :key="index"
+        :to="{name: 'Index', params: {community: key.name}}"
+        >
+          <b-row>
+            <b-col>
+              {{key.name}}
+            </b-col>
+          </b-row>
+        </b-list-group-item>
+      </b-list-group>
+    </b-col>
+      
+    <b-col sm="4">
+      Recent
+      <b-list-group>
+        <b-list-group-item
+        v-for="(key, value, index) in result"
+        :key="index"
+        :to="{name: 'Index', params: {community: key.name}}"
+        >
+          <b-row>
+            <b-col>
+              {{key.name}}
+            </b-col>
+          </b-row>
+        </b-list-group-item>
+      </b-list-group>
+    </b-col>
+      
   </b-row>
 </template>
 <script>
@@ -22,7 +58,6 @@ import CommunityService from '../services/CommunityService'
 export default {
   data () {
     return {
-      userCount: null,
       result: null
     }
   },
@@ -46,8 +81,6 @@ export default {
   async mounted () {
     const response = await CommunityService.home()
     this.result = response.data
-    console.log(this.result)
-    console.log(this.$socket)
     this.$socket.emit('test')
   }
 }

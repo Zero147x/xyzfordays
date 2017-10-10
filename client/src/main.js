@@ -17,9 +17,13 @@ import socketio from 'socket.io-client'
 sync(store, router)
 
 Vue.use(Vuesocket, socketio(`${config.url}`))
-if (store.state.user) {
+
+if (typeof this.$socket != 'undefined') {
   this.$socket.on('connect', function () {
-    this.$socket.emit('auth', store.state.user)
+
+    if (store.state.user) {
+      this.$socket.emit('auth', store.state.user)
+    }
   })
 }
 
