@@ -27,9 +27,7 @@
           <b-form-input @keyup.enter.native="send"
             v-model="message"
             type="text"
-            placeholder="type something"
-            >
-            
+            placeholder="type something">
           </b-form-input>
         </b-col>
         
