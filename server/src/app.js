@@ -31,6 +31,8 @@ io.on('connection', function (socket) {
   })
 })
 
+console.log('hello world!')
+
 require('./sockets')(io)
 
 sequelize.sync().then(() => {
