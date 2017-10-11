@@ -1,5 +1,6 @@
 const db = require('./models')
 const models = db.sequelize.models
+const antiSpam  = require('socket-anti-spam')
 
 const returnSocket = (io) => {
   const _io = io
@@ -76,11 +77,26 @@ const returnSocket = (io) => {
       }
     })
     socket.on('message', function (val) {
-      if (clients[socket.request.user.username]) {
-        _io.sockets.in(clients[socket.request.user.username].c).emit('newMessage', {
-          username: socket.request.user.username,
-          status: clients[socket.request.user.username],
-          message: val.message
+      if (typeof socket.request.user !== 'undefined') {
+        if (clients[socket.request.user.username]) {
+          _io.sockets.in(clients[socket.request.user.username].c).emit('newMessage', {
+            username: socket.request.user.username,
+            status: clients[socket.request.user.username],
+            message: val.message
+          })
+        }
+        antiSpam.addSpam(socket)
+        antiSpam.event.on('kick', (socket, data) => {
+          _io.sockets.in(socket.id).emit('updateLocal', {
+            users: null
+          })
+          _io.sockets.in(socket.id).emit('updateRoom', null)
+          _io.sockets.in(socket.id).emit('greeting', {
+            message: 'You have been kicked for spam. Play nice!'
+          })
+        })
+        antiSpam.event.on('spamscore', (socket, data) => {
+          console.log(data)
         })
       }
     })
@@ -88,7 +104,9 @@ const returnSocket = (io) => {
       console.log('hello world!!!')
       console.log(clients)
       if (typeof socket.request.user !== 'undefined') {
+        console.log('woot')
         if (clients[socket.request.user.username]) {
+          console.log('woot2')
           let room = clients[socket.request.user.username].c
           _io.sockets.in(clients[socket.request.user.username].c).emit('update', {
             username: socket.request.user.username,
