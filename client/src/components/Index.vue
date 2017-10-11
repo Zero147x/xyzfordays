@@ -73,7 +73,6 @@
 import NotFound from './NotFound'
 import CommunityService from '../services/CommunityService'
 import _ from 'lodash'
-import config from '@/config/config'
 
 export default {
   components: {
@@ -151,7 +150,7 @@ export default {
     },
     async connect () {
       if (!this.$store.state.room && this.$store.state.user) {
-        this.$socket.emit('join', this.$route.params.community )
+        this.$socket.emit('join', this.$route.params.community)
       }
     },
     disconnect () {

@@ -29,19 +29,13 @@
   </b-row>
 </template>
 <script>
-import config from '@/config/config'
 import AuthenticationService from '../services/AuthenticationService'
-import Vue from 'vue'
-import store from '@/store/store'
-import { mapGetters } from 'vuex'
-import Vuesocket from 'vue-socket.io'
-import socketio from 'socket.io-client'
 
 export default {
   data () {
     return {
       username: '',
-      password: '',
+      password: ''
     }
   },
   sockets: {
@@ -68,8 +62,7 @@ export default {
       this.$store.dispatch('setToken', response.data.token)
       if (response) {
         this.$socket.connect()
-        this.$socket.emit('auth', this.$store.state.user )
-
+        this.$socket.emit('auth', this.$store.state.user)
         this.$router.push({
           name: 'Search'
         })

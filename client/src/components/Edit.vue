@@ -43,7 +43,6 @@
 import CommunityService from '../services/CommunityService'
 
 export default {
-
   data () {
     return {
       success: false,
@@ -82,8 +81,7 @@ export default {
       this.$router.push({
         name: 'NotFound'
       })
-    } 
-    
+    }
   }
 }
 </script>

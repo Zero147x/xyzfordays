@@ -30,11 +30,7 @@
   </b-row>
 </template>
 <script>
-import config from '@/config/config'
 import AuthenticationService from '../services/AuthenticationService'
-import Vue from 'vue'
-import VueSocketIO from 'vue-socket.io'
-import store from '@/store/store'
 export default {
   data () {
     return {
@@ -59,18 +55,13 @@ export default {
       if (response.data) {
         // check if this.$socket is defined already.
         // if it is, set query to empty string.
-        if (typeof this.$socket != 'undefined') {
+        if (typeof this.$socket !== 'undefined') {
           this.$socket.query = ''
         }
         this.$store.dispatch('setToken', response.data.token)
         this.$store.dispatch('setUser', response.data.user)
-        Vue.use(VueSocketIO, `${config.url}?auth_token=${this.$store.state.token}`, store, {
-        reconnection: true,
-        reconnectionDelay: 1000,
-        reconnectionDelayMax : 5000,
-        reconnectionAttempts: 99999
-        })
         this.$socket.connect()
+        this.$socket.emit('auth', this.$store.state.user)
         this.$router.push({
           name: 'Search'
         })
