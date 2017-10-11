@@ -51,7 +51,7 @@
     </b-navbar>
 </div>
    
-   
+
       <main>
         
           <b-container fluid>

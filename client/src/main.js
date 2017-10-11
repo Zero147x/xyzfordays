@@ -13,25 +13,21 @@ import store from '@/store/store'
 import Vuesocket from 'vue-socket.io'
 import socketio from 'socket.io-client'
 
-
 sync(store, router)
 
 Vue.use(Vuesocket, socketio(`${config.url}`))
 
-if (typeof this.$socket != 'undefined') {
+if (typeof this.$socket !== 'undefined') {
   this.$socket.on('connect', function () {
-
     if (store.state.user) {
       this.$socket.emit('auth', store.state.user)
     }
   })
 }
 
-
 Vue.use(BootstrapVue)
 
 Vue.config.productionTip = false
-
 
 /* eslint-disable no-new */
 new Vue({
@@ -39,5 +35,5 @@ new Vue({
   router,
   store,
   template: '<App/>',
-  components: { App },
+  components: { App }
 })
