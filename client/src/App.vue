@@ -125,18 +125,18 @@ html,body
   color:hsla(0,0%,100%,.3)
 }
 .search {
-  margin-left: 200px;
+  margin-left: 200px
 }
 .admin {
-  color:green;
+  color: #0ae20a
 }
 .superAdmin {
-  color:red;
+  color:red
 }
 .search_btn {
-  height:37px;
+  height:37px
 }
 .search_field {
-  margin-bottom:0;
+  margin-bottom:0
 }
 </style>

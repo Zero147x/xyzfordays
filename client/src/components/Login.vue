@@ -48,9 +48,6 @@ export default {
     disconnect: function () {
       this.$socket.reconnect()
     },
-    connect: function () {
-      console.log('connected!!!!')
-    }
   },
   methods: {
     async login () {

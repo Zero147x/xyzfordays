@@ -33,10 +33,10 @@ io.on('connection', function (socket) {
 
 const antiSpam  = require('socket-anti-spam')
 antiSpam.init({
-      banTime:            1,         // Ban time in minutes 
+      banTime:            1,          // Ban time in minutes 
       kickThreshold:      5,          // User gets kicked after this many spam score 
-      kickTimesBeforeBan: 5,          // User gets banned after this many kicks 
-      banning:            false,       // Uses temp IP banning after kickTimesBeforeBan 
+      kickTimesBeforeBan: 2,          // User gets banned after this many kicks 
+      banning:            false,      // Uses temp IP banning after kickTimesBeforeBan 
       heartBeatStale:     40,         // Removes a heartbeat after this many seconds 
       heartBeatCheck:     4,          // Checks a heartbeat per this many seconds 
   })

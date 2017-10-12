@@ -15,7 +15,9 @@ import socketio from 'socket.io-client'
 
 sync(store, router)
 
-Vue.use(Vuesocket, socketio(`${config.url}`))
+Vue.use(Vuesocket, socketio(`${config.url}`), store, {
+  reconnect: true,
+})
 
 if (typeof this.$socket !== 'undefined') {
   this.$socket.on('connect', function () {

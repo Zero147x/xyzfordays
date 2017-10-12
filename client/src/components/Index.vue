@@ -1,9 +1,9 @@
 <template>
 <b-row>
 
-      <b-col sm="6">
-        
-        <b-row>
+      <b-col sm="12">
+        <b-col sm="6">
+          <b-row>
             <b-nav class="ml-auto mr-3" tabs fill>
               <b-nav-item :to="{name: 'Index', params: {community: $route.params.community}}">
                 {{this.$route.params.community}}
@@ -12,8 +12,11 @@
                 edit
               </b-nav-item>
             </b-nav>
-        </b-row>
-        
+          </b-row>
+        </b-col>
+      </b-col>
+      
+      <b-col sm="6">
         <b-card class="text-left" id="chat">
             <ul class="pl-2 pb-0">
               <li v-for="message in sentMessage">
@@ -41,32 +44,40 @@
       </b-col>
       
         <b-col sm="4" md="3" lg="2">
-          <b-row>
-            <b-button block variant="primary"
-            @click="connect">
-              Connect
-            </b-button>
-          </b-row>
-          <b-row>
-            <b-button block variant="primary"
-            @click="disconnect">
-              Disconnect
-            </b-button>
-          </b-row>
-          
-          <b-row>
-          <div id="usersList" class = "text-xs-left">
-            <ul>
-              <li v-for="user in this.$store.state.users">
-                <span :class="{admin: user.status.isAdmin}" v-if="user.status.isAdmin" v-html="user.username" />
-                <span :class="{superAdmin: user.status.superAdmin}" v-if="user.status.superAdmin" v-html="user.username" />
-                <span v-if="!user.status.isAdmin && !user.status.superAdmin" v-html="user.username" /><b-badge>1</b-badge>
-              </li>
-            </ul>
-          </div>
-          </b-row>
-          
+          <b-card class="users_card">
+            <b-list-group flush>
+              <b-list-group-item :class="{admin: user.status.isAdmin}" 
+              v-if="user.status.isAdmin"
+              v-for="user in this.$store.state.users" 
+              :key="user.username" 
+              v-html="user.username">
+                
+              </b-list-group-item>
+              <b-list-group-item
+              v-if="!user.status.isAdmin && !user.status.superAdmin" 
+              v-for="user in this.$store.state.users"
+              :key="user.username"
+              v-html="user.username">
+                
+              </b-list-group-item>
+            </b-list-group>
+          </b-card>
         </b-col>
+        
+        <b-col sm="4" md="3" lg="2">
+            <b-row>
+              <b-button block variant="primary"
+              @click="connect">
+                Connect
+              </b-button>
+            </b-row>
+            <b-row>
+              <b-button block variant="primary"
+              @click="disconnect">
+                Disconnect
+              </b-button>
+            </b-row>
+          </b-col>
   </b-row>
 </template>
 <script>
@@ -197,6 +208,9 @@ export default {
 </script>
 
 <style>
+.users_card > div {
+  padding: 0;
+}
 #chat {
   overflow-y: auto;
   height: 780px
@@ -213,13 +227,8 @@ export default {
 }
 #usersList {
   overflow-y: auto;
+  height: 100%;
 }
-/*.message_field {*/
-/*  margin-top:5px;*/
-/*}*/
-/*.send_btn {*/
-/*  margin-top:18px;*/
-/*}*/
 ul {
   list-style:none;
 }

@@ -25,6 +25,7 @@ const returnSocket = (io) => {
     console.log('A user connected')
     socketList[socket.id] = socket
     socket.on('join', async function (c) {
+      console.log('hello world!')
       if (socket.request.user) {
         console.log(socket.request.user)
         const response = await models.Community.findAll({
@@ -47,7 +48,6 @@ const returnSocket = (io) => {
             }
           }
         }
-        console.log(clients)
         socket.emit('updateRoom', c)
         socket.emit('greeting', {
           message: response[0].greeting
@@ -101,12 +101,9 @@ const returnSocket = (io) => {
       }
     })
     socket.on('disconnect', function () {
-      console.log('hello world!!!')
       console.log(clients)
       if (typeof socket.request.user !== 'undefined') {
-        console.log('woot')
         if (clients[socket.request.user.username]) {
-          console.log('woot2')
           let room = clients[socket.request.user.username].c
           _io.sockets.in(clients[socket.request.user.username].c).emit('update', {
             username: socket.request.user.username,
