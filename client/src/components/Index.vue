@@ -16,7 +16,7 @@
         </b-col>
       </b-col>
       
-      <b-col sm="6">
+      <b-col sm="6" class="pr-0">
         <b-card class="text-left" id="chat">
             <ul class="pl-2 pb-0">
               <li v-for="message in sentMessage">
@@ -24,23 +24,6 @@
               </li>
             </ul>
         </b-card>
-      
-      <b-row>
-        <b-col sm="11 pr-0">
-          <b-form-input @keyup.enter.native="send"
-            v-model="message"
-            type="text"
-            placeholder="type something">
-          </b-form-input>
-        </b-col>
-        
-        <b-col sm="1 pl-0">
-          <b-btn variant="success" @click="send"
-           class="send_btn">
-            SEND
-          </b-btn>
-        </b-col>
-      </b-row>
       </b-col>
       
         <b-col sm="4" md="3" lg="2">
@@ -78,6 +61,30 @@
               </b-button>
             </b-row>
           </b-col>
+          
+    <b-col sm="12">
+      <b-col sm="6" class="p-0">
+        <b-row class="mr-0 ml-0">
+          <b-col sm="9" class="p-0">
+            <b-form-input @keyup.enter.native="send"
+              v-model="message"
+              type="text"
+              placeholder="type something">
+            </b-form-input>
+          </b-col>
+        
+          <b-col sm="3" class="p-0 text-left">
+            <b-btn variant="success" @click="send"
+             class="send_btn">
+              SEND
+            </b-btn>
+          </b-col>
+        </b-row>
+      </b-col>
+    </b-col>
+    
+    
+    </b-col>
   </b-row>
 </template>
 <script>
@@ -210,6 +217,9 @@ export default {
 <style>
 .users_card > div {
   padding: 0;
+}
+.send_btn {
+  width: 100%;
 }
 #chat {
   overflow-y: auto;
