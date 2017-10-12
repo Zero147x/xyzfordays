@@ -1,0 +1,16 @@
+{
+ "name": "xyzfordays",
+ "version": "1.0.0",
+ "description": "chat",
+ "author": "Matthew Bomas",
+ "private": true,
+ "scripts": {
+  "start": "node server.js",
+  "postinstall": "npm install express"
+ },
+ "dependencies": {
+  "express": "^4.16.1",
+  "serve-static": "^1.13.1",
+  "supports-color": "^4.4.0"
+ }
+}
