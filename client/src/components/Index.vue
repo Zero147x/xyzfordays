@@ -29,26 +29,19 @@
         <b-col sm="4" md="3" lg="2">
           <b-card class="users_card">
             <b-list-group flush>
-              <b-list-group-item :class="{admin: user.status.isAdmin}" 
-              v-if="user.status.isAdmin"
-              v-for="user in this.$store.state.users"
-              :key="user.username" 
-              v-html="user.username">
-                
-              </b-list-group-item>
-              <b-list-group-item
-              v-if="!user.status.isAdmin && !user.status.superAdmin" 
-              v-for="user in this.$store.state.users"
-              :key="user.username"
-              >
-                <b-dropdown :text="user.username" variant="link">
-                  <b-dropdown-item v-if="user.status.isAdmin">
-                    kick
-                  </b-dropdown-item>
-                  <b-dropdown-item v-if="user.status.isAdmin">
-                    ban
-                  </b-dropdown-item>
-                </b-dropdown>
+              <b-list-group-item>
+                <drop-down
+                v-for="user in this.$store.state.users" 
+                :key="user.username"
+                v-if="user.status.isAdmin"
+                :class="{admin: user.status.isAdmin}"
+                :user="user.username"/>
+                <drop-down
+                v-for="user in this.$store.state.users" 
+                :key="user.username"
+                v-if="!user.status.isAdmin"
+                :class="{user: !user.status.isAdmin}"
+                :user="user.username"/>
               </b-list-group-item>
             </b-list-group>
           </b-card>
@@ -97,11 +90,13 @@
 <script>
 import NotFound from './NotFound'
 import CommunityService from '../services/CommunityService'
+import DropDown from './DropDown'
 import _ from 'lodash'
 
 export default {
   components: {
-    NotFound
+    NotFound,
+    DropDown
   },
   data () {
     return {
@@ -216,6 +211,11 @@ export default {
     this.$socket.emit('leave', {
       c: this.$store.state.room
     })
+  },
+  computed: {
+    admin () {
+      return this.$store.state.getters.admin
+    }
   }
 }
 
