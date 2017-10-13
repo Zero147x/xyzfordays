@@ -46,8 +46,18 @@ export default new Vuex.Store({
     },
   },
   getters: {
-    myToken: state => {
-      return state.token
+    admin: state => {
+      var admin = false
+      if (state.users) {
+        for (var i = 0; i < state.users.length; i++) {
+          if (state.user.username == state.users[i].username) {
+            if (state.users[i].status.isAdmin === true) {
+              admin = true
+            }
+          }
+        }
+      }
+      return admin
     }
   }
 })
