@@ -31,7 +31,7 @@
             <b-list-group flush>
               <b-list-group-item :class="{admin: user.status.isAdmin}" 
               v-if="user.status.isAdmin"
-              v-for="user in this.$store.state.users" 
+              v-for="user in this.$store.state.users"
               :key="user.username" 
               v-html="user.username">
                 
@@ -40,14 +40,21 @@
               v-if="!user.status.isAdmin && !user.status.superAdmin" 
               v-for="user in this.$store.state.users"
               :key="user.username"
-              v-html="user.username">
-                
+              >
+                <b-dropdown :text="user.username" variant="link">
+                  <b-dropdown-item v-if="user.status.isAdmin">
+                    kick
+                  </b-dropdown-item>
+                  <b-dropdown-item v-if="user.status.isAdmin">
+                    ban
+                  </b-dropdown-item>
+                </b-dropdown>
               </b-list-group-item>
             </b-list-group>
           </b-card>
         </b-col>
         
-        <b-col sm="4" md="3" lg="2">
+          <b-col sm="4" md="3" lg="2">
             <b-row>
               <b-button block variant="primary"
               @click="connect">
@@ -218,6 +225,10 @@ export default {
 .users_card > div {
   padding: 0;
 }
+.users_card {
+  height: 100%;
+  overflow-y: auto;
+}
 .send_btn {
   width: 100%;
 }
@@ -234,10 +245,6 @@ export default {
 }
 #chat::-webkit-scrollbar-track {
     background: #424242
-}
-#usersList {
-  overflow-y: auto;
-  height: 100%;
 }
 ul {
   list-style:none;
