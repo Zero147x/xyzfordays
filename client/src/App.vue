@@ -133,18 +133,8 @@ html,body
 .admin > button,
 .admin > button:hover
   { color: #0ae20a }
-.admin > button:hover {
-  text-decoration: none;
-}
 .admin > button:focus {
   color: #0ae20a;
-  text-decoration: none;
-}
-.user > button:hover {
-  text-decoration: none;
-}
-.user > button:focus {
-  text-decoration: none;
 }
 
 .superAdmin {
