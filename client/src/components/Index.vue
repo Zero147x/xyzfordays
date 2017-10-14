@@ -28,22 +28,22 @@
       
         <b-col sm="4" md="3" lg="2">
           <b-card class="users_card">
-            <b-list-group flush>
-              <b-list-group-item>
-                <drop-down
-                v-for="user in this.$store.state.users" 
-                :key="user.username"
-                v-if="user.status.isAdmin"
-                :class="{admin: user.status.isAdmin}"
-                :user="user.username"/>
-                <drop-down
-                v-for="user in this.$store.state.users" 
-                :key="user.username"
-                v-if="!user.status.isAdmin"
-                :class="{user: !user.status.isAdmin}"
-                :user="user.username"/>
-              </b-list-group-item>
-            </b-list-group>
+            <b-col sm="12">
+              <drop-down
+              v-for="user in this.$store.state.users" 
+              :key="user.username"
+              v-if="user.status.isAdmin"
+              :class="{admin: user.status.isAdmin}"
+              :user="user.username"/>
+            </b-col>
+            <b-col sm="12">
+              <drop-down
+              v-for="user in this.$store.state.users" 
+              :key="user.username"
+              v-if="!user.status.isAdmin"
+              :class="{user: !user.status.isAdmin}"
+              :user="user.username"/>
+            </b-col>
           </b-card>
         </b-col>
         
