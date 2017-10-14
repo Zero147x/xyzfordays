@@ -110,6 +110,7 @@ export default {
       console.log('Connected to socket!')
     },
     disconnect: function () {
+      console.log('hello world!')
       this.$socket.emit('leave', {
         c: this.$store.state.room
       })

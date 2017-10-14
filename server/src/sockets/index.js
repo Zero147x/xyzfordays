@@ -28,7 +28,6 @@ const returnSocket = (io) => {
     const join = require('./controllers/join')(_io, socket, clients, users, socketList, socketUsers)
     const moderation = require('./controllers/moderation')(socketList, socketUsers, socket)
     const chat = require('./controllers/chat')(_io, socket, clients)
-    // const leave = require('./controllers/leave')(socket, clients, users)
     
     socketList[socket.id] = socket
     

@@ -94,11 +94,11 @@ export default {
       this.$router.push(route)
     },
     Logout: function () {
-      this.$socket.emit('logout') // temporaray comment out
-      this.$store.dispatch('setUser', null)
-      this.$store.dispatch('setToken', null)
+      this.$socket.emit('logout')
       this.$store.dispatch('socket_room', null)
       this.$store.dispatch('socket_users', null)
+      this.$store.dispatch('setToken', null)
+      this.$store.dispatch('setUser', null)
       this.$router.push({
         name: 'Search'
       })
