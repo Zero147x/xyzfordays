@@ -13,25 +13,30 @@ const socket = (socketList, socketUsers, socket) => {
   }
   that.ban = async (username, c) => {
     try {
-    const response = await models.Community.findOne({
+    const response = await models.Community.findAll({
+      include: [{model: models.User}],
       where: {
         name: c
       }
-    })
-    const banned = await models.Banned.findOne({
-      where: {
-        CommunityId: response.id,
-        username: username
+    }).map(key => key.toJSON())
+    
+    console.log(response)
+    if (response[0].User.username === socket.request.user.username) {
+      const banned = await models.Banned.findOne({
+        where: {
+          CommunityId: response[0].id,
+          username: username
+        }
+      })
+      if (banned) {
+        return
       }
-    })
-    if (banned) {
-      return
-    }
-    await models.Banned.create({
-      CommunityId: response.id,
-      username: username
-    })
-    _socketList[_socketUsers[username]].disconnect()
+      await models.Banned.create({
+        CommunityId: response[0].id,
+        username: username
+      })
+      _socketList[_socketUsers[username]].disconnect()
+      }
     } catch (err) {
       console.log('error with request!')
     }

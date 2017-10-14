@@ -22,36 +22,34 @@ const socket = (_io, socket, clients, users, socketList, socketUsers) => {
             username: socket.request.user.username
           }
         })
-        if (banned) {
-          socket.disconnect()
-        }
-        socket.join(c)
-        if (response[0]) {
-          if (response[0].User.username === socket.request.user.username) {
-            clients[socket.request.user.username] = {
-              isAdmin: true,
-              c: c
-            }
-          } else {
-            clients[socket.request.user.username] = {
-              isAdmin: false,
-              c: c
+        if (!banned) {
+          socket.join(c)
+          if (response[0]) {
+            if (response[0].User.username === socket.request.user.username) {
+              clients[socket.request.user.username] = {
+                isAdmin: true,
+                c: c
+              }
+            } else {
+              clients[socket.request.user.username] = {
+                isAdmin: false,
+                c: c
+              }
             }
           }
+          socket.emit('updateRoom', c)
+          socket.emit('greeting', {
+            message: response[0].greeting
+          })
+          _io.sockets.in(c).emit('update', {
+            username: socket.request.user.username,
+            status: clients[socket.request.user.username],
+            message: ' has connected'
+          })
+          _io.sockets.in(c).emit('updateUsers', users(c))
         }
-        socket.emit('updateRoom', c)
-        socket.emit('greeting', {
-          message: response[0].greeting
-        })
-        _io.sockets.in(c).emit('update', {
-          username: socket.request.user.username,
-          status: clients[socket.request.user.username],
-          message: ' has connected'
-        })
-        _io.sockets.in(c).emit('updateUsers', users(c))
       }
   }
-  
   that.leave = (val) => {
     if (socket.request.user) {
       _io.sockets.in(socket.id).emit('updateLocal', {
