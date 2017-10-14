@@ -16,7 +16,7 @@
         this.$socket.emit('kick', this.user)
       },
       ban () {
-        this.$socket.emit('ban', this.user)
+        this.$socket.emit('ban', this.user, this.$store.state.room)
       }
     }
   }
