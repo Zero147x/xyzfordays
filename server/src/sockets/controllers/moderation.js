@@ -18,6 +18,15 @@ const socket = (socketList, socketUsers, socket) => {
         name: c
       }
     })
+    const banned = await models.Banned.findOne({
+      where: {
+        CommunityId: response.id,
+        username: username
+      }
+    })
+    if (banned) {
+      return
+    }
     await models.Banned.create({
       CommunityId: response.id,
       username: username

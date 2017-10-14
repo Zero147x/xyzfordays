@@ -10,13 +10,21 @@ const socket = (_io, socket, clients, users, socketList, socketUsers) => {
     console.log('hello world!')
       if (socket.request.user) {
         socketUsers[socket.request.user.username] = socket.id
-        console.log(socket.request.user)
         const response = await models.Community.findAll({
           include: [{model: models.User}],
           where: {
             name: c
           }
         }).map(key => key.toJSON())
+        const banned = await models.Banned.findOne({
+          where: {
+            CommunityId: response[0].id,
+            username: socket.request.user.username
+          }
+        })
+        if (banned) {
+          socket.disconnect()
+        }
         socket.join(c)
         if (response[0]) {
           if (response[0].User.username === socket.request.user.username) {
