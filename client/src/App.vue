@@ -54,7 +54,7 @@
 
       <main>
         
-          <b-container fluid>
+          <b-container fluid class="chat_container">
             
             <router-view></router-view>
             
@@ -113,6 +113,9 @@ html,body
 {
   overflow-x: hidden;
   overflow-y: auto
+}
+.chat_container {
+  margin-left: 200px;
 }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;

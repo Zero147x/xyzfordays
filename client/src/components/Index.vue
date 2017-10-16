@@ -1,6 +1,6 @@
 <template>
   <b-row>
-    <b-col sm="6" class="pr-0">
+    <b-col sm="5" class="pr-0">
       <b-col sm="12">
         <b-row>
           <b-nav class="ml-auto" tabs fill>
@@ -41,7 +41,7 @@
       </b-col>
     </b-col>
       
-    <b-col sm="4" md="3" lg="2">
+    <b-col sm="12" md="4" lg="2">
       <b-card class="users_card">
         <b-col sm="12">
           <drop-down
@@ -62,20 +62,20 @@
       </b-card>
     </b-col>
         
-    <b-col sm="4" md="3" lg="2">
-      <b-row>
-        <b-button block variant="primary"
-        @click="connect">
-          Connect
-        </b-button>
-      </b-row>
-      <b-row>
-        <b-button block variant="primary"
-        @click="disconnect">
-          Disconnect
-        </b-button>
-      </b-row>
-    </b-col>
+    <!--<b-col sm="4" md="3" lg="2">-->
+    <!--  <b-row>-->
+    <!--    <b-button block variant="primary"-->
+    <!--    @click="connect">-->
+    <!--      Connect-->
+    <!--    </b-button>-->
+    <!--  </b-row>-->
+    <!--  <b-row>-->
+    <!--    <b-button block variant="primary"-->
+    <!--    @click="disconnect">-->
+    <!--      Disconnect-->
+    <!--    </b-button>-->
+    <!--  </b-row>-->
+    <!--</b-col>-->
   </b-row>
 </template>
 <script>
@@ -189,6 +189,9 @@ export default {
   async beforeMount () {
     try {
       const exists = await CommunityService.index(this.$route.path)
+      if (exists) {
+        this.connect()
+      }
       if (exists.data.error) {
         this.$router.push({
           name: 'Search'
