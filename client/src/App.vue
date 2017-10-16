@@ -91,6 +91,7 @@ export default {
           search: this.search
         }
       }
+      console.log(route.query)
       this.$router.push(route)
     },
     Logout: function () {

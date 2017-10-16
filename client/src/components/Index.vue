@@ -7,7 +7,7 @@
             <b-nav-item :to="{name: 'Index', params: {community: $route.params.community}}">
               {{this.$route.params.community}}
             </b-nav-item>
-            <b-nav-item v-if="this.owner" :to="{name: 'Edit'}">
+            <b-nav-item v-if="this.$store.getters.admin" :to="{name: 'Edit'}">
               edit
             </b-nav-item>
           </b-nav>
@@ -47,20 +47,6 @@
         v-for="user in this.$store.state.users"
         :key="user.username"
         :user="user"/>
-        
-        
-        <!--<drop-down -->
-        <!--v-for="user in this.$store.state.user"-->
-        <!--:key="user.username"-->
-        <!--:user="user"/>-->
-        
-        
-        <!--<drop-down-->
-        <!--v-for="user in this.$store.state.users" -->
-        <!--:key="user.username"-->
-        <!--v-if="!user.status.isAdmin"-->
-        <!--:class="{user: !user.status.isAdmin}"-->
-        <!--:user="user.username"/>-->
       </b-card>
     </b-col>
         
@@ -175,13 +161,28 @@ export default {
     }
   },
   watch: {
-    '$route': async function () {
+    // '$route.params.community': function (newVal, oldVal) {
+    //   this.$socket.emit('leave', {
+    //     c: oldVal
+    //   })
+    //   this.$socket.emit('join', newVal)
+    //   console.log('old params: ' +oldVal)
+    //   console.log('new params: ' +newVal)
+    // },
+    '$route.params.community': async function (newVal, oldVal) {
       try {
         const exists = await CommunityService.index(this.$route.path)
         if (exists.data.error) {
           this.$router.push({
             name: 'Search'
           })
+        } else {
+          this.$socket.emit('leave', {
+            c: oldVal
+          })
+          this.$socket.emit('join', newVal)
+          console.log('old params: ' +oldVal)
+          console.log('new params: ' +newVal)
         }
       } catch (err) {
         console.log('error with request')
@@ -191,15 +192,12 @@ export default {
   async beforeMount () {
     try {
       const exists = await CommunityService.index(this.$route.path)
-      if (exists) {
-        this.connect()
-      }
       if (exists.data.error) {
         this.$router.push({
           name: 'Search'
         })
-      } else if (exists.data.UserId === this.$store.state.user.id) {
-        this.owner = true
+      } else {
+        this.connect()
       }
     } catch (err) {
       console.log('error with request')
@@ -209,11 +207,6 @@ export default {
     this.$socket.emit('leave', {
       c: this.$store.state.room
     })
-  },
-  computed: {
-    admin () {
-      return this.$store.state.getters.admin
-    }
   }
 }
 
