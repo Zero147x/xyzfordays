@@ -8,7 +8,10 @@ const socket = (socketList, socketUsers, socket) => {
   
   const that = {}
   
-  that.kick = (username) => {
+  that.kick = (username, c) => {
+    _socketList[_socketUsers[username]].emit('greeting', {
+      message: 'You have been kicked from ' + c
+    })
     _socketList[_socketUsers[username]].disconnect()
   }
   that.ban = async (username, c) => {
@@ -34,6 +37,9 @@ const socket = (socketList, socketUsers, socket) => {
       await models.Banned.create({
         CommunityId: response[0].id,
         username: username
+      })
+      _socketList[_socketUsers[username]].emit('greeting', {
+        message: 'You have been banned from ' + c
       })
       _socketList[_socketUsers[username]].disconnect()
       }

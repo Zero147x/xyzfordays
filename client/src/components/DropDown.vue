@@ -19,7 +19,7 @@
     props: ['user'],
     methods: {
       kick () {
-        this.$socket.emit('kick', this.user.username)
+        this.$socket.emit('kick', this.user.username, this.$store.state.room)
       },
       ban () {
         this.$socket.emit('ban', this.user.username, this.$store.state.room)
