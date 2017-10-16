@@ -34,7 +34,7 @@
               <b-row>
                     <b-form>
                       <b-form-group class="search_field">
-                        <b-form-input @keyup.enter.native="send"
+                        <b-form-input @keyup.enter.native="Search"
                         type="text"
                         placeholder="Search..."
                         v-model="search">
