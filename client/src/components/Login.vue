@@ -59,7 +59,7 @@ export default {
       this.$store.dispatch('setToken', response.data.token)
       if (response) {
         this.$socket.connect()
-        this.$socket.emit('auth', this.$store.state.user)
+        this.$socket.emit('auth', response.data.user)
         this.$router.push({
           name: 'Search'
         })

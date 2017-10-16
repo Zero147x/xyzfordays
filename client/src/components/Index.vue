@@ -1,69 +1,27 @@
 <template>
-<b-row>
-
+  <b-row>
+    <b-col sm="6" class="pr-0">
       <b-col sm="12">
-        <b-col sm="6">
-          <b-row>
-            <b-nav class="ml-auto mr-3" tabs fill>
-              <b-nav-item :to="{name: 'Index', params: {community: $route.params.community}}">
-                {{this.$route.params.community}}
-              </b-nav-item>
-              <b-nav-item v-if="this.owner" :to="{name: 'Edit'}">
-                edit
-              </b-nav-item>
-            </b-nav>
-          </b-row>
-        </b-col>
+        <b-row>
+          <b-nav class="ml-auto" tabs fill>
+            <b-nav-item :to="{name: 'Index', params: {community: $route.params.community}}">
+              {{this.$route.params.community}}
+            </b-nav-item>
+            <b-nav-item v-if="this.owner" :to="{name: 'Edit'}">
+              edit
+            </b-nav-item>
+          </b-nav>
+        </b-row>
       </b-col>
-      
-      <b-col sm="6" class="pr-0">
-        <b-card class="text-left" id="chat">
-            <ul class="pl-2 pb-0">
-              <li v-for="message in sentMessage">
-                <span :class="{admin: message.isAdmin, superAdmin: message.superAdmin}" v-html="message.username" /> -- <span v-html="message.message" />
-              </li>
-            </ul>
-        </b-card>
-      </b-col>
-      
-        <b-col sm="4" md="3" lg="2">
-          <b-card class="users_card">
-            <b-col sm="12">
-              <drop-down
-              v-for="user in this.$store.state.users" 
-              :key="user.username"
-              v-if="user.status.isAdmin"
-              :class="{admin: user.status.isAdmin}"
-              :user="user.username"/>
-            </b-col>
-            <b-col sm="12">
-              <drop-down
-              v-for="user in this.$store.state.users" 
-              :key="user.username"
-              v-if="!user.status.isAdmin"
-              :class="{user: !user.status.isAdmin}"
-              :user="user.username"/>
-            </b-col>
-          </b-card>
-        </b-col>
+       <b-card class="text-left" id="chat">
+        <ul class="pl-2 pb-0">
+          <li v-for="message in sentMessage">
+            <span :class="{admin: message.isAdmin, superAdmin: message.superAdmin}" v-html="message.username" /> -- <span v-html="message.message" />
+          </li>
+        </ul>
+      </b-card>
         
-          <b-col sm="4" md="3" lg="2">
-            <b-row>
-              <b-button block variant="primary"
-              @click="connect">
-                Connect
-              </b-button>
-            </b-row>
-            <b-row>
-              <b-button block variant="primary"
-              @click="disconnect">
-                Disconnect
-              </b-button>
-            </b-row>
-          </b-col>
-          
-    <b-col sm="12">
-      <b-col sm="6" class="p-0">
+      <b-col sm="12" class="p-0">
         <b-row class="mr-0 ml-0">
           <b-col sm="9" class="p-0">
             <b-form-input @keyup.enter.native="send"
@@ -72,7 +30,7 @@
               placeholder="type something">
             </b-form-input>
           </b-col>
-        
+            
           <b-col sm="3" class="p-0 text-left">
             <b-btn variant="success" @click="send"
              class="send_btn">
@@ -82,8 +40,41 @@
         </b-row>
       </b-col>
     </b-col>
-    
-    
+      
+    <b-col sm="4" md="3" lg="2">
+      <b-card class="users_card">
+        <b-col sm="12">
+          <drop-down
+          v-for="user in this.$store.state.users" 
+          :key="user.username"
+          v-if="user.status.isAdmin"
+          :class="{admin: user.status.isAdmin}"
+          :user="user.username"/>
+        </b-col>
+        <b-col sm="12">
+          <drop-down
+          v-for="user in this.$store.state.users" 
+          :key="user.username"
+          v-if="!user.status.isAdmin"
+          :class="{user: !user.status.isAdmin}"
+          :user="user.username"/>
+        </b-col>
+      </b-card>
+    </b-col>
+        
+    <b-col sm="4" md="3" lg="2">
+      <b-row>
+        <b-button block variant="primary"
+        @click="connect">
+          Connect
+        </b-button>
+      </b-row>
+      <b-row>
+        <b-button block variant="primary"
+        @click="disconnect">
+          Disconnect
+        </b-button>
+      </b-row>
     </b-col>
   </b-row>
 </template>
