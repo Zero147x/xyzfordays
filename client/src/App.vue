@@ -145,6 +145,9 @@ color: black;
 .user > button:hover {
   color: black;
 }
+.user > button:focus {
+  color: black;
+}
 .superAdmin {
   color:red
 }

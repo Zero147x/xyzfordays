@@ -43,22 +43,24 @@
       
     <b-col sm="12" md="4" lg="2">
       <b-card class="users_card">
-        <b-col sm="12">
-          <drop-down
-          v-for="user in this.$store.state.users" 
-          :key="user.username"
-          v-if="user.status.isAdmin"
-          :class="{admin: user.status.isAdmin}"
-          :user="user.username"/>
-        </b-col>
-        <b-col sm="12">
-          <drop-down
-          v-for="user in this.$store.state.users" 
-          :key="user.username"
-          v-if="!user.status.isAdmin"
-          :class="{user: !user.status.isAdmin}"
-          :user="user.username"/>
-        </b-col>
+        <drop-down
+        v-for="user in this.$store.state.users"
+        :key="user.username"
+        :user="user"/>
+        
+        
+        <!--<drop-down -->
+        <!--v-for="user in this.$store.state.user"-->
+        <!--:key="user.username"-->
+        <!--:user="user"/>-->
+        
+        
+        <!--<drop-down-->
+        <!--v-for="user in this.$store.state.users" -->
+        <!--:key="user.username"-->
+        <!--v-if="!user.status.isAdmin"-->
+        <!--:class="{user: !user.status.isAdmin}"-->
+        <!--:user="user.username"/>-->
       </b-card>
     </b-col>
         
