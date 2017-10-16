@@ -1,24 +1,19 @@
 <template>
   <b-row class="chat_container">
     <b-col sm="5" class="pr-0">
-      <b-col sm="12">
-        <b-row>
-          <b-nav class="ml-auto" tabs fill>
-            <b-nav-item :to="{name: 'Index', params: {community: $route.params.community}}">
-              {{this.$route.params.community}}
-            </b-nav-item>
-            <b-nav-item v-if="this.$store.getters.admin" :to="{name: 'Edit'}">
-              edit
-            </b-nav-item>
-          </b-nav>
-        </b-row>
-      </b-col>
-       <b-card class="text-left" id="chat">
-        <ul class="pl-2 pb-0">
-          <li v-for="message in sentMessage">
-            <span :class="{admin: message.isAdmin, superAdmin: message.superAdmin}" v-html="message.username" /> -- <span v-html="message.message" />
-          </li>
-        </ul>
+       <b-card class="text-left" id="chat" no-body>
+         <b-tabs ref="tabs" card>
+            <b-tab :title="this.$route.params.community">
+              <ul class="pl-2 pb-0">
+                <li v-for="message in sentMessage">
+                  <span :class="{admin: message.isAdmin, superAdmin: message.superAdmin}" v-html="message.username" /> -- <span v-html="message.message" />
+                </li>
+              </ul>
+            </b-tab>
+            <b-tab v-if="this.$store.getters.admin" title="Edit">
+              <edit></edit>
+            </b-tab>
+          </b-tabs>
       </b-card>
         
       <b-col sm="12" class="p-0">
@@ -49,37 +44,23 @@
         :user="user"/>
       </b-card>
     </b-col>
-        
-    <!--<b-col sm="4" md="3" lg="2">-->
-    <!--  <b-row>-->
-    <!--    <b-button block variant="primary"-->
-    <!--    @click="connect">-->
-    <!--      Connect-->
-    <!--    </b-button>-->
-    <!--  </b-row>-->
-    <!--  <b-row>-->
-    <!--    <b-button block variant="primary"-->
-    <!--    @click="disconnect">-->
-    <!--      Disconnect-->
-    <!--    </b-button>-->
-    <!--  </b-row>-->
-    <!--</b-col>-->
   </b-row>
 </template>
 <script>
 import NotFound from './NotFound'
 import CommunityService from '../services/CommunityService'
 import DropDown from './DropDown'
+import Edit from './Edit'
 import _ from 'lodash'
 
 export default {
   components: {
+    Edit,
     NotFound,
     DropDown
   },
   data () {
     return {
-      owner: false,
       message: '',
       sentMessage: []
     }
@@ -161,14 +142,6 @@ export default {
     }
   },
   watch: {
-    // '$route.params.community': function (newVal, oldVal) {
-    //   this.$socket.emit('leave', {
-    //     c: oldVal
-    //   })
-    //   this.$socket.emit('join', newVal)
-    //   console.log('old params: ' +oldVal)
-    //   console.log('new params: ' +newVal)
-    // },
     '$route.params.community': async function (newVal, oldVal) {
       try {
         const exists = await CommunityService.index(this.$route.path)
@@ -203,7 +176,9 @@ export default {
       console.log('error with request')
     }
   },
-  beforeDestroy: function () {
+  beforeDestroy: function (val) {
+    console.log(val)
+    console.log(this.$route.params)
     this.$socket.emit('leave', {
       c: this.$store.state.room
     })

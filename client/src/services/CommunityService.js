@@ -8,7 +8,7 @@ export default {
     return api().get(`${community}`, community)
   },
   edit (val) {
-    return api().post(val.path, {
+    return api().post(`/c/${val.c}/edit`, {
       greeting: val.greeting
     })
   },

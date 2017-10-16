@@ -2,8 +2,8 @@
   <div>
     <b-col sm="12">
       <b-dropdown :class="{admin: user.status.isAdmin, user: !user.status.isAdmin}"
-      :text="user.username" 
-      variant="link">
+        :text="user.username" 
+        variant="link">
         <b-dropdown-item v-if="this.$store.getters.admin" @click.stop="kick">
           kick
         </b-dropdown-item>
