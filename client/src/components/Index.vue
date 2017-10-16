@@ -1,5 +1,5 @@
 <template>
-  <b-row>
+  <b-row class="chat_container">
     <b-col sm="5" class="pr-0">
       <b-col sm="12">
         <b-row>

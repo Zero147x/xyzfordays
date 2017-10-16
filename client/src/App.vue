@@ -54,7 +54,7 @@
 
       <main>
         
-          <b-container fluid class="chat_container">
+          <b-container fluid>
             
             <router-view></router-view>
             
@@ -139,7 +139,12 @@ html,body
 .admin > button:focus {
   color: #0ae20a;
 }
-
+.user > button {
+color: black;
+}
+.user > button:hover {
+  color: black;
+}
 .superAdmin {
   color:red
 }
