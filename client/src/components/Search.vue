@@ -1,6 +1,6 @@
 <template>
   <b-row class="mt-5">
-    <b-col class="m-auto" sm="4">
+    <b-col class="m-auto" sm="12" md="8" lg="6" xl="5">
       Here are a list of Communities that have been created
       <b-list-group>
         <b-list-group-item
@@ -15,6 +15,12 @@
           </b-row>
         </b-list-group-item>
       </b-list-group>
+        <b-pagination-nav 
+        align="center" 
+        limit="8" 
+        :link-gen="linkGen" 
+        :number-of-pages="20" 
+        v-model="currentPage" />
     </b-col>
   </b-row>
 </template>
@@ -23,6 +29,7 @@ import CommunityService from '../services/CommunityService'
 export default {
   data () {
     return {
+      currentPage: 1,
       result: null
     }
   },
@@ -32,6 +39,11 @@ export default {
     },
     updateRoom: function (val) {
       this.$store.dispatch('socket_room', val)
+    }
+  },
+  methods: {
+    linkGen(pageNum) {
+      return '#/?count=' + pageNum + 0;
     }
   },
   watch: {
@@ -45,8 +57,8 @@ export default {
   },
   async mounted () {
     const response = await CommunityService.home()
+    console.log(response.data)
     this.result = response.data
-    this.$socket.emit('test')
   }
 }
 </script>
