@@ -1,7 +1,7 @@
 <template>
   <b-row class="mt-5">
-    <b-col sm="4">
-      Most popular
+    <b-col class="m-auto" sm="4">
+      Here are a list of Communities that have been created
       <b-list-group>
         <b-list-group-item
         v-for="(key, value, index) in result"
@@ -16,41 +16,6 @@
         </b-list-group-item>
       </b-list-group>
     </b-col>
-    
-    <b-col sm="4">
-      Rising
-      <b-list-group>
-        <b-list-group-item
-        v-for="(key, value, index) in result"
-        :key="index"
-        :to="{name: 'Index', params: {community: key.name}}"
-        >
-          <b-row>
-            <b-col>
-              {{key.name}}
-            </b-col>
-          </b-row>
-        </b-list-group-item>
-      </b-list-group>
-    </b-col>
-      
-    <b-col sm="4">
-      Recent
-      <b-list-group>
-        <b-list-group-item
-        v-for="(key, value, index) in result"
-        :key="index"
-        :to="{name: 'Index', params: {community: key.name}}"
-        >
-          <b-row>
-            <b-col>
-              {{key.name}}
-            </b-col>
-          </b-row>
-        </b-list-group-item>
-      </b-list-group>
-    </b-col>
-      
   </b-row>
 </template>
 <script>

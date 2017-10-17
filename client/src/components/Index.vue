@@ -1,24 +1,30 @@
 <template>
   <b-row class="chat_container">
-    <b-col sm="5" class="pr-0">
-       <b-card class="text-left" id="chat" no-body>
+    <b-col sm="12" md="9" lg="9" xl="7" class="pr-0 pl-0">
+       <b-card class="text-left _chat" no-body>
          <b-tabs ref="tabs" card>
             <b-tab :title="this.$route.params.community">
-              <ul class="pl-2 pb-0">
-                <li v-for="message in sentMessage">
-                  <span :class="{admin: message.isAdmin, superAdmin: message.superAdmin}" v-html="message.username" /> -- <span v-html="message.message" />
-                </li>
-              </ul>
+              <b-col sm="12" id="chat">
+                <b-list-group id="chat_message_list" flush>
+                  <b-list-group-item id="chat_message_list_item" class="p-0"
+                  v-for="message in sentMessage"
+                  :key="message.username">
+                    <span :class="{admin: message.isAdmin}">{{message.username}}</span> --
+                    <span>{{message.message}}</span>
+                  </b-list-group-item>
+                </b-list-group>
+              </b-col>
             </b-tab>
             <b-tab v-if="this.$store.getters.admin" title="Edit">
               <edit></edit>
             </b-tab>
           </b-tabs>
       </b-card>
+    
         
       <b-col sm="12" class="p-0">
         <b-row class="mr-0 ml-0">
-          <b-col sm="9" class="p-0">
+          <b-col sm="10" class="p-0">
             <b-form-input @keyup.enter.native="send"
               v-model="message"
               type="text"
@@ -26,7 +32,7 @@
             </b-form-input>
           </b-col>
             
-          <b-col sm="3" class="p-0 text-left">
+          <b-col sm="2" class="p-0 text-left">
             <b-btn variant="success" @click="send"
              class="send_btn">
               SEND
@@ -36,7 +42,7 @@
       </b-col>
     </b-col>
       
-    <b-col sm="12" md="4" lg="2">
+    <b-col sm="12" md="3" lg="3" xl="2">
       <b-card class="users_card">
         <drop-down
         v-for="user in this.$store.state.users"
@@ -47,7 +53,6 @@
   </b-row>
 </template>
 <script>
-import NotFound from './NotFound'
 import CommunityService from '../services/CommunityService'
 import DropDown from './DropDown'
 import Edit from './Edit'
@@ -56,7 +61,6 @@ import _ from 'lodash'
 export default {
   components: {
     Edit,
-    NotFound,
     DropDown
   },
   data () {
@@ -83,8 +87,11 @@ export default {
         isAdmin: val.status.isAdmin,
         superAdmin: val.status.superAdmin
       })
-      const chat = this.$el.querySelector('#chat')
+      const chat = this.$el.querySelector('.tab-content')
       var shouldScroll = chat.scrollTop + chat.clientHeight === chat.scrollHeight
+      console.log(chat.scrollTop)
+      console.log(chat.scrollTop + chat.clientHeight)
+      console.log(chat.scrollHeight)
       if (!shouldScroll) {
         this.scrollToEnd()
       }
@@ -96,7 +103,7 @@ export default {
         isAdmin: val.status.isAdmin,
         superAdmin: val.status.superAdmin
       })
-      const chat = this.$el.querySelector('#chat')
+      const chat = this.$el.querySelector('.tab-content')
       var shouldScroll = chat.scrollTop + chat.clientHeight === chat.scrollHeight
       if (!shouldScroll) {
         this.scrollToEnd()
@@ -119,7 +126,7 @@ export default {
   },
   methods: {
     scrollToEnd: _.debounce(function () {
-      const chat = this.$el.querySelector('#chat')
+      const chat = this.$el.querySelector('.tab-content')
       chat.scrollTop = chat.scrollHeight
     }, 50),
     send () {
@@ -163,6 +170,7 @@ export default {
     }
   },
   async beforeMount () {
+    console.log(this.$socket)
     try {
       const exists = await CommunityService.index(this.$route.path)
       if (exists.data.error) {
@@ -198,21 +206,21 @@ export default {
 .send_btn {
   width: 100%;
 }
-#chat {
+.tab-content {
+  height: 720px;
   overflow-y: auto;
-  height: 780px
 }
-#chat::-webkit-scrollbar {
+.tab-content::-webkit-scrollbar {
   width: 5px;
   background-color: #F5F5F5
 }
-#chat::-webkit-scrollbar-thumb {
+.tab-content::-webkit-scrollbar-thumb {
     background: #DCDCDC
 }
-#chat::-webkit-scrollbar-track {
+.tab-content::-webkit-scrollbar-track {
     background: #424242
 }
-ul {
-  list-style:none;
+#chat_message_list_item {
+  border-style: none !important;
 }
 </style>

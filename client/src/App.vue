@@ -54,7 +54,7 @@
 
       <main>
         
-          <b-container fluid>
+          <b-container fluid class="pl-0 pr-0">
             
             <router-view></router-view>
             
@@ -118,6 +118,12 @@ html,body
 .chat_container {
   margin-left: 200px;
 }
+@media screen and (max-width: 1100px) {
+  .chat_container {
+    margin-left: 0;
+  }
+}
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

@@ -3,7 +3,6 @@ const models = db.sequelize.models
 
 const socket = (_io, socket, clients, users, socketList, socketUsers) => {
   
-  
   const that = {}
   
   that.connect = async (c) => {
@@ -37,6 +36,7 @@ const socket = (_io, socket, clients, users, socketList, socketUsers) => {
               }
             }
           }
+          console.log(clients)
           socket.emit('updateRoom', c)
           socket.emit('greeting', {
             message: response[0].greeting

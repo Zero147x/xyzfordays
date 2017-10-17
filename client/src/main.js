@@ -16,6 +16,7 @@ import socketio from 'socket.io-client'
 sync(store, router)
 
 Vue.use(Vuesocket, socketio(`${config.url}`), store, {
+  secure: true,
   reconnect: true,
 })
 
