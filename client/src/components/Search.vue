@@ -1,7 +1,14 @@
 <template>
   <b-row class="mt-5">
     <b-col class="m-auto" sm="12" md="8" lg="6" xl="5">
-      Here are a list of Communities that have been created
+      <h3>Below are a list of communities that have been created so far, sorted by most recently created</h3>
+      <b-pagination-nav 
+        v-if="result"
+        align="center" 
+        limit=8 
+        :link-gen="linkGen" 
+        :number-of-pages="20" 
+        v-model="currentPage" />
       <b-list-group>
         <b-list-group-item
         v-for="(key, value, index) in result"
@@ -15,12 +22,6 @@
           </b-row>
         </b-list-group-item>
       </b-list-group>
-        <b-pagination-nav 
-        align="center" 
-        limit="8" 
-        :link-gen="linkGen" 
-        :number-of-pages="20" 
-        v-model="currentPage" />
     </b-col>
   </b-row>
 </template>
@@ -47,6 +48,14 @@ export default {
     }
   },
   watch: {
+    '$route.query.count': {
+      immediate: true,
+      async handler (value) {
+        const response = await CommunityService.count(value)
+        console.log(response.data)
+        this.result = response.data
+      }
+    },
     '$route.query.search': {
       immediate: true,
       async handler (value) {

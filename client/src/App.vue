@@ -110,6 +110,9 @@ export default {
 </script>
 
 <style>
+* {
+  font-family: 'Titillium Web', sans-serif;
+}
 html,body
 {
   overflow-x: hidden;

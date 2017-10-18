@@ -9,6 +9,7 @@ module.exports = {
       let result = null
       if (search) {
         result = await models.Community.findAll({
+          limit: 10,
           where: {
             $or: [
               'name'
@@ -17,7 +18,7 @@ module.exports = {
                 $like: `%${search}%`
               }
             }))
-          }
+          },
         })
       }
       res.send(result)
@@ -29,7 +30,8 @@ module.exports = {
   },
   async home (req, res, next) {
     const response = await models.Community.findAll({
-      limit: 10
+      limit: 10,
+      order: [[ 'createdAt', 'DESC' ]]
     })
     res.send(response)
   }

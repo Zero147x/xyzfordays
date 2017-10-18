@@ -7,6 +7,13 @@ export default {
   index (community) {
     return api().get(`${community}`, community)
   },
+  count (val) {
+    return api().get('/', {
+      params: {
+        count: val
+      }
+    })
+  },
   edit (val) {
     return api().post(`/c/${val.c}/edit`, {
       greeting: val.greeting
