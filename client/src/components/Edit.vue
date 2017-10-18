@@ -10,7 +10,7 @@
       <b-col sm="12">
         <b-form-textarea
         v-model="greeting"
-        placeholder="Greeting Message"
+        placeholder="Greeting Message (Users will see this when they connect)"
         rows="6"
         >
         </b-form-textarea>

@@ -19,7 +19,7 @@ module.exports = {
         user: user.toJSON()
       })
     } catch (err) {
-      res.status(400).send({
+      res.send({
         error: 'There was an error registering!'
       })
     }
@@ -42,7 +42,7 @@ module.exports = {
         })
       }
     } catch (err) {
-      res.status(400).send({
+      res.send({
         error: 'Invalid login information'
       })
     }

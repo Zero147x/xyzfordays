@@ -1,5 +1,5 @@
 <template>
-  <b-row class="mt-5">
+  <b-row>
     <b-col class="m-auto" sm="12" md="8" lg="6" xl="5">
       <h3 v-if="!$route.query.search">Below are a list of communities that have been created so far, sorted by most recently created</h3>
       <b-pagination-nav
@@ -14,17 +14,13 @@
       <!--  :link-gen="linkGenSearch" -->
       <!--  :number-of-pages="20" -->
       <!--  v-model="currentPage" />-->
-      <!--<b-list-group>-->
-        <b-list-group-item v-if="result"
-        v-for="(key, value, index) in result"
-        :key="index"
-        :to="{name: 'Index', params: {community: key.name}}"
+      <b-list-group>
+        <b-list-group-item 
+        v-for="item in result"
+        :key="item.name"
+        :to="{name: 'Index', params: {community: item.name}}"
         >
-          <b-row>
-            <b-col v-html="key.name">
-              
-            </b-col>
-          </b-row>
+          {{item.name}}
         </b-list-group-item>
       </b-list-group>
     </b-col>
@@ -32,6 +28,7 @@
 </template>
 <script>
 import CommunityService from '../services/CommunityService'
+import _ from 'lodash'
 export default {
   data () {
     return {
@@ -56,25 +53,37 @@ export default {
     }
   },
   watch: {
+    '$route': {
+      immediate: true,
+      async handler (val) {
+        console.log(val.query)
+        if (Object.keys(val.query).length === 0 && val.query.constructor === Object) {
+          const response = await CommunityService.home()
+          this.result = response.data
+        }
+      }
+    },
     '$route.query.count': {
       immediate: true,
       async handler (value) {
-        const response = await CommunityService.count(value)
-        this.result = response.data
+        if (value) {
+          const response = await CommunityService.count(value)
+          this.result = response.data
+        }
       }
     },
     '$route.query.search': {
       immediate: true,
       async handler (value) {
-        console.log(value)
-        const response = await CommunityService.search(value)
-        this.result = response.data
+        if (value) {
+          const response = await CommunityService.search(value)
+          this.result = response.data
+        }
       }
     }
   },
-  async beforeMount () {
+  async mounted () {
     const response = await CommunityService.home()
-    console.log(response.data)
     this.result = response.data
   }
 }

@@ -1,6 +1,9 @@
 <template>
   <b-row>
       <b-col sm="5" class="m-auto">
+        <b-col sm="12">
+          <b-alert v-if="error" show v-html="error" variant="danger"></b-alert>
+        </b-col>
         <b-form-group>
           <b-form-input
           v-model="name"
@@ -21,7 +24,8 @@ import CommunityService from '../services/CommunityService'
 export default {
   data () {
     return {
-      name: ''
+      name: '',
+      error: null
     }
   },
   sockets: {
@@ -39,16 +43,22 @@ export default {
           name: this.name,
           user: this.$store.state.user
         })
-        this.$router.push({
-          name: 'Index',
-          params: {
-            community: response.data.name
-          }
-        })
-        this.$socket.emit('join', {
-          user: this.$store.state.user,
-          name: '/c/' + response.data.name
-        })
+        console.log(response)
+        if (response.data.name) {
+          this.$router.push({
+            name: 'Index',
+            params: {
+              community: response.data.name
+            }
+          })
+          this.$socket.emit('join', {
+            user: this.$store.state.user,
+            name: '/c/' + response.data.name
+          })
+        }
+        if (response.data.error) {
+          this.error = response.data.error
+        }
       } catch (err) {
         console.log(err)
       }
@@ -58,5 +68,4 @@ export default {
 </script>
 
 <style>
-
 </style>

@@ -2,6 +2,9 @@
   <b-row>
     
       <b-col sm="3" class="m-auto">
+        <b-col sm="12">
+          <b-alert v-if="error" show v-html="error" variant="danger"></b-alert>
+        </b-col>
         <b-form>
           <b-form-group>
             <b-form-input
@@ -35,7 +38,8 @@ export default {
   data () {
     return {
       username: '',
-      password: ''
+      password: '',
+      error: null
     }
   },
   sockets: {
@@ -55,14 +59,16 @@ export default {
         username: this.username,
         password: this.password
       })
-      this.$store.dispatch('setUser', response.data.user)
-      this.$store.dispatch('setToken', response.data.token)
-      if (response) {
+      if (response.data.user) {
+        this.$store.dispatch('setUser', response.data.user)
+        this.$store.dispatch('setToken', response.data.token)
         this.$socket.connect()
         this.$socket.emit('auth', response.data.user)
         this.$router.push({
           name: 'Search'
         })
+      } else if (response.data.error) {
+        this.error = response.data.error
       }
     }
   }

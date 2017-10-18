@@ -11,12 +11,12 @@ module.exports = {
     if (error) {
       switch (error.details[0].context.key) {
         case 'username':
-          res.status(400).send({
+          res.send({
             error: 'Username must be between 5-12 characters and alphanumeric'
           })
           break
         case 'password':
-          res.status(400).send({
+          res.send({
             error: 'Password must be between 8-32 characters'
           })
       }

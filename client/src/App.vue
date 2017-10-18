@@ -130,6 +130,9 @@ export default {
 </script>
 
 <style>
+main {
+  margin-top: 60px;
+}
 * {
   font-family: 'Titillium Web', sans-serif;
 }

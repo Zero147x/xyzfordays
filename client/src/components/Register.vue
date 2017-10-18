@@ -2,6 +2,9 @@
   <b-row>
     
       <b-col sm="3" class="m-auto">
+        <b-col sm="12">
+          <b-alert v-if="error" show variant="danger" v-html="error"></b-alert>
+        </b-col>
         <b-form>
           <b-form-group>
             <b-form-input
@@ -35,7 +38,8 @@ export default {
   data () {
     return {
       username: '',
-      password: ''
+      password: '',
+      error: null
     }
   },
   sockets: {
@@ -52,12 +56,7 @@ export default {
         username: this.username,
         password: this.password
       })
-      if (response.data) {
-        // check if this.$socket is defined already.
-        // if it is, set query to empty string.
-        if (typeof this.$socket !== 'undefined') {
-          this.$socket.query = ''
-        }
+      if (response.data.user) {
         this.$store.dispatch('setToken', response.data.token)
         this.$store.dispatch('setUser', response.data.user)
         this.$socket.connect()
@@ -65,8 +64,9 @@ export default {
         this.$router.push({
           name: 'Search'
         })
+      } else if (response.data.error) {
+        this.error = response.data.error        
       }
-      console.log(response.data)
     }
   }
 }
