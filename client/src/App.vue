@@ -26,9 +26,15 @@
               </b-nav-item>
             </b-nav>
             <b-nav is-nav-bar>
+              <b-nav-item>
               <b-btn :to="{name: 'Community'}">
                 Start Your Own Community
               </b-btn>
+              <b-btn :to="{name: 'Search'}"
+              variant="primary">
+                Home
+              </b-btn>
+              </b-nav-item>
             </b-nav>
             <b-nav is-nav-bar class="ml-auto">
               <b-row>
@@ -67,6 +73,8 @@
 </template>
 
 <script>
+import _ from 'lodash'
+
 export default {
   data () {
     return {
@@ -91,7 +99,6 @@ export default {
           search: this.search
         }
       }
-      console.log(route.query)
       this.$router.push(route)
     },
     Logout: function () {
@@ -104,6 +111,19 @@ export default {
         name: 'Search'
       })
     }
+  },
+  watch: {
+    search: _.debounce(function (val) {
+      const route = {
+        name: 'Search'
+      }
+      if (this.search !== '') {
+        route.query = {
+          search: this.search
+        }
+      }
+      this.$router.push(route)
+    }, 500 )
   },
   name: 'app'
 }

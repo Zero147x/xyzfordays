@@ -10,7 +10,7 @@ export default {
   count (val) {
     return api().get('/', {
       params: {
-        count: val
+        count: val,
       }
     })
   },

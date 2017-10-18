@@ -89,9 +89,6 @@ export default {
       })
       const chat = this.$el.querySelector('.tab-content')
       var shouldScroll = chat.scrollTop + chat.clientHeight === chat.scrollHeight
-      console.log(chat.scrollTop)
-      console.log(chat.scrollTop + chat.clientHeight)
-      console.log(chat.scrollHeight)
       if (!shouldScroll) {
         this.scrollToEnd()
       }
