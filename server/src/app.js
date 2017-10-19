@@ -30,7 +30,7 @@ antiSpam.init({
     kickThreshold:      5,          // User gets kicked after this many spam score 
     kickTimesBeforeBan: 2,          // User gets banned after this many kicks 
     banning:            false,      // Uses temp IP banning after kickTimesBeforeBan 
-    heartBeatStale:     20,         // Removes a heartbeat after this many seconds 
+    heartBeatStale:     12,         // Removes a heartbeat after this many seconds 
     heartBeatCheck:     4,          // Checks a heartbeat per this many seconds 
 })
 

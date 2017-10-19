@@ -204,7 +204,7 @@ export default {
   width: 100%;
 }
 .tab-content {
-  height: 720px;
+  height: 75vh;
   overflow-y: auto;
 }
 .tab-content::-webkit-scrollbar {

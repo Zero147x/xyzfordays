@@ -20,7 +20,7 @@ module.exports = {
       })
     } catch (err) {
       res.send({
-        error: 'There was an error registering!'
+        error: 'Username already taken'
       })
     }
   },
