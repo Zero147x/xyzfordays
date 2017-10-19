@@ -132,6 +132,7 @@ export default {
           message: this.message,
           name: this.$route.path
         })
+        this.message = ''
       }
     },
     async connect () {
