@@ -16,19 +16,7 @@ const socket = (_io, socket, clients) => {
             message: val.message
           })
         }
-        // antiSpam.addSpam(socket)
-        // antiSpam.event.on('kick', (socket, data) => {
-        //   _io.sockets.in(socket.id).emit('updateLocal', {
-        //     users: null
-        //   })
-        //   _io.sockets.in(socket.id).emit('updateRoom', null)
-        //   _io.sockets.in(socket.id).emit('greeting', {
-        //     message: 'You have been kicked for spam. Play nice!'
-        //   })
-        // })
-        // antiSpam.event.on('spamscore', (socket, data) => {
-        //   console.log(data)
-        // })
+        antiSpam.addSpam(socket)
       }
     }
     

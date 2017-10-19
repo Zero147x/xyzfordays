@@ -40,6 +40,17 @@ const returnSocket = (io) => {
       socket.disconnect()
     })
     
+    antiSpam.event.on('kick', (socket, data) => {
+      console.log('hello world!')
+      _io.sockets.in(socket.id).emit('updateLocal', {
+        users: null
+      })
+      _io.sockets.in(socket.id).emit('updateRoom', null)
+      _io.sockets.in(socket.id).emit('greeting', {
+        message: 'You have been kicked for spam. Play nice!'
+      })
+    })
+    
     socket.on('disconnect', function () {
       console.log(clients)
       if (typeof socket.request.user !== 'undefined') {
