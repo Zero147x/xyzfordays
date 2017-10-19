@@ -1,5 +1,5 @@
 <template>
-  <b-row>
+  <b-row class="mt-5">
     <b-col class="m-auto" sm="12" md="8" lg="6" xl="5">
       <h3 v-if="!$route.query.search">Below are a list of communities that have been created so far, sorted by most recently created</h3>
       <b-pagination-nav

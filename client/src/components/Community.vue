@@ -1,5 +1,5 @@
 <template>
-  <b-row>
+  <b-row class="mt-5">
       <b-col sm="5" class="m-auto">
         <b-col sm="12">
           <b-alert v-if="error" show v-html="error" variant="danger"></b-alert>

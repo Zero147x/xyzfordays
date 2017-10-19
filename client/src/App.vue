@@ -2,7 +2,7 @@
   <div id="app">
    
    <div>
-    <b-navbar toggleable type="light" variant="light">
+    <b-navbar class="pr-0 pl-0" toggleable type="light" variant="light">
         <b-nav-toggle target="nav_text_collapse"></b-nav-toggle>
         <b-collapse is-nav id="nav_text_collapse">
             <b-nav is-nav-bar>
@@ -23,35 +23,30 @@
                 variant="primary">
                   Login
                 </b-btn>
+                <b-btn :to="{name: 'Community'}">
+                  Start Your Own Community
+                </b-btn>
+                <b-btn :to="{name: 'Search'}"
+                variant="primary">
+                  Home
+                </b-btn>
               </b-nav-item>
-            </b-nav>
-            <b-nav is-nav-bar>
-              <b-nav-item>
-              <b-btn :to="{name: 'Community'}">
-                Start Your Own Community
-              </b-btn>
-              <b-btn :to="{name: 'Search'}"
-              variant="primary">
-                Home
-              </b-btn>
-              </b-nav-item>
-            </b-nav>
-            <b-nav is-nav-bar class="ml-auto">
-              <b-row>
-                    <b-form>
-                      <b-form-group class="search_field">
-                        <b-form-input @keyup.enter.native="Search"
-                        type="text"
-                        placeholder="Search..."
-                        v-model="search">
-                        </b-form-input>
-                      </b-form-group>
-                    </b-form>
-                  <b-btn variant="primary" class="search_btn"
-                  @click.stop="Search">
-                  Search
-                  </b-btn>
-                </b-row>
+            <!--</b-nav>-->
+            <!--<b-nav is-nav-bar>-->
+              <!--<b-row>-->
+              <b-nav-form>
+                <b-form-input class="search_field" 
+                @keyup.enter.native="Search"
+                type="text"
+                placeholder="Search..."
+                v-model="search">
+                </b-form-input>
+              </b-nav-form>
+                  <!--<b-btn variant="primary" class="search_btn"-->
+                  <!--@click.stop="Search">-->
+                  <!--Search-->
+                  <!--</b-btn>-->
+                <!--</b-row>-->
             </b-nav>
         </b-collapse>
     </b-navbar>
@@ -130,12 +125,6 @@ export default {
 </script>
 
 <style>
-main {
-  margin-top: 60px;
-}
-* {
-  font-family: 'Titillium Web', sans-serif;
-}
 html,body
 {
   overflow-x: hidden;
@@ -151,7 +140,7 @@ html,body
 }
 
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: 'Titillium Web', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -159,9 +148,6 @@ html,body
 }
 .list__tile--active {
   color:hsla(0,0%,100%,.3)
-}
-.search {
-  margin-left: 200px
 }
 .admin {
   color: #0ae20a
@@ -184,10 +170,7 @@ color: black;
 .superAdmin {
   color:red
 }
-.search_btn {
-  height:37px
-}
 .search_field {
-  margin-bottom:0
+  width: 32vw !important;
 }
 </style>

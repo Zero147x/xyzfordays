@@ -194,6 +194,9 @@ export default {
 </script>
 
 <style>
+.chat_container {
+  margin-top: 0 !important;
+}
 .users_card > div {
   padding: 0;
 }
@@ -205,7 +208,7 @@ export default {
   width: 100%;
 }
 .tab-content {
-  height: 75vh;
+  height: 80vh;
   overflow-y: auto;
 }
 .tab-content::-webkit-scrollbar {
