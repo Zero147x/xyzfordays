@@ -87,11 +87,7 @@ export default {
         isAdmin: val.status.isAdmin,
         superAdmin: val.status.superAdmin
       })
-      const chat = this.$el.querySelector('.tab-content')
-      var shouldScroll = chat.scrollTop + chat.clientHeight === chat.scrollHeight
-      if (!shouldScroll) {
-        this.scrollToEnd()
-      }
+      this.scrollToEnd()
     },
     update: function (val) {
       this.sentMessage.push({
@@ -100,11 +96,7 @@ export default {
         isAdmin: val.status.isAdmin,
         superAdmin: val.status.superAdmin
       })
-      const chat = this.$el.querySelector('.tab-content')
-      var shouldScroll = chat.scrollTop + chat.clientHeight === chat.scrollHeight
-      if (!shouldScroll) {
-        this.scrollToEnd()
-      }
+      this.scrollToEnd()
     },
     updateUsers: function (val) {
       this.$store.dispatch('socket_users', val)
@@ -124,7 +116,10 @@ export default {
   methods: {
     scrollToEnd: _.debounce(function () {
       const chat = this.$el.querySelector('.tab-content')
-      chat.scrollTop = chat.scrollHeight
+      var shouldScroll = chat.scrollTop + chat.clientHeight === chat.scrollHeight
+      if (!shouldScroll) {
+        chat.scrollTop = chat.scrollHeight
+      }
     }, 50),
     send () {
       if (this.message !== '') {
