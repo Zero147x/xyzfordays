@@ -32,7 +32,7 @@
             </b-form-input>
           </b-col>
             
-          <b-col sm="2" class="p-0 text-left">
+          <b-col xs="2" sm="2" class="p-0 text-left">
             <b-btn variant="success" @click="send"
              class="send_btn">
               SEND
@@ -42,7 +42,7 @@
       </b-col>
     </b-col>
       
-    <b-col sm="12" md="3" lg="3" xl="2">
+    <b-col cols="3" xl="2" class="d-none d-md-block">
       <b-card class="users_card">
         <drop-down
         v-for="user in this.$store.state.users"
@@ -108,9 +108,11 @@ export default {
       this.$store.dispatch('socket_room', val)
     },
     greeting: function (val) {
-      this.sentMessage.push({
-        message: val.message
-      })
+      if (val.message) {
+        this.sentMessage.push({
+          message: val.message
+        })
+      }
     }
   },
   methods: {
@@ -154,8 +156,6 @@ export default {
             c: oldVal
           })
           this.$socket.emit('join', newVal)
-          console.log('old params: ' +oldVal)
-          console.log('new params: ' +newVal)
         }
       } catch (err) {
         console.log('error with request')
@@ -163,7 +163,6 @@ export default {
     }
   },
   async beforeMount () {
-    console.log(this.$socket)
     try {
       const exists = await CommunityService.index(this.$route.path)
       if (exists.data.error) {
@@ -178,8 +177,6 @@ export default {
     }
   },
   beforeDestroy: function (val) {
-    console.log(val)
-    console.log(this.$route.params)
     this.$socket.emit('leave', {
       c: this.$store.state.room
     })

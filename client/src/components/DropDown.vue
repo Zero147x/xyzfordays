@@ -1,13 +1,14 @@
 <template>
   <div>
     <b-col sm="12">
-      <b-dropdown :class="{admin: user.status.isAdmin, user: !user.status.isAdmin}"
+      <b-dropdown
+      :class="{admin: user.status.isAdmin, user: !user.status.isAdmin}"
         :text="user.username" 
         variant="link">
-        <b-dropdown-item v-if="this.$store.getters.admin" @click.stop="kick">
+        <b-dropdown-item v-if="this.$store.getters.admin && !user.status.isAdmin" @click.stop="kick">
           kick
         </b-dropdown-item>
-        <b-dropdown-item v-if="this.$store.getters.admin" @click.stop="ban">
+        <b-dropdown-item v-if="this.$store.getters.admin && !user.status.isAdmin" @click.stop="ban">
           ban
         </b-dropdown-item>
       </b-dropdown>

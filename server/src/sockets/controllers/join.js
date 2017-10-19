@@ -41,11 +41,11 @@ const socket = (_io, socket, clients, users, socketList, socketUsers) => {
           socket.emit('greeting', {
             message: response[0].greeting
           })
-          // _io.sockets.in(c).emit('update', {
-          //   username: socket.request.user.username,
-          //   status: clients[socket.request.user.username],
-          //   message: ' has connected'
-          // })
+          _io.sockets.in(c).emit('update', {
+            username: socket.request.user.username,
+            status: clients[socket.request.user.username],
+            message: ' has connected'
+          })
           socket.emit('greeting', {
             message: 'You have connected to ' + response[0].name
           })

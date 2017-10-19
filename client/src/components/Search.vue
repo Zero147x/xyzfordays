@@ -56,7 +56,6 @@ export default {
     '$route': {
       immediate: true,
       async handler (val) {
-        console.log(val.query)
         if (Object.keys(val.query).length === 0 && val.query.constructor === Object) {
           const response = await CommunityService.home()
           this.result = response.data
