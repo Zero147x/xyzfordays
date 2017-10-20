@@ -8,6 +8,7 @@ module.exports = function (req, res, next) {
       })
     } else {
       req.user = user
+      console.log(req.user)
       next()
     }
   })(req, res, next)

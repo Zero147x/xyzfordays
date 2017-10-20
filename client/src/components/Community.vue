@@ -43,7 +43,6 @@ export default {
           name: this.name,
           user: this.$store.state.user
         })
-        console.log(response)
         if (response.data.name) {
           this.$router.push({
             name: 'Index',
