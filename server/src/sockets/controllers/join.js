@@ -6,7 +6,6 @@ const socket = (_io, socket, clients, users, socketList, socketUsers) => {
   const that = {}
   
   that.connect = async (c) => {
-    console.log('hello world!')
       if (socket.request.user) {
         socketUsers[socket.request.user.username] = socket.id
         const response = await models.Community.findAll({
@@ -41,11 +40,11 @@ const socket = (_io, socket, clients, users, socketList, socketUsers) => {
           socket.emit('greeting', {
             message: response[0].greeting
           })
-          _io.sockets.in(c).emit('update', {
-            username: socket.request.user.username,
-            status: clients[socket.request.user.username],
-            message: ' has connected'
-          })
+          // _io.sockets.in(c).emit('update', {
+          //   username: socket.request.user.username,
+          //   status: clients[socket.request.user.username],
+          //   message: ' has connected'
+          // })
           socket.emit('greeting', {
             message: 'You have connected to ' + response[0].name
           })
@@ -59,11 +58,11 @@ const socket = (_io, socket, clients, users, socketList, socketUsers) => {
         users: null
       })
       _io.sockets.in(socket.id).emit('updateRoom', null)
-      _io.sockets.in(val.c).emit('update', {
-        username: socket.request.user.username,
-        status: clients[socket.request.user.username],
-        message: ' has left'
-      })
+      // _io.sockets.in(val.c).emit('update', {
+      //   username: socket.request.user.username,
+      //   status: clients[socket.request.user.username],
+      //   message: ' has left'
+      // })
       delete clients[socket.request.user.username]
       socket.in(val.c).emit('updateUsers', users(val.c))
       socket.leave(val.c)
