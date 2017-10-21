@@ -15,7 +15,7 @@ import socketio from 'socket.io-client'
 
 sync(store, router)
 
-Vue.use(Vuesocket, socketio(`${config.url}`), store, {
+Vue.use(Vuesocket, socketio(`https://project-zero147x.c9users.io:8081`), store, {
   secure: true,
   reconnect: true,
 })

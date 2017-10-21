@@ -42,7 +42,7 @@
       </b-col>
     </b-col>
       
-    <b-col cols="3" xl="2" class="d-none d-md-block">
+    <b-col cols="3" xl="2" class="d-none d-md-block users_list">
       <b-card class="users_card">
         <drop-down
         v-for="user in this.$store.state.users"
@@ -195,6 +195,7 @@ export default {
 .users_card {
   height: 100%;
   overflow-y: auto;
+  text-align: left !important;
 }
 .send_btn {
   width: 100%;

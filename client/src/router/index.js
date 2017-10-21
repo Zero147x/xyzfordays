@@ -7,6 +7,7 @@ import Index from '@/components/Index'
 import Search from '@/components/Search'
 import Edit from '@/components/Edit'
 import NotFound from '@/components/NotFound'
+import Profile from '@/components/Profile'
 
 Vue.use(Router)
 
@@ -46,6 +47,11 @@ export default new Router({
       path: '/notfound',
       name: 'NotFound',
       component: NotFound
+    },
+    {
+      path: '/user/:username/profile',
+      name: 'Profile',
+      component: Profile
     }
   ]
 })
