@@ -1,8 +1,8 @@
 <template>
   <div class="text-xs-left">
     <b-col sm="12">
-      <b-media>
-        <b-img class="mr-0" slot="aside" blank blank-color="#ccc" width="38" alt="placeholder" />
+      <b-media vertical-align="center">
+        <b-img slot="aside" blank blank-color="#ccc" width="32" alt="placeholder" />
       <b-dropdown
       :class="{admin: user.status.isAdmin, user: !user.status.isAdmin}"
         :text="user.username" 
@@ -32,7 +32,14 @@
   }
 </script>
 <style>
-  .media > div {
-    margin-right: 0 !important;
-  }
+.media-body {
+  border-radius: 5px;
+}
+.media-body:hover {
+  cursor: pointer;
+  background-color: #EDF1EE;
+}
+.media > div {
+  margin-right: 0 !important;
+}
 </style>
