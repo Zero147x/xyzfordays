@@ -153,19 +153,26 @@ html,body
   color: #0ae20a
 }
 .admin > button,
-.admin > button:hover
-  { color: #0ae20a }
+.admin > button:hover { 
+  color: #0ae20a;
+  text-decoration: none;
+  cursor: pointer;
+}
 .admin > button:focus {
   color: #0ae20a;
+  text-decoration: none;
 }
 .user > button {
 color: black;
 }
 .user > button:hover {
   color: black;
+  text-decoration: none;
+  cursor: pointer;
 }
 .user > button:focus {
   color: black;
+  text-decoration: none;
 }
 .superAdmin {
   color:red

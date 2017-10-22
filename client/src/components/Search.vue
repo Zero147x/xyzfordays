@@ -57,7 +57,7 @@ export default {
       immediate: true,
       async handler (val) {
         if (Object.keys(val.query).length === 0 && val.query.constructor === Object) {
-          const response = await CommunityService.home()
+          const response = await CommunityService.count()
           this.result = response.data
         }
       }
@@ -82,7 +82,7 @@ export default {
     }
   },
   async mounted () {
-    const response = await CommunityService.home()
+    const response = await CommunityService.count()
     this.result = response.data
   }
 }

@@ -22,9 +22,6 @@ export default {
   editIndex (val) {
     return api().get(`/c/${val.community}/edit`, val)
   },
-  home () {
-    return api().get('/home')
-  },
   search (search) {
     return api().get('/', {
       params: {
