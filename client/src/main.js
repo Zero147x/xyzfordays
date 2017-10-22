@@ -56,10 +56,5 @@ new Vue({
   router,
   store,
   template: '<App/>',
-  components: { App },
-  data () {
-    return {
-      show: false
-    }
-  }
+  components: { App }
 })

@@ -3,26 +3,14 @@
     <b-col sm="12">
       <b-media vertical-align="center">
         <b-img slot="aside" blank blank-color="#ccc" width="32" alt="placeholder" />
-      <!--<b-dropdown-->
-      <!--:class="{admin: user.status.isAdmin, user: !user.status.isAdmin}"-->
-      <!--  :text="user.username" -->
-      <!--  variant="link">-->
-      <!--  <b-dropdown-item v-if="this.$store.getters.admin && !user.status.isAdmin" @click.stop="kick">-->
-      <!--    kick-->
-      <!--  </b-dropdown-item>-->
-      <!--  <b-dropdown-item v-if="this.$store.getters.admin && !user.status.isAdmin" @click.stop="ban">-->
-      <!--    ban-->
-      <!--  </b-dropdown-item>-->
-      <!--</b-dropdown>-->
-      <div class="test" @click.stop="show"
-      :class="{admin: user.status.isAdmin, user: !user.status.isAdmin}">
-        {{user.username}}
-      </div>
-      <div class="menu" :class="{'show-menu': isActive}"
-       v-click-outside="hide">
-        <a class="menuItem" v-if="this.$store.getters.admin && !user.status.isAdmin" @click.stop="kick">kick</a>
-        <a class="menuItem" v-if="this.$store.getters.admin && !user.status.isAdmin" @click.stop="ban">ban</a>
-      </div>
+        <div v-click-outside="hide" class="user" @click="show"
+        :class="{admin: user.status.isAdmin, user: !user.status.isAdmin}">
+          {{user.username}}
+        </div>
+        <div class="menu" :class="{'show-menu': isActive}">
+          <a class="menuItem" v-if="this.$store.getters.admin && !user.status.isAdmin" @click.stop="kick">kick</a>
+          <a class="menuItem" v-if="this.$store.getters.admin && !user.status.isAdmin" @click.stop="ban">ban</a>
+        </div>
       </b-media>
     </b-col>
   </div>
@@ -37,7 +25,6 @@
     props: ['user'],
     methods: {
       show: function () {
-        console.log(this.$el)
         if (this.isActive === false) {
           this.isActive = true
         } else {
@@ -57,7 +44,7 @@
   }
 </script>
 <style scoped>
-.test {
+.user {
   padding: 0.5rem 0.75rem;
   line-height: 1.25;
 }
