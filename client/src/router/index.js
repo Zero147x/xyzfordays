@@ -49,7 +49,7 @@ export default new Router({
       component: NotFound
     },
     {
-      path: '/user/:username/profile',
+      path: '/u/:username',
       name: 'Profile',
       component: Profile
     }

@@ -2,7 +2,8 @@
   <div>
     <b-col sm="12">
       <b-media vertical-align="center">
-        <b-img slot="aside" :src="user.status.avatar" width="32" height="32" alt="avatar image" />
+        <b-img v-if="user.status.avatar" slot="aside" :src="user.status.avatar" width="32" height="32" alt="avatar image" />
+        <b-img v-if="!user.status.avatar" slot="aside" blank blank-color="#ccc" width="32" height="32" alt="placeholder" />
         <div v-click-outside="hide" class="user" @click="show"
         :class="{admin: user.status.isAdmin, user: !user.status.isAdmin}">
           {{user.username}}
