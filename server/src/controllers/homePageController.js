@@ -12,7 +12,7 @@ module.exports = {
         order: [ [ 'createdAt', 'DESC' ]]
       })
       res.send(response)
-    } else if (!req.query.count) {
+    } else if (Object.keys(req.query).length === 0 && req.query.constructor === Object) {
     const response = await models.Community.findAll({
       limit: 10,
       order: [[ 'createdAt', 'DESC' ]]
