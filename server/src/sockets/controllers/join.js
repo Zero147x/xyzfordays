@@ -26,12 +26,14 @@ const socket = (_io, socket, clients, users, socketList, socketUsers) => {
             if (response[0].User.username === socket.request.user.username) {
               clients[socket.request.user.username] = {
                 isAdmin: true,
-                c: c
+                c: c,
+                avatar: socket.request.user.avatar
               }
             } else {
               clients[socket.request.user.username] = {
                 isAdmin: false,
-                c: c
+                c: c,
+                avatar: socket.request.user.avatar
               }
             }
           }

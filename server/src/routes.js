@@ -9,6 +9,7 @@ const returnRouter = (io) => {
   const isAuthenticated = require('./policies/isAuthenticated')
   const homePageController = require('./controllers/homePageController')
   const communityPolicy = require('./policies/communityPolicy')
+  const accountController = require('./controllers/accountController')
   
   router.post('/api/register', authenticationPolicy.register,
     authenticationController.register)
@@ -18,6 +19,7 @@ const returnRouter = (io) => {
   router.post('/api/c/:community/edit', isAuthenticated, communityController.edit)
   router.get('/api', homePageController.index, searchController.index)
   router.get('/api/c/:community/edit', isAuthenticated, communityController.editIndex)
+  router.post('/api/user/:username/profile', isAuthenticated, accountController.index)
   return router
 }
 

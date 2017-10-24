@@ -2,7 +2,7 @@
   <div>
     <b-col sm="12">
       <b-media vertical-align="center">
-        <b-img slot="aside" src="https://static-s.aa-cdn.net/img/ios/899287106/45820b5b6bba46c7fcd853a46d554a34?v=1" width="32" height="32" alt="placeholder" />
+        <b-img slot="aside" :src="user.status.avatar" width="32" height="32" alt="placeholder" />
         <div v-click-outside="hide" class="user" @click="show"
         :class="{admin: user.status.isAdmin, user: !user.status.isAdmin}">
           {{user.username}}

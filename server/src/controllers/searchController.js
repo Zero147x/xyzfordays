@@ -5,7 +5,6 @@ module.exports = {
   async index (req, res) {
     try {
       const search = req.query.search
-      console.log(search)
       let result = null
       if (search) {
         result = await models.Community.findAll({
