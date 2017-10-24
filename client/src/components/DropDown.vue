@@ -2,12 +2,16 @@
   <div>
     <b-col sm="12">
       <b-media vertical-align="center">
-        <b-img slot="aside" :src="user.status.avatar" width="32" height="32" alt="placeholder" />
+        <b-img slot="aside" :src="user.status.avatar" width="32" height="32" alt="avatar image" />
         <div v-click-outside="hide" class="user" @click="show"
         :class="{admin: user.status.isAdmin, user: !user.status.isAdmin}">
           {{user.username}}
         </div>
         <div class="menu" :class="{'show-menu': isActive}">
+          <a class="menuItem"
+          v-if="user.username === this.$store.state.user.username"
+          @click.stop="profile">
+            View Profile</a>
           <a class="menuItem" 
             v-if="this.$store.getters.admin && !user.status.isAdmin" 
             @click.stop="kick">kick</a>
@@ -28,6 +32,14 @@
     },
     props: ['user'],
     methods: {
+      profile: function () {
+        this.$router.push({
+          name: 'Profile',
+          params: {
+            username: this.$store.state.user.username
+          }
+        })
+      },
       show: function () {
         if (this.isActive === false) {
           this.isActive = true
