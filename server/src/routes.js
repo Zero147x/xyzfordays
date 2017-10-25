@@ -19,7 +19,8 @@ const returnRouter = (io) => {
   router.post('/api/c/:community/edit', isAuthenticated, communityController.edit)
   router.get('/api', homePageController.index, searchController.index)
   router.get('/api/c/:community/edit', isAuthenticated, communityController.editIndex)
-  router.post('/api/u/:username', isAuthenticated, accountController.index)
+  router.post('/api/u/:username', isAuthenticated, accountController.profile)
+  router.get('/api/u/:username', isAuthenticated, accountController.index)
   return router
 }
 

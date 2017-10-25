@@ -37,7 +37,6 @@ export default {
         username: this.$store.state.user.username,
         src: this.src
       })
-      console.log(response)
       if (response.data.error) {
         this.success = null
         this.error = response.data.error
@@ -46,6 +45,28 @@ export default {
         this.success = "Changes saved!"
         this.$store.dispatch('setUser', response.data)
         this.$socket.emit('auth', response.data)
+      }
+    }
+  },
+  async mounted () {
+    const response = await AccountService.index({
+      username: this.$route.params.username
+    })
+    if (response.data.error) {
+      this.$router.push({
+        name: 'NotFound'
+      })
+    }
+  },
+  watch: {
+    '$route.params': async function (newVal, oldVal) {
+      const response = await AccountService.index({
+      username: newVal.username
+      })
+      if (response.data.error) {
+        this.$router.push({
+          name: 'NotFound'
+        })
       }
     }
   }
