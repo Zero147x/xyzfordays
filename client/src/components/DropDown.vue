@@ -8,7 +8,7 @@
         :class="{admin: user.status.isAdmin, user: !user.status.isAdmin}">
           {{user.username}}
         </div>
-        <div class="menu" :class="{'show-menu': isActive}">
+        <div v-if="this.$store.getters.admin || user.username === this.$store.state.user.username" class="menu" :class="{'show-menu': isActive}">
           <a class="menuItem"
           v-if="user.username === this.$store.state.user.username"
           @click.stop="profile">
