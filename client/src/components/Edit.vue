@@ -1,13 +1,9 @@
 <template>
     <b-col sm="12">
-      
-        <b-col v-if="success" sm="12">
-          <b-alert show class="success" variant="success">
-            Changes saved!
-          </b-alert>
-        </b-col>
-        
       <b-col sm="12">
+        <b-alert v-if="success" show class="success" variant="success">
+          Changes saved!
+        </b-alert>
         <b-form-textarea
         v-model="greeting"
         placeholder="Greeting Message (Users will see this when they connect)"

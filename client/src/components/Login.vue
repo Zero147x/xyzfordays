@@ -2,9 +2,7 @@
   <b-row class="mt-5">
     
       <b-col sm="8" md=6 lg="5" xl="4" class="m-auto">
-        <b-col sm="12">
-          <b-alert v-if="error" show v-html="error" variant="danger"></b-alert>
-        </b-col>
+        <b-alert v-if="error" show v-html="error" variant="danger"></b-alert>
         <b-form>
           <b-form-group>
             <b-form-input
