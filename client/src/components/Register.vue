@@ -25,13 +25,20 @@
             </b-btn>
           </b-col>
         </b-row>
+        
+        <b-col sm="6" class="ml-auto mr-auto mt-5">
+          <button @click="authenticate('github')">
+            Github
+          </button>
+        </b-col>
+        
       </b-col>
       
-    
   </b-row>
 </template>
 <script>
 import AuthenticationService from '../services/AuthenticationService'
+import Oauth from '../services/Oauth'
 export default {
   data () {
     return {
@@ -65,6 +72,19 @@ export default {
       } else if (response.data.error) {
         this.error = response.data.error        
       }
+    },
+    authenticate: async function (provider) {
+      const response = await this.$auth.authenticate(provider).then(async (response) => {
+        this.$store.dispatch('setToken', response.data.access_token)
+        const r = await Oauth.github()
+        
+        this.$store.dispatch('setUser', r.data)
+        this.$socket.connect()
+        this.$socket.emit('auth', this.$store.state.user)
+        this.$router.push({
+          name: 'Search'
+        })
+      })
     }
   }
 }

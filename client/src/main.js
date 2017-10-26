@@ -12,21 +12,16 @@ import { sync } from 'vuex-router-sync'
 import store from '@/store/store'
 import Vuesocket from 'vue-socket.io'
 import socketio from 'socket.io-client'
-
+import VueAxios from 'vue-axios'
+import VueAuthenticate from 'vue-authenticate'
+import axios from 'axios';
+const randomstring = require("randomstring");
 sync(store, router)
 
 Vue.use(Vuesocket, socketio(`https://project-zero147x.c9users.io:8081`), store, {
   secure: true,
   reconnect: true,
 })
-
-if (typeof this.$socket !== 'undefined') {
-  this.$socket.on('connect', function () {
-    if (store.state.user) {
-      this.$socket.emit('auth', store.state.user)
-    }
-  })
-}
 
 Vue.use(BootstrapVue)
 
@@ -49,6 +44,39 @@ Vue.directive('click-outside', {
     document.body.removeEventListener('click', el.event)
   },
 });
+Vue.use(VueAxios, axios)
+Vue.use(VueAuthenticate, {
+  baseUrl: config.url, // Your API domain
+  
+  providers: {
+    github: {
+      clientId: '84bae1544802ef7ee01c',
+      redirectUri: 'https://project-zero147x.c9users.io/#/register', // Your client app URL
+    }
+  }
+})
+
+Vue.use(VueAuthenticate, {
+  bindRequestInterceptor: function () {
+    this.$http.interceptors.request.use((config) => {
+      if (this.isAuthenticated()) {
+        config.headers['Authorization'] = [
+          this.options.tokenType, this.getToken()
+        ].join(' ')
+      } else {
+        delete config.headers['Authorization']
+      }
+      return config
+    })
+  },
+
+  bindResponseInterceptor: function () {
+    this.$http.interceptors.response.use((response) => {
+      this.setToken(response)
+      return response
+    })
+  }
+})
 
 /* eslint-disable no-new */
 new Vue({

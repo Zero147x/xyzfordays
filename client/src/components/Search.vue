@@ -82,6 +82,7 @@ export default {
     }
   },
   async mounted () {
+    console.log(this.$route)
     const response = await CommunityService.count()
     this.result = response.data
   }
