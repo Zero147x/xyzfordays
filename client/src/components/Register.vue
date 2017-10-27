@@ -26,11 +26,35 @@
           </b-col>
         </b-row>
         
-        <b-col sm="6" class="ml-auto mr-auto mt-5">
-          <button @click="authenticate('github')">
-            Github
-          </button>
-        </b-col>
+        
+        <h3 class="mt-2">Or sign in with one of the providers below:</h3>
+        <a class="btn btn-block btn-social btn-github mt-5"
+        @click="authenticate('github')">
+          <span class="fa fa-github"></span>
+          Sign in with github
+        </a>
+        
+        <b-modal ref="modal">
+          <div>
+            <b-col sm="12">
+              <h4>The username is already taken. Please select a new username to use</h4>
+              <b-alert v-if="modalError" show variant="danger" v-html="modalError"></b-alert>
+              <b-form-group class="mt-5">
+                <b-form-input
+                type="text"
+                placeholder="Enter Username"
+                v-model="username">
+                  
+                </b-form-input>
+              </b-form-group>
+              <b-btn
+              variant="primary"
+              @click.stop="newUsername">
+                Submit
+              </b-btn>
+            </b-col>
+          </div>
+        </b-modal>
         
       </b-col>
       
@@ -44,7 +68,8 @@ export default {
     return {
       username: '',
       password: '',
-      error: null
+      error: null,
+      modalError: null
     }
   },
   sockets: {
@@ -77,19 +102,49 @@ export default {
       const response = await this.$auth.authenticate(provider).then(async (response) => {
         this.$store.dispatch('setToken', response.data.access_token)
         const r = await Oauth.github()
+        if (r.data.error) {
+          this.usernameTaken = r.data.error
+          this.username = null
+          this.$refs.modal.show()
+          console.log(r)
+        } else {
         
-        this.$store.dispatch('setUser', r.data)
+          this.$store.dispatch('setUser', r.data)
+          this.$socket.connect()
+          this.$socket.emit('auth', this.$store.state.user)
+          this.$router.push({
+            name: 'Search'
+          })
+        }
+      })
+    },
+    newUsername: async function () {
+      console.log(this.username)
+      const response = await Oauth.newUsername({
+        username: this.username
+      })
+      if (response.data.error) {
+        this.modalError = response.data.error
+      } else {
+        this.$store.dispatch('setUser', response.data)
         this.$socket.connect()
         this.$socket.emit('auth', this.$store.state.user)
         this.$router.push({
           name: 'Search'
         })
-      })
+      }
+      console.log(response)
     }
   }
 }
 </script>
 
 <style>
-
+.btn-github {
+  color: #fff !important;
+  border-color: rgba(0,0,0,.2) !important;
+}
+.btn-github:hover {
+  cursor: pointer;
+}
 </style>

@@ -30,6 +30,10 @@ module.exports = (sequelize, DataTypes) => {
       beforeSave: hashPassword
     }
   })
+  
+  User.associate = function (models) {
+    User.belongsTo(models.Authentication_profile)
+  }
 
   User.prototype.comparePassword = function (password) {
     return bcrypt.compareAsync(password, this.password)

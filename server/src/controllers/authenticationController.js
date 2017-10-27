@@ -33,9 +33,12 @@ module.exports = {
           username: username
         }
       })
-
-      const isPasswordValid = user.comparePassword(password)
-      if (isPasswordValid) {
+      if (user.password === null) {
+        res.send({
+          error: 'Invalid login information'
+        })
+      } else if (user.password) {
+        const isPasswordValid = user.comparePassword(password)
         res.send({
           token: jwtSignUser(user.toJSON()),
           user: user.toJSON()
