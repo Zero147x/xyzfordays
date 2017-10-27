@@ -2,6 +2,7 @@ const db = require('../models')
 const models = db.sequelize.models
 var qs = require('querystring')
 const request = require('request');
+const config = require('../config/config')
 
 module.exports = {
   github (req, res) {
@@ -11,7 +12,7 @@ module.exports = {
       method: 'POST',
      qs: {
       client_id: req.body.clientId,
-      client_secret: '917cfeffcb715130e842bfeb0b4370ffbd6e5a8b',
+      client_secret: config.authentication.clientSecret,
       code: req.body.code,
       redirect_uri: req.body.redirectUri
     }}, function (e, r, body) {
@@ -39,7 +40,6 @@ module.exports = {
               authId: val.id
             }
           })
-          console.log(authProf)
           const response = await models.User.findOne({
             include: [{model: models.Authentication_profile}],
             where: {
@@ -53,13 +53,13 @@ module.exports = {
                 AuthenticationProfileId: authProf.id
               }
             })
+            req.user = userProf.toJSON()
+            console.log(req.user)
             res.send(userProf)
-            console.log(userProf)
-          }
-          if (response) {
-            console.log(response.toJSON())
+          } else if (response) {
             if (response.Authentication_profile) {
               if (response.Authentication_profile.authId === val.id) {
+                req.user = response.toJSON()
                 res.send(response)
               } 
             } else if (response.username === val.login) {
@@ -84,7 +84,7 @@ module.exports = {
                 username: val.login
               }
             })
-            req.user = user
+            req.user = user.toJSON()
             res.send(user)
           }
         } catch (err) {
@@ -129,7 +129,7 @@ module.exports = {
             username: req.query.username
           }
         })
-      req.user = user
+      req.user = user.toJSON()
       res.send(user)
       }
     })

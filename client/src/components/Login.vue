@@ -77,10 +77,7 @@ export default {
     },
     updateRoom: function (val) {
       this.$store.dispatch('socket_room', val)
-    },
-    disconnect: function () {
-      this.$socket.reconnect()
-    },
+    }
   },
   methods: {
     async login () {
@@ -143,5 +140,11 @@ export default {
 </script>
 
 <style>
-
+.btn-github {
+  color: #fff !important;
+  border-color: rgba(0,0,0,.2) !important;
+}
+.btn-github:hover {
+  cursor: pointer;
+}
 </style>

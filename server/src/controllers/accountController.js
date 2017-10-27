@@ -10,6 +10,7 @@ module.exports = {
         error: 'Must be valid image'
       })
     } else {
+      console.log(req)
       const user = await models.User.findOne({
         where: {
           id: req.user.id,
