@@ -46,6 +46,10 @@ module.exports = {
             token: jwtSignUser(user.toJSON()),
             user: user.toJSON()
           })
+        } else {
+          res.send({
+            error: 'Invalid login information'
+          })
         }
       }
     } catch (err) {

@@ -5,7 +5,6 @@ const cors = require('cors')
 const config = require('./config/config')
 const {sequelize} = require('./models')
 const bearerToken = require('express-bearer-token');
-const cookieSession = require('cookie-session')
 const cookieParser = require('cookie-parser')
 const expressSession = require('express-session')
 const passport = require('passport')
