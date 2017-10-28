@@ -13,8 +13,8 @@ module.exports = {
       console.log(req)
       const user = await models.User.findOne({
         where: {
-          id: req.user.id,
-          username: req.user.username
+          id: req.session.user.id,
+          username: req.session.user.username
         }
       })
       const response = await user.update({
@@ -24,7 +24,6 @@ module.exports = {
     }
   },
   async index (req, res) {
-    console.log(req.params.username)
     const response = await models.User.findOne({
       where: {
         username: req.params.username
@@ -32,7 +31,7 @@ module.exports = {
     })
     if (response) {
       const user = response.toJSON()
-      if (!(user.username === req.user.username)) {
+      if (!(user.username === req.session.user.username)) {
         res.send({
           error: 'You do not have permission'
         })

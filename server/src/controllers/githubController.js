@@ -53,13 +53,12 @@ module.exports = {
                 AuthenticationProfileId: authProf.id
               }
             })
-            req.user = userProf.toJSON()
-            console.log(req.user)
+            req.session.user = userProf.toJSON()
             res.send(userProf)
           } else if (response) {
             if (response.Authentication_profile) {
               if (response.Authentication_profile.authId === val.id) {
-                req.user = response.toJSON()
+                req.session.user = response.toJSON()
                 res.send(response)
               } 
             } else if (response.username === val.login) {
@@ -84,7 +83,7 @@ module.exports = {
                 username: val.login
               }
             })
-            req.user = user.toJSON()
+            req.session.user = user.toJSON()
             res.send(user)
           }
         } catch (err) {
@@ -129,7 +128,7 @@ module.exports = {
             username: req.query.username
           }
         })
-      req.user = user.toJSON()
+      req.session.user = user.toJSON()
       res.send(user)
       }
     })

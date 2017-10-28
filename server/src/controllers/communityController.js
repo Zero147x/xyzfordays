@@ -61,7 +61,7 @@ module.exports = {
     try {
       const response = await models.Community.findOne({
         where: {
-          UserId: req.user.id,
+          UserId: req.session.user.id,
           name: req.params.community
         }
       })
@@ -83,7 +83,7 @@ module.exports = {
     try {
       const response = await models.Community.findOne({
         where: {
-          UserId: req.user.id,
+          UserId: req.session.user.id,
           name: req.params.community
         }
       })

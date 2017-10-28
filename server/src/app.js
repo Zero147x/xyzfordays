@@ -5,15 +5,38 @@ const cors = require('cors')
 const config = require('./config/config')
 const {sequelize} = require('./models')
 const bearerToken = require('express-bearer-token');
+const cookieSession = require('cookie-session')
+const cookieParser = require('cookie-parser')
+const expressSession = require('express-session')
+const passport = require('passport')
+const sequelizeStore = require('connect-session-sequelize')(expressSession.Store)
+const Store = new sequelizeStore({db: sequelize})
 
 const app = express()
 const http = require('http').Server(app)
 
 const io = require('socket.io')(http)
+app.set('trust proxy', 1);
+
 app.use(morgan('combined'))
 app.use(bodyParser.json())
-app.use(cors())
+app.use(cors({
+  origin:['https://project-zero147x.c9users.io'],
+  methods:['GET','POST'],
+  credentials: true // enable set cookie
+}))
 app.use(bearerToken());
+app.use(cookieParser('secret'))
+app.use(expressSession({
+  resave: false,
+  saveUninitialized: true,
+  secret: 'secret',
+  store: Store,
+  cookie: {
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+  }
+}))
+
 
 const routes = require('./routes')(io)
 require('./passport')

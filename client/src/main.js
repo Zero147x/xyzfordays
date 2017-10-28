@@ -15,6 +15,7 @@ import socketio from 'socket.io-client'
 import VueAxios from 'vue-axios'
 import VueAuthenticate from 'vue-authenticate'
 import axios from 'axios';
+axios.defaults.withCredentials = true
 const randomstring = require("randomstring");
 sync(store, router)
 

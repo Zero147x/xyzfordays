@@ -14,6 +14,7 @@ module.exports = {
   async register (req, res) {
     try {
       const user = await models.User.create(req.body)
+      req.session.user = user.toJSON()
       res.send({
         token: jwtSignUser(user.toJSON()),
         user: user.toJSON()
@@ -38,11 +39,14 @@ module.exports = {
           error: 'Invalid login information'
         })
       } else if (user.password) {
-        const isPasswordValid = user.comparePassword(password)
-        res.send({
-          token: jwtSignUser(user.toJSON()),
-          user: user.toJSON()
-        })
+        const isPasswordValid = await user.comparePassword(password)
+        if (isPasswordValid) {
+          req.session.user = user.toJSON()
+          res.send({
+            token: jwtSignUser(user.toJSON()),
+            user: user.toJSON()
+          })
+        }
       }
     } catch (err) {
       res.send({
