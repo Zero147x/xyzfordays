@@ -21,16 +21,16 @@ app.set('trust proxy', 1);
 app.use(morgan('combined'))
 app.use(bodyParser.json())
 app.use(cors({
-  origin:['https://project-zero147x.c9users.io'],
+  origin:[config.origin],
   methods:['GET','POST'],
   credentials: true // enable set cookie
 }))
 app.use(bearerToken());
-app.use(cookieParser('secret'))
+app.use(cookieParser(config.authentication.sessionSecret))
 app.use(expressSession({
   resave: false,
   saveUninitialized: true,
-  secret: 'secret',
+  secret: config.authentication.sessionSecret,
   store: Store,
   cookie: {
     maxAge: 24 * 60 * 60 * 1000 // 24 hours
