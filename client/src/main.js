@@ -16,10 +16,9 @@ import VueAxios from 'vue-axios'
 import VueAuthenticate from 'vue-authenticate'
 import axios from 'axios';
 axios.defaults.withCredentials = true
-const randomstring = require("randomstring");
 sync(store, router)
 
-Vue.use(Vuesocket, socketio(`https://project-zero147x.c9users.io:8081`), store, {
+Vue.use(Vuesocket, socketio(config.socketio.url), store, {
   secure: true,
   reconnect: true,
 })
@@ -51,8 +50,8 @@ Vue.use(VueAuthenticate, {
   
   providers: {
     github: {
-      clientId: '84bae1544802ef7ee01c',
-      redirectUri: 'https://project-zero147x.c9users.io/#/register', // Your client app URL
+      clientId: config.github.clientId,
+      redirectUri: config.github.redirectUri, // Your client app URL
     }
   }
 })
