@@ -1,6 +1,6 @@
 <template>
-<b-row no-gutters>
-<b-col>
+<!--<b-row no-gutters>-->
+<!--<b-col>-->
   <div id="app">
    
    <div>
@@ -62,18 +62,18 @@
           
       </main>
   </div>
-  </b-col>
-  <b-col 
-  v-if="this.$store.state.users"
-  cols="3" xl="2" class="d-none d-md-block users_list">
-    <b-card class="users_card">
-      <drop-down
-      v-for="user in this.$store.state.users"
-      :key="user.username"
-      :user="user"/>
-    </b-card>
-  </b-col>
-</b-row>
+  <!--</b-col>-->
+  <!--<b-col -->
+  <!--v-if="this.$store.state.users"-->
+  <!--cols="3" xl="2" class="d-none d-md-block users_list">-->
+  <!--  <b-card class="users_card">-->
+  <!--    <drop-down-->
+  <!--    v-for="user in this.$store.state.users"-->
+  <!--    :key="user.username"-->
+  <!--    :user="user"/>-->
+  <!--  </b-card>-->
+  <!--</b-col>-->
+<!--</b-row>-->
 </template>
 
 <script>
@@ -146,7 +146,7 @@ html,body
 .chat_container {
   margin-left: 200px;
 }
-@media screen and (max-width: 1100px) {
+@media screen and (max-width: 1200px) {
   .chat_container {
     margin-left: 0;
   }
