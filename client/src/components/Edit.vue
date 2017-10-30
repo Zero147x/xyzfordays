@@ -4,13 +4,15 @@
         <b-alert v-if="success" show class="success" variant="success">
           Changes saved!
         </b-alert>
-        <b-form-textarea
-        v-model="greeting"
-        placeholder="Greeting Message (Users will see this when they connect)"
-        rows="6"
-        >
-        </b-form-textarea>
-        <b-col class="save" sm="4">
+        <b-form-group class="text-left"
+        label="Greeting Message:"
+        description="Users will see this when they connect">
+          <b-form-textarea
+          v-model="community.greeting"
+          rows="6">
+          </b-form-textarea>
+        </b-form-group>
+        <b-col class="save m-auto" sm="4">
           <b-btn
           @click.stop="save"
           variant="success">
@@ -28,7 +30,6 @@ export default {
   data () {
     return {
       success: false,
-      greeting: '',
     }
   },
   sockets: {
@@ -42,13 +43,18 @@ export default {
   methods: {
     async save () {
       const response = await AccountService.managment({
-        greeting: this.greeting,
+        greeting: this.community.greeting,
         c: this.$route.query.community,
         path: this.$route.path
       })
       if (response) {
         this.success = true
       }
+    }
+  },
+  watch: {
+    'community.greeting': function (val) {
+      console.log(val)
     }
   }
 }

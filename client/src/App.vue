@@ -1,4 +1,6 @@
 <template>
+<b-row no-gutters>
+<b-col>
   <div id="app">
    
    <div>
@@ -24,7 +26,8 @@
                   Login
                 </b-btn>
                 <b-dropdown text="Navigation">
-                  <b-dropdown-item :to="{name: 'Profile', params: {username: this.$store.state.user.username}}">
+                  <b-dropdown-item v-if="this.$store.state.user"
+                  :to="{name: 'Profile', params: {username: this.$store.state.user.username}}">
                     View Profile
                   </b-dropdown-item>
                   <b-dropdown-item :to="{name: 'Community'}">
@@ -47,8 +50,7 @@
             </b-nav>
         </b-collapse>
     </b-navbar>
-</div>
-   
+  </div>
 
       <main>
         
@@ -59,15 +61,29 @@
           </b-container>
           
       </main>
-    
-    </nav>
   </div>
+  </b-col>
+  <b-col 
+  v-if="this.$store.state.users"
+  cols="3" xl="2" class="d-none d-md-block users_list">
+    <b-card class="users_card">
+      <drop-down
+      v-for="user in this.$store.state.users"
+      :key="user.username"
+      :user="user"/>
+    </b-card>
+  </b-col>
+</b-row>
 </template>
 
 <script>
 import _ from 'lodash'
+import DropDown from './components/DropDown'
 
 export default {
+  components: {
+    DropDown
+  },
   data () {
     return {
       search: ''

@@ -8,11 +8,11 @@
             <b-col sm="3">
               <b-nav v-for="item in val"
               :key="val.name">
-                <b-nav-item @click="query(item)">{{item.name}}</b-nav-item>
+                <b-nav-item :disabled="active" @click="query(item)">{{item.name}}</b-nav-item>
               </b-nav>
             </b-col>
             <b-col>
-              <edit :community="active"></edit>
+              <edit v-if="community" :community="community"></edit>
             </b-col>
           </b-row>
         </b-col>
@@ -27,10 +27,9 @@ export default {
   },
   data () {
     return {
-      active: null,
+      active: false,
+      community: null,
       val: null,
-      error: null,
-      success: null,
       items: [{
       text: 'General',
       to: {name: 'Profile'},
@@ -48,7 +47,8 @@ export default {
           community: val.name
         }
       })
-      this.active = val
+      this.active = true
+      this.community = val
     }
   },
   async mounted () {

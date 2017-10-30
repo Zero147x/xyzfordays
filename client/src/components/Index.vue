@@ -1,6 +1,6 @@
 <template>
   <b-row class="chat_container">
-    <b-col sm="12" md="9" lg="9" xl="7" class="pr-0 pl-0">
+    <b-col sm="12" md="9" lg="9" xl="11">
        <b-card class="text-left _chat" no-body>
          <b-tabs ref="tabs" card>
             <b-tab :title="this.$route.params.community">
@@ -39,14 +39,14 @@
       </b-col>
     </b-col>
       
-    <b-col cols="3" xl="2" class="d-none d-md-block users_list">
-      <b-card class="users_card">
-        <drop-down
-        v-for="user in this.$store.state.users"
-        :key="user.username"
-        :user="user"/>
-      </b-card>
-    </b-col>
+    <!--<b-col cols="3" xl="2" class="d-none d-md-block users_list">-->
+    <!--  <b-card class="users_card">-->
+    <!--    <drop-down-->
+    <!--    v-for="user in this.$store.state.users"-->
+    <!--    :key="user.username"-->
+    <!--    :user="user"/>-->
+    <!--  </b-card>-->
+    <!--</b-col>-->
   </b-row>
 </template>
 <script>
