@@ -41,6 +41,6 @@ module.exports = {
         error: 'User does not exist'
       })
     }
-    res.send(req.user)
+    res.send(req.session.user)
   }
 }
