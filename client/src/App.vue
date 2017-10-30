@@ -23,17 +23,19 @@
                 variant="primary">
                   Login
                 </b-btn>
-                <b-btn :to="{name: 'Community'}">
-                  Start Your Own Community
-                </b-btn>
+                <b-dropdown text="Navigation">
+                  <b-dropdown-item :to="{name: 'Profile', params: {username: this.$store.state.user.username}}">
+                    View Profile
+                  </b-dropdown-item>
+                  <b-dropdown-item :to="{name: 'Community'}">
+                    Start Your Own Community
+                  </b-dropdown-item>
+                </b-dropdown>
                 <b-btn :to="{name: 'Search'}"
                 variant="primary">
                   Home
                 </b-btn>
               </b-nav-item>
-            <!--</b-nav>-->
-            <!--<b-nav is-nav-bar>-->
-              <!--<b-row>-->
               <b-nav-form>
                 <b-form-input class="search_field" 
                 @keyup.enter.native="Search"
@@ -42,11 +44,6 @@
                 v-model="search">
                 </b-form-input>
               </b-nav-form>
-                  <!--<b-btn variant="primary" class="search_btn"-->
-                  <!--@click.stop="Search">-->
-                  <!--Search-->
-                  <!--</b-btn>-->
-                <!--</b-row>-->
             </b-nav>
         </b-collapse>
     </b-navbar>
