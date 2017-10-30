@@ -56,51 +56,5 @@ module.exports = {
         error: 'You must be logged in to do that'
       })
     }
-  },
-  async editIndex (req, res) {
-    try {
-      const response = await models.Community.findOne({
-        where: {
-          UserId: req.session.user.id,
-          name: req.params.community
-        }
-      })
-      if (response) {
-        res.send(response.toJSON())
-      } else {
-        res.send({
-          error: 'You do not have permission'
-        })
-      }
-    } catch (err) {
-      res.status(400).send({
-        error: 'Error with your request'
-      })
-    }
-  },
-
-  async edit (req, res) {
-    try {
-      const response = await models.Community.findOne({
-        where: {
-          UserId: req.session.user.id,
-          name: req.params.community
-        }
-      })
-      if (response) {
-        await response.update({
-          greeting: req.body.greeting
-        })
-      } else {
-        res.status(403).send({
-          error: 'You do not have permission to do that!'
-        })
-      }
-      res.send(response)
-    } catch (err) {
-      res.status(500).send({
-        error: 'Error processing your request'
-      })
-    }
   }
 }

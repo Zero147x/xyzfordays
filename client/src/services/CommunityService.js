@@ -14,14 +14,6 @@ export default {
       }
     })
   },
-  edit (val) {
-    return api().post(`/c/${val.c}/edit`, {
-      greeting: val.greeting
-    })
-  },
-  editIndex (val) {
-    return api().get(`/c/${val.community}/edit`, val)
-  },
   search (search) {
     return api().get('/', {
       params: {

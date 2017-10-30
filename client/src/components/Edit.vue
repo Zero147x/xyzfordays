@@ -21,9 +21,10 @@
     </b-col>
 </template>
 <script>
-import CommunityService from '../services/CommunityService'
+import AccountService from '../services/AccountService'
 
 export default {
+  props: ['community'],
   data () {
     return {
       success: false,
@@ -40,37 +41,20 @@ export default {
   },
   methods: {
     async save () {
-      const response = await CommunityService.edit({
+      const response = await AccountService.managment({
         greeting: this.greeting,
-        c: this.$route.params.community 
+        c: this.$route.query.community,
+        path: this.$route.path
       })
       if (response) {
         this.success = true
       }
     }
   }
-  // async beforeMount () {
-  //   if (!this.$store.state.user) {
-  //     this.$router.push({
-  //       name: 'NotFound'
-  //     })
-  //   }
-  //   const response = await CommunityService.editIndex(this.$route.params)
-  //   console.log(response)
-  //   if (response.data.error) {
-  //     this.$router.push({
-  //       name: 'NotFound'
-  //     })
-  //   }
-  // }
 }
 </script>
 
 <style>
-.success {
-  height:42px;
-  margin-bottom: 0;
-}
 .save {
   width: 78px;
   padding-left: 0;

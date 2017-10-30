@@ -1,24 +1,29 @@
 <template>
-  <div class="mt-5">
-    <b-col sm="8" md=6 lg="5" xl="4" class="m-auto">
-      <b-alert v-if="error" show v-html="error" variant="danger" class="mb-0"></b-alert>
-      <b-alert v-if="success" show v-html="success" variant="success" class="mb-0"></b-alert>
-        <b-form-group
-        class="text-left"
-        label="Avatar:"
-        description="This will show next to your name">
-          <b-form-input
-          v-model="src"
-          placeholder="image url">
-          </b-form-input>
-        </b-form-group>
-      <b-btn 
-      @click.stop="save"
-      variant="success">
-        Save
-      </b-btn>
+    <b-col sm="12" md="10" lg="9" xl="8" class="ml-auto mr-auto mt-5">
+      <b-col sm="12">
+        <b-breadcrumb :items="items"/>
+      </b-col>
+      <b-row>
+        <b-col sm="10" md="8" xl="8" lg="9" class="m-auto">
+          <b-alert v-if="error" show v-html="error" variant="danger" class="mb-0"></b-alert>
+          <b-alert v-if="success" show v-html="success" variant="success" class="mb-0"></b-alert>
+            <b-form-group
+            class="text-left"
+            label="Avatar:"
+            description="This will show next to your name">
+              <b-form-input
+              v-model="src"
+              placeholder="image url">
+              </b-form-input>
+            </b-form-group>
+          <b-btn 
+          @click.stop="save"
+          variant="success">
+            Save
+          </b-btn>
+        </b-col>
+      </b-row>
     </b-col>
-  </div>
 </template>
 <script>
 import AccountService from '../services/AccountService'
@@ -28,7 +33,14 @@ export default {
     return {
       src: '',
       error: null,
-      success: null
+      success: null,
+      items: [{
+      text: 'General',
+      active: true,
+      }, {
+        text: 'Community Managment',
+        to: {name: 'ManagmentIndex'},
+      }]
     }
   },
   methods: {

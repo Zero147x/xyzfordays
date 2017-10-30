@@ -15,11 +15,8 @@
                 </b-list-group>
               </b-col>
             </b-tab>
-            <b-tab v-if="this.$store.getters.admin" title="Edit">
-              <edit></edit>
-            </b-tab>
           </b-tabs>
-      </b-card>
+        </b-card>
     
         
       <b-col sm="12" class="p-0">

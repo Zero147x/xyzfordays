@@ -8,6 +8,7 @@ import Search from '@/components/Search'
 import Edit from '@/components/Edit'
 import NotFound from '@/components/NotFound'
 import Profile from '@/components/Profile'
+import ManagmentIndex from '@/components/Account/ManagmentIndex'
 
 Vue.use(Router)
 
@@ -34,11 +35,6 @@ export default new Router({
       component: Index
     },
     {
-      path: '/c/:community/edit',
-      name: 'Edit',
-      component: Edit
-    },
-    {
       path: '/',
       name: 'Search',
       component: Search
@@ -52,6 +48,11 @@ export default new Router({
       path: '/u/:username',
       name: 'Profile',
       component: Profile
+    },
+    {
+      path: '/u/:username/managment',
+      name: 'ManagmentIndex',
+      component: ManagmentIndex
     }
   ]
 })
