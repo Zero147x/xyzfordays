@@ -8,8 +8,9 @@
                 <b-list-group-item id="chat_message_list_item" class="p-0"
                 v-for="message in sentMessage"
                 :key="message.username">
-                  <span :class="{admin: message.isAdmin}">{{message.username}}</span> --
-                  <span>{{message.message}}</span>
+                    <span>[{{message.timeStamp}}]</span>
+                    <span class="user" :class="{admin: message.isAdmin}">{{message.username}}</span> --
+                    <span>{{message.message}}</span>
                 </b-list-group-item>
               </b-list-group>
             </b-col>
@@ -40,6 +41,7 @@
 <script>
 import CommunityService from '../services/CommunityService'
 import _ from 'lodash'
+import TimeStamp from '../utils/TimeStamp'
 
 export default {
   data () {
@@ -50,16 +52,22 @@ export default {
   },
   sockets: {
     newMessage: function (val) {
+      let date = new Date()
+      let dateFormat = TimeStamp.date(date)
       this.sentMessage.push({
+        timeStamp: dateFormat,
         username: val.username,
         message: val.message,
         isAdmin: val.status.isAdmin,
-        superAdmin: val.status.superAdmin
+        superAdmin: val.status.superAdmin,
       })
       this.scrollToEnd()
     },
     update: function (val) {
+      let date = new Date()
+      let dateFormat = TimeStamp.date(date)
       this.sentMessage.push({
+        timeStamp: dateFormat,
         username: val.username,
         message: val.message,
         isAdmin: val.status.isAdmin,
@@ -68,8 +76,11 @@ export default {
       this.scrollToEnd()
     },
     greeting: function (val) {
+      let date = new Date()
+      let dateFormat = TimeStamp.date(date)
       if (val.message) {
         this.sentMessage.push({
+          timeStamp: dateFormat,
           message: val.message
         })
       }
