@@ -16,7 +16,7 @@ const socket = (_io, socket, clients) => {
             message: val.message
           })
         }
-        antiSpam.addSpam(socket)
+        // antiSpam.addSpam(socket)
       }
     }
     
