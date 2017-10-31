@@ -63,18 +63,6 @@ export default {
       })
       this.scrollToEnd()
     },
-    update: function (val) {
-      let date = new Date()
-      let dateFormat = TimeStamp.date(date)
-      this.sentMessage.push({
-        timeStamp: dateFormat,
-        username: val.username,
-        message: val.message,
-        isAdmin: val.status.isAdmin,
-        superAdmin: val.status.superAdmin
-      })
-      this.scrollToEnd()
-    },
     greeting: function (val) {
       let date = new Date()
       let dateFormat = TimeStamp.date(date)
